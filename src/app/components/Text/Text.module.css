@@ -1,0 +1,50 @@
+.root {
+  position: relative;
+  /* Fallback: Set a background color. */
+  background-color: gold;
+
+  /* Create the gradient. */
+  --space: 5%;
+  --glitter: url("https://assets.codepen.io/13471/noise-base.png");
+  --glitter2: url("https://assets.codepen.io/13471/noise-top.png");
+  background-blend-mode: multiply, hard-light;
+  background-image: radial-gradient(
+    farthest-corner circle at var(--pointer-x) var(--pointer-y),
+    rgba(255, 255, 255, 0.8) 4%,
+    rgba(255, 255, 255, 0.3) 6%,
+    hsla(0, 0%, 0%, 0.05) 30%,
+    hsla(0, 0%, 0%, 0.15) 120%
+  );
+
+  filter: brightness(calc((var(--pointer-from-center) * 0.4) + 0.4))
+    contrast(1.4) saturate(2.25);
+
+  /* Use the text as a mask for the background. */
+  /* This will show the gradient as a text color rather than element bg. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.root::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: inherit;
+  /* z-index: -1; */
+  /* mix-blend-mode: screen; */
+  color: red;
+}
+
+.h1 {
+  @apply text-9xl;
+  line-height: 1.4;
+}
