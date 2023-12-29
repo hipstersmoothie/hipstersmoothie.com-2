@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Text } from "./Text";
+import { OutlinedBox } from "./OutlinedBox";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Typography",
+  title: "OutlinedBox",
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "centered",
@@ -20,12 +20,6 @@ export default meta;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 
-export function Heading() {
-  return (
-    <div>
-      <Text as="h1" className="text-center">
-        Heading
-      </Text>
-    </div>
-  );
+export function Basic() {
+  return <OutlinedBox className="h-[300px] w-[300px]" />;
 }

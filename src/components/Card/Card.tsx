@@ -1,6 +1,7 @@
-import makeClass from "clsx";
-import styles from "./Card.module.css";
 import { useState } from "react";
+import makeClass from "clsx";
+
+import styles from "./Card.module.css";
 
 export function Card() {
   const [data, setData] = useState({

@@ -1,7 +1,8 @@
 .root {
+  font-family: Noto Serif;
   position: relative;
   /* Fallback: Set a background color. */
-  background-color: gold;
+  background-color: var(--background-color);
 
   /* Create the gradient. */
   --sunpillar-clr-1: var(--sunpillar-6);
@@ -11,6 +12,7 @@
   --sunpillar-clr-5: var(--sunpillar-4);
   --sunpillar-clr-6: var(--sunpillar-5);
   --space: 2%;
+  --angle: -75deg;
   --glitter: url("https://assets.codepen.io/13471/noise-base.png");
   --glitter2: url("https://assets.codepen.io/13471/noise-top.png");
 
@@ -54,7 +56,7 @@
     rgba(0, 0, 0, 0.05) calc(var(--space) * 6),
     rgba(255, 255, 255, 0) calc(var(--space) * 7)
   );
-  background-position: calc(100% * var(--ratio-x)) center;
+  background-position: calc(var(--pointer-x)) center;
   background-size: 200% 700%;
   background-clip: text;
 }
@@ -65,13 +67,16 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: #ae9110;
+  background-color: oklch(
+    calc(var(--foil-color-lightness) - 30%) var(--foil-color-chroma)
+      var(--foil-color-hue)
+  );
   background-clip: text;
   z-index: -1;
   font-kerning: 1px;
   transform: translate(
-    calc(1% - (2% * var(--ratio-x))),
-    calc(2% - (4% * var(--ratio-y)))
+    calc(1.5% - (3% * var(--ratio-x))),
+    calc(1.5% - (3% * var(--ratio-y)))
   );
 }
 
