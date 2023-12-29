@@ -4,21 +4,26 @@
   background-color: gold;
 
   /* Create the gradient. */
-  --space: 5%;
+  --sunpillar-clr-1: var(--sunpillar-6);
+  --sunpillar-clr-2: var(--sunpillar-1);
+  --sunpillar-clr-3: var(--sunpillar-2);
+  --sunpillar-clr-4: var(--sunpillar-3);
+  --sunpillar-clr-5: var(--sunpillar-4);
+  --sunpillar-clr-6: var(--sunpillar-5);
+  --space: 2%;
   --glitter: url("https://assets.codepen.io/13471/noise-base.png");
   --glitter2: url("https://assets.codepen.io/13471/noise-top.png");
-  background-blend-mode: multiply, hard-light;
-  background-image: radial-gradient(
-    farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    rgba(255, 255, 255, 0.8) 4%,
-    rgba(255, 255, 255, 0.3) 6%,
-    hsla(0, 0%, 0%, 0.05) 30%,
-    hsla(0, 0%, 0%, 0.15) 120%
-  );
 
   filter: brightness(calc((var(--pointer-from-center) * 0.4) + 0.4))
     contrast(1.4) saturate(2.25);
+}
 
+.glimmerLayer4,
+.glimmerLayer3,
+.glimmerLayer2,
+.glimmerLayer1,
+.glimmerLayer0,
+.root {
   /* Use the text as a mask for the background. */
   /* This will show the gradient as a text color rather than element bg. */
   -webkit-background-clip: text;
@@ -31,17 +36,117 @@
   text-fill-color: transparent;
 }
 
-.root::before {
+.root::after {
   content: attr(data-text);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 100%;
-  background: inherit;
-  /* z-index: -1; */
-  /* mix-blend-mode: screen; */
-  color: red;
+  background-blend-mode: darken;
+  background-image: repeating-linear-gradient(
+    var(--angle),
+    rgba(255, 255, 255, 0) calc(var(--space) * 1),
+    rgba(0, 0, 0, 0.05) calc(var(--space) * 2),
+    rgba(0, 0, 0, 0.05) calc(var(--space) * 3),
+    rgba(0, 0, 0, 0.1) calc(var(--space) * 4),
+    rgba(0, 0, 0, 0.05) calc(var(--space) * 5),
+    rgba(0, 0, 0, 0.05) calc(var(--space) * 6),
+    rgba(255, 255, 255, 0) calc(var(--space) * 7)
+  );
+  background-position: calc(100% * var(--ratio-x)) center;
+  background-size: 200% 700%;
+  background-clip: text;
+}
+
+.root::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ae9110;
+  background-clip: text;
+  z-index: -1;
+  font-kerning: 1px;
+  transform: translate(
+    calc(1% - (2% * var(--ratio-x))),
+    calc(2% - (4% * var(--ratio-y)))
+  );
+}
+
+.glimmerGroup,
+.glimmerLayer4,
+.glimmerLayer3,
+.glimmerLayer2,
+.glimmerLayer1,
+.glimmerLayer0,
+.glimmer {
+  --bgoffsetx: calc(10px * var(--ratio-x));
+  --bgoffsety: calc(10px * var(--ratio-y));
+
+  position: absolute;
+  inset: 0;
+}
+
+.glimmerGroup {
+  mix-blend-mode: soft-light;
+}
+
+:global(.safari-mobile) .glimmerGroup {
+  mix-blend-mode: screen;
+}
+
+.glimmerLayer4 {
+  background-image: var(--glitter2);
+  background-position: calc(var(--bgoffsetx) * 1) calc(var(--bgoffsety) * 1);
+  mix-blend-mode: normal;
+}
+
+.glimmerLayer3 {
+  background-image: var(--glitter2);
+  background-position: center;
+  mix-blend-mode: color-dodge;
+}
+
+.glimmerLayer2 {
+  background-image: repeating-linear-gradient(
+    var(--angle),
+    rgba(16, 16, 16, 0.07) calc(var(--space) * 1),
+    rgba(16, 16, 16, 0.09) calc(var(--space) * 2),
+    rgba(16, 16, 16, 0.2) calc(var(--space) * 3),
+    rgba(16, 16, 16, 0.2) calc(var(--space) * 4),
+    rgba(16, 16, 16, 0.2) calc(var(--space) * 5),
+    rgba(16, 16, 16, 0.09) calc(var(--space) * 6),
+    rgba(16, 16, 16, 0.07) calc(var(--space) * 7)
+  );
+
+  background-position: calc(100% * var(--ratio-x)) center;
+  background-size: 200% 700%;
+  mix-blend-mode: color-burn;
+}
+
+:global(.safari) .glimmerLayer2 {
+  background-image: repeating-linear-gradient(
+    var(--angle),
+    rgba(16, 16, 16, 0.02) calc(var(--space) * 1),
+    rgba(16, 16, 16, 0.03) calc(var(--space) * 2),
+    rgba(16, 16, 16, 0.05) calc(var(--space) * 3),
+    rgba(16, 16, 16, 0.05) calc(var(--space) * 4),
+    rgba(16, 16, 16, 0.05) calc(var(--space) * 5),
+    rgba(16, 16, 16, 0.03) calc(var(--space) * 6),
+    rgba(16, 16, 16, 0.02) calc(var(--space) * 7)
+  );
+}
+
+.glimmerLayer1 {
+  background-color: repeating-linear-gradient(
+    var(--angle),
+    rgba(16, 16, 16, 0.5) calc(var(--space) * 1),
+    rgba(16, 16, 16, 0.3) calc(var(--space) * 4),
+    rgba(16, 16, 16, 0.5) calc(var(--space) * 7)
+  );
+  background-position: calc(100% * var(--ratio-x)) center;
 }
 
 .h1 {

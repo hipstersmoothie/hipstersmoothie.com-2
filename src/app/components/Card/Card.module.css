@@ -1070,22 +1070,20 @@ Shine & Glare Effects
   --angle: 133deg;
   --imgsize: cover;
 
-  background-image: linear-gradient(0deg, transparent, transparent),
-    linear-gradient(0deg, transparent, transparent),
-    linear-gradient(0deg, transparent, transparent),
-    radial-gradient(
-      farthest-corner circle at var(--pointer-x) var(--pointer-y),
-      hsla(0, 0%, 0%, 0.1) 12%,
-      hsla(0, 0%, 0%, 0.15) 20%,
-      hsla(0, 0%, 0%, 0.25) 120%
-    );
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--sunpillar-clr-1) calc(var(--space) * 1),
+    var(--sunpillar-clr-2) calc(var(--space) * 2),
+    var(--sunpillar-clr-3) calc(var(--space) * 3),
+    var(--sunpillar-clr-4) calc(var(--space) * 4),
+    var(--sunpillar-clr-5) calc(var(--space) * 5),
+    var(--sunpillar-clr-6) calc(var(--space) * 6),
+    var(--sunpillar-clr-1) calc(var(--space) * 7)
+  );
 
-  background-position: center center, 0% var(--background-y),
-    calc(var(--background-x) + (var(--background-y) * 0.2)) var(--background-y),
-    var(--background-x) var(--background-y);
-
-  background-blend-mode: soft-light, hue, hard-light;
-  background-size: var(--imgsize), 200% 700%, 300% 100%, 200% 100%;
+  background-position: 0% var(--background-y);
+  background-blend-mode: hue;
+  background-size: 200% 700%, 300% 100%, 200% 100%;
 
   filter: brightness(calc((var(--pointer-from-center) * 0.4) + 0.4))
     contrast(1.4) saturate(2.25);

@@ -19,7 +19,7 @@ export function Text({
   children,
   ...props
 }: TextProps<Allowed>) {
-  const [angle, setAngle] = useState(0);
+  const [angle, setAngle] = useState(-75);
   const updateAngle = useCallback((point: { x: number; y: number }) => {
     if (!elRef.current) return;
 
@@ -52,6 +52,8 @@ export function Text({
         "--pointer-y",
         `${pointerY * 100}%`
       );
+      document.documentElement.style.setProperty("--ratio-x", `${pointerX}`);
+      document.documentElement.style.setProperty("--ratio-y", `${pointerY}`);
 
       updateAngle({ x, y });
     };
@@ -63,6 +65,20 @@ export function Text({
     };
   }, [updateAngle]);
 
+  useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+    setDebug(ua);
+    if (ua.indexOf("safari/") > -1 && ua.indexOf("chrome/") === -1) {
+      if (ua.indexOf("mobile/") > -1) {
+        document.body.classList.add("safari-mobile");
+      } else {
+        document.body.classList.add("safari");
+      }
+    } else {
+      document.body.classList.remove("safari");
+    }
+  }, []);
+
   const [orientation, setOrientation] = useState<
     Pick<DeviceOrientationEvent, "alpha" | "beta" | "gamma">
   >({
@@ -73,6 +89,7 @@ export function Text({
 
   const elRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
+  const [debug, setDebug] = useState("");
 
   function askPermission() {
     // Request permission for iOS 13+ devices
@@ -83,18 +100,41 @@ export function Text({
       DeviceMotionEvent.requestPermission();
     }
 
+    let startPoint: { gamma?: number; beta?: number } = {
+      gamma: undefined,
+      beta: undefined,
+    };
+
     function handleOrientation(event: DeviceOrientationEvent) {
       setOrientation(event);
       if (!dotRef.current) return;
       if (!event.beta || !event.gamma) return;
 
+      let { beta, gamma } = startPoint;
+
+      if (beta === undefined) {
+        beta = event.beta;
+        startPoint.beta = beta;
+      }
+
+      if (gamma === undefined) {
+        gamma = event.gamma;
+        startPoint.gamma = gamma;
+      }
+
       const halfHeight = window.innerHeight / 2;
       const halfWidth = window.innerWidth / 2;
-
-      const x = event.gamma;
-      const y = event.beta;
-      const newX = clamp(-0.8, 0.8, (x - 10) / 25);
-      const newY = clamp(-0.75, 0.75, (y - 25) / 30);
+      const x = event.gamma - gamma;
+      const y = event.beta - beta;
+      const newX = clamp(
+        -0.8,
+        0.8,
+        x /
+          // make this number larger to reduce the sensitivity
+          25 -
+          0.1
+      );
+      const newY = clamp(-0.75, 0.75, y / 30 + 0.5);
 
       // convert to position in viewport
       const newXpx = halfWidth - newX * halfWidth;
@@ -114,7 +154,8 @@ export function Text({
         `${pointerY * 100}%`
       );
 
-      updateAngle({ x: newXpx, y: newYpx });
+      document.documentElement.style.setProperty("--ratio-x", `${pointerX}`);
+      document.documentElement.style.setProperty("--ratio-y", `${pointerY}`);
     }
 
     window.addEventListener("deviceorientation", handleOrientation);
@@ -127,6 +168,7 @@ export function Text({
       <p>{orientation.beta}</p>
       <p>{orientation.gamma}</p>
       <p>{angle}</p>
+      <p>{debug}</p>
       <Component
         ref={elRef}
         data-text={children}
@@ -139,6 +181,12 @@ export function Text({
         })}
       >
         <span>{children}</span>
+        <div className={styles.glimmerGroup}>
+          <span>{children}</span>
+          <div className={styles.glimmerLayer4}>{children}</div>
+          <div className={styles.glimmerLayer3}>{children}</div>
+          <div className={styles.glimmerLayer2}>{children}</div>
+        </div>
       </Component>
       <svg>
         <filter id="wavy2">

@@ -21,5 +21,11 @@ export default meta;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 
 export function Heading() {
-  return <Text as="h1">Heading</Text>;
+  return (
+    <div>
+      <Text as="h1" className="text-center">
+        Heading
+      </Text>
+    </div>
+  );
 }
