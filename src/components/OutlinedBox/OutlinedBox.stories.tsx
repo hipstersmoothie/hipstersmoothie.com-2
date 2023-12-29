@@ -21,5 +21,5 @@ export default meta;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 
 export function Basic() {
-  return <OutlinedBox className="h-[300px] w-[300px]" />;
+  return <OutlinedBox>Stuff in box</OutlinedBox>;
 }

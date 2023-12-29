@@ -1,50 +1,41 @@
 .root {
-  font-family: Noto Serif;
-  position: relative;
+  position: absolute;
+  inset: -8px;
   /* Fallback: Set a background color. */
   background-color: var(--background-color);
 
   /* Create the gradient. */
-  --sunpillar-clr-1: var(--sunpillar-6);
-  --sunpillar-clr-2: var(--sunpillar-1);
-  --sunpillar-clr-3: var(--sunpillar-2);
-  --sunpillar-clr-4: var(--sunpillar-3);
-  --sunpillar-clr-5: var(--sunpillar-4);
-  --sunpillar-clr-6: var(--sunpillar-5);
   --space: 2%;
   --angle: -73deg;
-  --glitter: url("https://assets.codepen.io/13471/noise-base.png");
   --glitter2: url("https://assets.codepen.io/13471/noise-top.png");
 
   filter: brightness(calc((var(--pointer-from-center) * 0.4) + 0.4))
     contrast(1.4) saturate(2.25);
+
+  border: transparent;
+  z-index: 0;
 }
 
-.glimmerLayer4,
-.glimmerLayer3,
-.glimmerLayer2,
-.glimmerLayer1,
-.glimmerLayer0,
-.root {
-  /* Use the text as a mask for the background. */
-  /* This will show the gradient as a text color rather than element bg. */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
+.box::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  background-color: oklch(
+    calc(var(--foil-color-lightness) - 30%) var(--foil-color-chroma)
+      var(--foil-color-hue)
+  );
+  font-kerning: 1px;
+  transform: translate(
+    calc(1% - (2% * var(--ratio-x))),
+    calc(1% - (2% * var(--ratio-y)))
+  );
 }
 
 .root::after {
-  content: attr(data-text);
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
+  inset: 0;
+
   background-blend-mode: darken;
   background-image: repeating-linear-gradient(
     var(--angle),
@@ -58,26 +49,7 @@
   );
   background-position: calc(var(--pointer-x)) center;
   background-size: 200% 700%;
-  background-clip: text;
-}
-
-.root::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: oklch(
-    calc(var(--foil-color-lightness) - 30%) var(--foil-color-chroma)
-      var(--foil-color-hue)
-  );
-  background-clip: text;
-  z-index: -1;
-  font-kerning: 1px;
-  transform: translate(
-    calc(1.5% - (3% * var(--ratio-x))),
-    calc(1.5% - (3% * var(--ratio-y)))
-  );
+  background-clip: border-box;
 }
 
 .glimmerGroup,
