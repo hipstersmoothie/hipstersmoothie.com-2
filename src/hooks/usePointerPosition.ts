@@ -1,5 +1,11 @@
 "use client";
 
+declare global {
+  interface DeviceMotionEvent {
+    requestPermission?: () => Promise<"granted" | "denied">;
+  }
+}
+
 import { useEffect } from "react";
 
 function clamp(min: number, max: number, value: number) {
@@ -51,9 +57,9 @@ export function useDeviceAnimation() {
     // Request permission for iOS 13+ devices
     if (
       DeviceMotionEvent &&
-      typeof DeviceMotionEvent.requestPermission === "function"
+      typeof (DeviceMotionEvent as any).requestPermission === "function"
     ) {
-      DeviceMotionEvent.requestPermission();
+      (DeviceMotionEvent as any).requestPermission();
     }
 
     let startPoint: { gamma?: number; beta?: number } = {
