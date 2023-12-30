@@ -2,8 +2,8 @@
 
 import { Noto_Serif } from "next/font/google";
 
-import { useDeviceAnimation } from "../hooks/usePointerPosition";
-import { useDeviceType } from "../hooks/useUserAgentClassName";
+import { useDeviceAnimation } from "./hooks/usePointerPosition";
+import { useDeviceType } from "./hooks/useUserAgentClassName";
 
 const noto = Noto_Serif({ subsets: ["latin"] });
 

@@ -1,9 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { Card } from "./Card";
+import type { Meta } from "@storybook/react";
+import { OutlinedBox } from "./OutlinedBox";
+import { AppWrapper } from "../../AppWrapper";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Card",
+  title: "Gold Lettering/OutlinedBox",
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "centered",
@@ -14,6 +15,13 @@ const meta = {
   argTypes: {
     backgroundColor: { control: "color" },
   },
+  decorators: [
+    (Story) => (
+      <AppWrapper>
+        <Story />
+      </AppWrapper>
+    ),
+  ],
 } satisfies Meta;
 
 export default meta;
@@ -21,5 +29,5 @@ export default meta;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 
 export function Basic() {
-  return <Card />;
+  return <OutlinedBox>Stuff in box</OutlinedBox>;
 }
