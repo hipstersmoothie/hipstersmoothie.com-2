@@ -1,4 +1,4 @@
 const ASPECT_RATIO = 16 / 9;
 
-export const PREVIEW_HEIGHT = 1080;
+export const PREVIEW_HEIGHT = 540;
 export const PREVIEW_WIDTH = PREVIEW_HEIGHT * ASPECT_RATIO;

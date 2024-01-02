@@ -1,16 +1,14 @@
 import path from "path";
-import { Suspense } from "react";
 import glob from "fast-glob";
 import { capitalCase } from "change-case";
 import Link from "next/link";
-import Image from "next/image";
-import { getPlaiceholder } from "plaiceholder";
-import { headers } from "next/headers";
 
 import { NavigationHeader } from "../components/NavigationHeader";
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from "./preview/constants";
+import { ExperimentPreviewImage } from "./ExperimentPreviewImage.server";
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
+
 const experiments = glob
   .sync(`${dir}/**/page.tsx`, {
     deep: 2,
@@ -29,36 +27,6 @@ const experiments = glob
 
 type Experiment = (typeof experiments)[0];
 
-async function getBlurData(src: string) {
-  const buffer = await fetch(src).then(async (res) =>
-    Buffer.from(await res.arrayBuffer())
-  );
-
-  const data = await getPlaiceholder(buffer);
-  return data;
-}
-
-async function ExperimentPreview({ experiment }: { experiment: Experiment }) {
-  const headersList = headers();
-  const proto = headersList.get("x-forwarded-proto");
-  const host = headersList.get("host");
-  const imageUrl = `/experiments/preview?id=${experiment.path}`;
-  const fullImageUrl = `${proto}://${host}${imageUrl}`;
-
-  const { base64 } = await getBlurData(fullImageUrl);
-
-  return (
-    <Image
-      src={imageUrl}
-      width={PREVIEW_WIDTH}
-      height={PREVIEW_HEIGHT}
-      alt="Preview of the experiment"
-      placeholder="blur"
-      blurDataURL={base64}
-    />
-  );
-}
-
 async function ExperimentCard({ experiment }: { experiment: Experiment }) {
   return (
     <Link
@@ -66,9 +34,12 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
       className="flex flex-col border border-gray-200"
     >
       <div className="bg-gray-200 aspect-video">
-        {/* <Suspense fallback={<div>Loading...</div>}> */}
-        <ExperimentPreview experiment={experiment} />
-        {/* </Suspense> */}
+        <ExperimentPreviewImage
+          src={experiment.path}
+          width={PREVIEW_WIDTH}
+          height={PREVIEW_HEIGHT}
+          alt="Preview of the experiment"
+        />
       </div>
       <div className="px-4 py-2 ">
         <h2 className="text-2xl font-semibold">{experiment.name}</h2>

@@ -1,31 +1,27 @@
-import "./gold-lettering.css";
+import styles from "./cardstock.module.css";
 
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-
+import makeClass from "clsx";
 import { AppWrapper } from "./AppWrapper";
 import { OutlinedBox } from "./components/OutlinedBox/OutlinedBox";
 import { Text } from "./components/Text/Text";
-import { Button } from "../../components/ui/button";
 
 export default function GoldLetteringExperiment() {
   return (
     <AppWrapper>
-      <main className="flex gap-4 min-h-screen portrait:flex-col items-center justify-center landscape:p-20 portrait:py-20">
-        {/* <Button
-          variant="secondary"
-          size="icon"
-          asChild={true}
-          className="absolute top-4 left-4"
-        >
-          <Link href="/">
-            <ChevronLeft />
-          </Link>
-        </Button> */}
-
+      <main
+        className={makeClass(
+          styles.cardstock,
+          "flex gap-4 min-h-screen portrait:flex-col items-center justify-center landscape:p-20 portrait:py-20"
+        )}
+      >
         <OutlinedBox className="px-8 pt-3 relative text-center portrait:mb-10">
           <Text as="h1">AL</Text>
-          <div className="cardstock absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 px-3 min-w-max">
+          <div
+            className={makeClass(
+              styles.cardstock,
+              "absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 px-3 min-w-max"
+            )}
+          >
             <a href="https://twitter.com/HipsterSmoothie">
               <Text className="text-2xl">@hipstersmoothie</Text>
             </a>

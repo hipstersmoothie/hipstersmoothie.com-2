@@ -1,6 +1,4 @@
-import withPlaiceholder from "@plaiceholder/next";
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withPlaiceholder({});
+const nextConfig = {};
 
 export default nextConfig;

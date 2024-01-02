@@ -166,3 +166,5 @@ dist
 .pnp.*
 
 certificates
+
+public/optimized

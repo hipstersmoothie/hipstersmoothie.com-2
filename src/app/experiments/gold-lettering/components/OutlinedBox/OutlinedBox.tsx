@@ -1,6 +1,7 @@
 import makeClass from "clsx";
 
 import styles from "./OutlinedBox.module.css";
+import rootStyles from "../../cardstock.module.css";
 
 interface OutlinedBoxProps extends React.ComponentProps<"div"> {}
 
@@ -22,7 +23,12 @@ export function OutlinedBox({
           <div className={styles.glimmerLayer2} />
         </div>
       </div>
-      <div className="cardstock absolute inset-0 h-full w-full z-10">
+      <div
+        className={makeClass(
+          rootStyles.cardstock,
+          "absolute inset-0 h-full w-full z-10"
+        )}
+      >
         {children}
       </div>
     </div>
