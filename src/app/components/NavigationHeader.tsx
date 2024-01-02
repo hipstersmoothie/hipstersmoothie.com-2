@@ -21,8 +21,8 @@ function NavigationButton({ href, children }: { href: string; children: any }) {
 
 export function NavigationHeader() {
   return (
-    <nav className="flex items-center justify-between h-12 max-w-screen-lg mx-auto">
-      <Button variant="ghost" size="icon" asChild={true}>
+    <nav className="flex items-center justify-between h-12 max-w-screen-lg mx-auto px-2">
+      <Button variant="ghost" size="sm" asChild={true}>
         <Link href="/">Andrew Lisowski</Link>
       </Button>
 
