@@ -1,0 +1,62 @@
+# Importing a Local Database into Planetscale
+
+If you have a database on your computer that you want to upload to planetscale.com this note will walk you through it.
+
+## 1. Create a new database on Planetscale
+
+First head to your planetscale.com dashboard and click the `New Database` button.
+On the next page click `Import`.
+
+## 2. Expose your local database
+
+For this step you will need to download [ngrok](https://ngrok.com).
+`ngrok` is a tiny tool that exposes a local port to the internet through a URL making it easy to access.
+
+Once you have `ngrok` installed run the following command to expose the port your `mysyql` server is running on. The default port is `3309`.
+
+```sh
+ngrok tcp 3309
+```
+
+## 3. Prepare you `mysql` server
+
+### 3.a Create a password
+
+If you already have a password for your sql user you're already done with this step! Otherwise run the following commands while connected to your `mysql` server:
+
+```sh
+mysqladmin -u root password NEWPASSWORD
+```
+
+### 3.b Enabled `gtid` mode
+
+Now you need to configure a few things in your `mysql` server to make it available to Planetscale.
+
+Run the following commands while connected:
+
+```sh
+SET @@GLOBAL.ENFORCE_GTID_CONSISTENCY = WARN;
+SET @@GLOBAL.ENFORCE_GTID_CONSISTENCY = ON;
+SET @@GLOBAL.GTID_MODE = OFF_PERMISSIVE;
+SET @@GLOBAL.GTID_MODE = ON_PERMISSIVE;
+SHOW STATUS LIKE 'ONGOING_ANONYMOUS_TRANSACTION_COUNT';
+```
+
+When the last command displays a `0` in the output run this command
+
+```sh
+SET @@GLOBAL.GTID_MODE = ON;
+```
+
+## 4. Fill in the details in the import screen
+
+Use the the url and port displayed by `ngrok`.
+
+![ngrok output](/blog/ngrok-db.png)
+
+Then fill in your credentials and click `Test connection`. Hopefully this works!
+On the next screen just click `Enable Primary Mode` and `Finish Import` to complete the process.
+
+## Done!
+
+That's it! Hopefully this helped you get your data imported 🎉

@@ -1,4 +1,4 @@
-import { NavigationHeader } from "../components/NavigationHeader";
+import { NavigationHeader } from "../../components/NavigationHeader";
 
 export default function ExperimentsList() {
   return (

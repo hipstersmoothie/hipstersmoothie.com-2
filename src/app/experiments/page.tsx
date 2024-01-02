@@ -4,7 +4,7 @@ import glob from "fast-glob";
 import { capitalCase } from "change-case";
 import Link from "next/link";
 
-import { NavigationHeader } from "../components/NavigationHeader";
+import { NavigationHeader } from "../../components/NavigationHeader";
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from "./preview/constants";
 import { ExperimentPreviewImage } from "./ExperimentPreviewImage.server";
 
