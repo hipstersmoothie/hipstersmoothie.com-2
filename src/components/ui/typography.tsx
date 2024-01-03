@@ -4,15 +4,18 @@ import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
 import { flip, offset, useFloating } from "@floating-ui/react";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-import { Time } from "./Time";
 import { useFrontMatterContext } from "../../lib/front-matter-context";
 import { useIsInIframe } from "../../lib/useIsInIframe";
 import { PageHeader } from "./PageHeader";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
-  return <div className="max-w-prose mx-auto px-4">{children}</div>;
+  return (
+    <div className="max-w-prose mx-auto px-4 dark:text-gray-200">
+      {children}
+    </div>
+  );
 }
 
 export const Paragraph = ({
@@ -30,7 +33,7 @@ export const MdxImage = ({
 }: React.ComponentProps<"img">) => (
   <WidthContainer>
     <figure className="my-10 flex flex-col gap-2">
-      <div className="w-full flex-1 min-h-0 flex">
+      <div className="w-full flex-1 min-h-0 flex justify-center">
         {props.src && props.src.startsWith("http") ? (
           // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
           <img
@@ -46,7 +49,7 @@ export const MdxImage = ({
         )}
       </div>
       {props.alt && (
-        <figcaption className="text-sm font-medium my-2 text-center italic">
+        <figcaption className="text-sm font-medium my-2 text-center italic dark:text-gray-400">
           {props.alt}
         </figcaption>
       )}
@@ -71,8 +74,8 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
         className={makeClass("-m-2 my-6 grid", className)}
         style={{ gridTemplateColumns: "8px auto" }}
       >
-        <div className="rounded-sm rounded-r-none bg-pink-500" />
-        <div className="rounded-sm rounded-l-none bg-white border-2 border-l-0 border-gray-100 px-4">
+        <div className="rounded-sm rounded-r-none bg-pink-500 dark:bg-gray-500" />
+        <div className="rounded-sm rounded-l-none bg-white dark:bg-gray-900 border-2 border-l-0 border-gray-100 dark:border-gray-800 px-4">
           <blockquote>{children}</blockquote>
         </div>
       </figure>
@@ -81,7 +84,10 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
 };
 
 export const HorizontalRule: React.FC = (props) => (
-  <hr {...props} className="mx-auto h-2 w-8 rounded bg-gray-200 my-10" />
+  <hr
+    {...props}
+    className="mx-auto h-2 w-8 rounded border-none bg-gray-200 dark:bg-gray-600 my-10"
+  />
 );
 
 export const OrderedList: React.FC = (props) => (
@@ -107,7 +113,7 @@ export const Code = (props: {
         className={makeClass(
           props.className,
           "font-mono",
-          "text-gray-600 rounded block py-8 px-6 overflow-auto",
+          "rounded block py-8 px-6 overflow-auto",
           "h-full w-full"
         )}
       />
@@ -117,14 +123,14 @@ export const Code = (props: {
   return (
     <code
       {...props}
-      className="text-xs rounded p-1 bg-gray-200 text-gray-900 inline-block translate-y-[-1px]"
+      className="text-xs rounded p-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 inline-block translate-y-[-1px]"
     />
   );
 };
 
 export const Pre = (props: React.ComponentProps<"pre">) => (
   <WidthContainer>
-    <pre {...props} className="bg-gray-200 rounded border my-6" />
+    <pre {...props} className="rounded border dark:border-gray-700 my-6" />
   </WidthContainer>
 );
 
@@ -132,7 +138,7 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
   <WidthContainer>
     <h1
       {...props}
-      className="mt-6 md:mt-8 pb-4 md:pb-6 mb-6 md:mb-4 border-b flex justify-between text-4xl md:text-6xl"
+      className="mt-6 md:mt-8 pb-4 md:pb-6 mb-6 md:mb-4 border-b dark:border-gray-400 flex justify-between text-4xl md:text-6xl"
     />
   </WidthContainer>
 );
@@ -177,7 +183,7 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
   <WidthContainer>
     <h2
       {...props}
-      className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 font-medium"
+      className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 dark:border-gray-400 font-medium"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -249,7 +255,7 @@ export const TH: React.FC = (props) => (
 );
 
 export const TD: React.FC = (props) => (
-  <td {...props} className="py-2 px-3 border-b border-t" />
+  <td {...props} className="py-2 px-3 border-b border-t dark:border-gray-600" />
 );
 
 function Backlink(props: React.ComponentPropsWithoutRef<"a">) {

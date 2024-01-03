@@ -9,7 +9,6 @@ import { read } from "to-vfile";
 
 import { NavigationHeader } from "../../components/NavigationHeader";
 import { RelativeTime } from "../../components/ui/RelativeTime";
-import { H1 } from "../../components/ui/typography";
 import { PageHeader } from "../../components/ui/PageHeader";
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
@@ -28,10 +27,13 @@ function PostItem({ post }: { post: Post }) {
   return (
     <Link
       href={`/blog/${post.path}`}
-      className="flex justify-between gap-2 min-h-11 py-2"
+      className="flex justify-between gap-2 min-h-11 py-2 px-4 -mx-4 relative z-0 group"
     >
-      <h2 className="text-lg md:text-xl font-medium">{post.name}</h2>
-      <span className="text-gray-500 flex-shrink-0 text-sm flex items-center">
+      <div className="bg-gray-100 dark:bg-gray-800 absolute inset-[1px] rounded z-[-1] opacity-0 transition-opacity group-hover:opacity-100 duration-75" />
+      <h2 className="text-lg md:text-xl font-medium dark:text-gray-200 dark:group-hover:text-gray-200">
+        {post.name}
+      </h2>
+      <span className="text-gray-500 dark:group-hover:text-gray-200 flex-shrink-0 text-sm flex items-center">
         <RelativeTime date={post.creationDate} />
       </span>
     </Link>
