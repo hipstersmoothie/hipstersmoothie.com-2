@@ -1,0 +1,81 @@
+---
+creationDate: 2021-05-30T01:45:13-07:00
+---
+
+# Git Aliases
+
+I started as a Git GUI person (I still love and use [Gitup](https://gitup.co/) daily) but as I've grown as a developer I moved more and more into my terminal.
+
+```sh
+# Open the current repository in Gitup
+alias g="gitup"
+# Create a new Branch
+alias gb="git checkout -b"
+# Show the current status of the repo
+alias gs="git status --short"
+# Stage some files
+alias ga="git add -v"
+# Stage all files
+alias gaa="ga -A"
+# Make a commit
+alias gc="git commit -m"
+# Add all changes, amend the last commit, and force push
+alias gaf="gaa && git amend && gp -f"
+
+gitPush()
+{
+    # If in a git repo - call git mv. otherwise- call mv
+    if [[ $(git config "branch.$(git rev-parse --abbrev-ref HEAD).merge") == '' ]];
+    then
+        git push -u --porcelain "$@"
+    else
+        git push --porcelain "$@"
+    fi
+}
+# Push to origin and set the upstream if necessary
+alias gp=gitPush
+
+# Delete merged branches
+alias gcb="git checkout master && git pull && git branch --merged master | egrep -v 'next|master' | xargs -I % sh -c 'git branch -d %; git config --get branch.%.merge && git push origin -d %'"
+```
+
+The `gp` alias requires you to set a value in your git configuration
+
+```sh
+[push]
+  default = current
+```
+
+The `gaf` alias requires you to set a value in your git configuration. This will also make the `git amend` command available. This command will amend the last commit with any staged changes.
+
+```sh
+[alias]
+  amend = commit --no-edit --no-verify --amend
+```
+
+And while you're there you might as well use all my color settings too. Git output should be pretty too!
+
+```sh
+[color]
+  ui = true
+  branch = auto
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+[color "diff"]
+  commit = yellow bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+[color "status"]
+  branch = magenta normal bold
+  remoteBranch = magenta normal bold
+  changed = yellow normal bold
+  untracked = red normal bold
+  updated = green normal bold
+[color "branch"]
+  current = magenta normal ul bold
+  remote = yellow normal bold
+```

@@ -1,0 +1,211 @@
+---
+creationDate: 2021-05-30T01:45:13-07:00
+---
+
+# Terminal Setup
+
+When I first started coding in college, one of the scariest pieces of technology to me was the terminal. Back then OSX shipped with bash and the default was just plain hard to look at, so I didn't.
+
+Often tell junior developers to get as comfortable as possible with the terminal as soon as they can. I recount a tale from my college years where, just a few hours before a due date, I `rm -rf`ed my project and had to redo it in a rush. This was solely because I was hesitant to use the terminal and didn't realize what I was doing. Being comfortable on the terminal is a _critical_ skill as a dev, so being on your terminal should feel **amazing**.
+
+Over the years I've played around with a bunch of different terminal setups and even [written themes of my own](https://github.com/hipstersmoothie/PowerlevelHipstersmoothie). But I've really come to love my current setup. This post will detail how do make your's looks like this too! Be sure to check out my set of [[Better Default Tools]].
+
+![A picture of my terminal setup](https://pbs.twimg.com/media/EZJFW18VcAA8_j7?format=jpg&name=large)
+
+## Terminal App
+
+The default terminal for OSX is okay but I always install [iterm](https://www.iterm2.com/) for all it's great features.
+
+### iTerm settings
+
+#### Beautiful Font
+
+The default rendering just kind of feels "off". To make it buttery smooth go to `Preferences => Profiles => Text` and check `Enable subpixel anti-aliasing`. This is a huge quality of life improvement.
+
+The them I use recommends to install these fonts and I wholeheartedly agree.
+
+- [MesloLGS NF Regular.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
+- [MesloLGS NF Bold.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
+- [MesloLGS NF Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
+- [MesloLGS NF Bold Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
+
+Then go to `Preferences => Profiles => Text` and change the font to `MesloLGS NF`. I also up the default font size to 16 instead of 12. You will need to restart iTerm for it to save you font selection to the default profile.
+
+#### Minimal Theme
+
+Go to `Preferences => Appearance => General` and change `Theme` to `Minimal`. This is what makes the terminal's toolbar black and uniform with the rest of the app.
+
+#### Unfocused Pane Dimming
+
+Go to `Preferences => Appearance => Dimming` and make sure everything but `Dim background windows` is checked. This will make it so that when you split panes the unfocused pane isn't distracting.
+
+### Split Pane in Same Directory
+
+Something that I hated about terminal splitting was that the new terminal starts out in the home directory.
+
+1. Go to `Preferences => Profiles => General => Working Directory`
+2. Select `Advanced Configuration`
+3. Click `Edit`
+4. Change `Working Directory for New Split Panes` to `Reuse previous session's directory`
+
+#### Quiet New Terminal Prompts
+
+When you make a new terminal it will spit out a bunch of text you don't care about. Run the following command to silence all of these! This even works on corporate computers!
+
+```sh
+touch ~/.hushlogin
+```
+
+## Shell Configuration Manager
+
+And then the next thing I install [oh-my-zsh](https://ohmyz.sh/). From their website:
+
+> Oh My Zsh is a delightful, open source, community-driven framework for managing your Zsh configuration.
+
+We will this utilize the theming and plugin support
+
+```sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+## Theme
+
+Theming your terminal usually involves a lot of setup and tweaking. Recently I found [powerlevel10k](https://github.com/romkatv/powerlevel10k) and am absolutely in love.
+
+Features:
+
+- Setup is a breeze
+- The font the have you install looks amazing on a terminal
+- Instantly responsive on a new tab (I type so fast now!)
+- Transient Prompt make having information on your terminal prompt useable
+
+Install the theme on your machine:
+
+```sh
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+Set the theme in `~/.zshrc`:
+
+```sh
+ZSH_THEME="powerlevel10k/powerlevel10k"
+```
+
+Once you restart your terminal you will go through the setup to customize your terminal. If you like the way mine above is rendered, you can [grab mine here](https://github.com/hipstersmoothie/dotfiles/blob/master/.p10.zsh).
+
+### p10k Customizations
+
+In this section I explain the customization I did to my `~./.p10k.zsh`. If you use mine you do not have to read any of this, as it has already been done for you
+
+#### Left Prompt
+
+On the left side I added a custom icon on the first line, and a prompt character on the second line. The rest of the values are the defaults.
+
+```sh
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+  # =========================[ Line #1 ]=========================
+  my_icon
+  dir                     # current directory
+  vcs                     # git status
+  # =========================[ Line #2 ]=========================
+  newline                 # \n
+  prompt_char           # prompt symbol
+)
+
+# Display a custom Icon the changes depending on the time
+# Use the Font Book on your mac to figure out the character
+# To change the color change `-f 070` to a different 256 color
+function prompt_my_icon() {
+  local -i currentTime=${(%):-%D{%H%M}}
+
+  if (( currentTime > 1619 || currentTime < 421 )); then
+    # Weed
+    p10k segment -f 070 -i 'ﲤ'
+  else
+    # Duck
+    p10k segment -f 227 -i ''
+  fi
+}
+```
+
+### Right Prompt
+
+Here I un-commented any node version detection and added three items to the second line of the prompt.
+These three segments are only show on previous commands.
+
+- `status` - Whether the last command failed or passed
+- `time` - The time the last command was run
+- `dir` - The directory the command was run from
+
+This is super useful when your are looking back on commands you've run. You know the context in which they were ran and that information isn't cluttered with all the other stuff in your prompt.
+
+```sh
+typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+  # =========================[ Line #1 ]=========================
+  # ALL THE DEFAULTS DONT DELETE THEM. REMOVED FOR CLARITY
+  nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
+  node_version          # node.js version
+  battery               # internal battery
+  # =========================[ Line #2 ]=========================
+  newline                 # \n
+  status
+  time
+  dir
+)
+
+# Turn of p10k's transient prompt so we can control it
+typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=off
+
+# Hide the second line on the right side
+function p10k-on-pre-prompt() {
+  p10k display '1|*/left_frame'=show '2/right/(time|dir|status)'=hide
+}
+
+# Show the second line on the right side after command is run
+function p10k-on-post-prompt() {
+  p10k display '1|*/left_frame'=hide '2/right/(time|dir|status)'=show
+}
+```
+
+## ZSH Plugins
+
+ZSH Plugins offer a lot and most of the are geared towards a specific dev stack. Finding the right plugin means an awesome tab completion experience. Install whatever you need, I don't use plugins for this though.
+
+The two plugin I **do** use are
+
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) - Fish shell like syntax highlighting for Zsh. This is what makes my aliases/commands green above. If it's green then it's installed!
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) - Fish-like autosuggestions for zsh. Will show a preview of the last matching command while typing. Press right to use
+
+## Aliases
+
+I started out not using aliases all that much, but as you get more comfortable with the terminal they become really useful. Create these as you see fit, that's the easiest way to remember them. My most uses aliases are my [[Git Aliases]].
+
+The following ones are simple and can fit most workflows:
+
+```sh
+# Alias the vs-code "code" command to something shorter
+# You can use it to open anything in vscode "c ." will open the current directory
+alias c="code"
+
+# Open your .zshrc in VS Code
+alias zshrc="c ~/.zshrc"
+
+# Restart the terminal and ZSH
+alias restart="exec zsh"
+```
+
+## Terminal Keyboard Shortcuts
+
+Being skilled with keyboard shortcuts can make you look like a superhero in a text editor. The default iTerm keyboard shortcuts are nothing like vs-codes so I was always inserting weird character in the terminal instead of quickly navigating text.
+
+To fix this you can set up custom keyboard shortcuts in iTerm. Go to `Preferences => Keys`. For each of the following click the + button and make the `Action` set to `Send Hex Code`.
+
+| Shortcut          | Result                     | Hex Code    |
+| ----------------- | -------------------------- | ----------- |
+| `cmd + right`     | Cursor to end of line      | `0x05`      |
+| `cmd + left`      | Cursor to start of line    | `0x01`      |
+| `cmd + backspace` | Delete line                | `0x15`      |
+| `alt + right`     | Cursor skip one word right | `0x1b 0x66` |
+| `alt + left`      | Cursor skip one word left  | `0x1b 0x62` |
+| `alt + backspace` | Delete one word            | `0x1b 0x08` |
+

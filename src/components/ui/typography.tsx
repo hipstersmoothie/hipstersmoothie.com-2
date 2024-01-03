@@ -2,7 +2,9 @@
 
 import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Time } from "./Time";
+import { useFrontMatterContext } from "../../lib/front-matter-context";
 
 export const Paragraph = ({
   className,
@@ -16,13 +18,21 @@ export const MdxImage = ({
   ...props
 }: React.ComponentProps<"img">) => (
   <figure className="my-10 flex flex-col gap-2">
-    <div className="block relative h-24 w-full max-h-64">
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <Image
-        fill={true}
-        className={makeClass(className, "object-contain")}
-        {...(props as ImageProps)}
-      />
+    <div className="block relative h-[500px] w-full">
+      {props.src && props.src.startsWith("http") ? (
+        // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+        <img
+          className={makeClass(className, "h-full object-contain")}
+          {...props}
+        />
+      ) : (
+        // eslint-disable-next-line jsx-a11y/alt-text
+        <Image
+          fill={true}
+          className={makeClass(className, "object-contain")}
+          {...(props as ImageProps)}
+        />
+      )}
     </div>
     {props.alt && (
       <figcaption className="text-sm font-medium my-2 text-center italic">
@@ -104,6 +114,35 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
   />
 );
 
+export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
+  const frontMatter = useFrontMatterContext();
+
+  return (
+    <>
+      <H1 {...props} />
+      <div className="mb-10 md:mb-12 sm:flex items-baseline justify-between">
+        <div className="space-x-4 md:space-y-0 text-sm flex flex-row mb-4 md:mb-0">
+          <div className="text-gray-500">
+            <span className="italic">Created: </span>
+            <Time
+              date={frontMatter.creationDate || new Date().toLocaleString()}
+              className="text-gray-900 font-medium"
+            />
+          </div>
+          {/* 
+          <div className="text-gray-500">
+            <span className="italic">Updated: </span>
+            <Time
+              date={currentLeaf.lastUpdatedDate || new Date().toLocaleString()}
+              className="text-gray-900 font-medium"
+            />
+          </div> */}
+        </div>
+      </div>
+    </>
+  );
+};
+
 const onHeadingClick = (e: React.MouseEvent<HTMLHeadingElement>) => {
   // Update the location hash without scrolling
   history.replaceState(null, "", `#${e.currentTarget.id}`);
@@ -176,20 +215,21 @@ export const TD: React.FC = (props) => (
   <td {...props} className="py-2 px-3 border-b border-t" />
 );
 
-export function MdxLink(props: React.ComponentPropsWithoutRef<"a">) {
+export function Link(props: React.ComponentPropsWithoutRef<"a">) {
   let href = props.href;
+
+  if (href?.startsWith("#")) {
+    return <a {...props} />;
+  }
+
   const className = "text-blue-500 underline";
 
   if (href?.startsWith("/")) {
     return (
-      <Link {...props} className={className} href={href}>
+      <NextLink {...props} className={className} href={href}>
         {props.children}
-      </Link>
+      </NextLink>
     );
-  }
-
-  if (href?.startsWith("#")) {
-    return <a {...props} className={className} />;
   }
 
   return (

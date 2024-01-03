@@ -1,0 +1,95 @@
+---
+creationDate: 2021-05-30T01:45:13-07:00
+---
+
+# Better Default Tools
+
+A lot of the tools you use are probably super old! That's great cause they work no problem, but they might not be as pretty as we want them. All of the following are tools I use to replace default tooling that is preinstalled on most computers.
+
+## `cat` => `bat`
+
+[A cat(1) clone with wings.](https://github.com/sharkdp/bat). So much nicer!
+
+```sh
+brew install bat
+```
+
+Make sure to alias `cat` in your `~/.zshrc`.
+
+```sh
+alias cat="bat"
+```
+
+## `ls` => `exa`
+
+[A modern version of `ls`.](https://github.com/ogham/exa). Pretty colors!
+
+```sh
+brew install exa
+```
+
+Make sure to alias `cat` in your `~/.zshrc`.
+
+```sh
+alias ls="exa"
+# Show lots of info, even with icons!
+alias lss="exa -alh --icons --git-ignore"
+```
+
+## `git diff` => `delta`
+
+[Strives to make your diffs human readable instead of machine readable.](https://github.com/so-fancy/diff-so-fancy).
+
+```sh
+brew install git-delta
+```
+
+Tell git to use `delta` for all diffs in your `~/.gitconfig`:
+
+```sh
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[delta]
+    features = side-by-side line-numbers decorations relative-paths hyperlinks
+    file-style = yellow auto italic
+    file-decoration-style = white ol dim
+    line-numbers-left-style = white auto dim
+    line-numbers-right-style = white auto dim
+    hunk-header-style = omit
+    syntax-theme = TwoDark
+
+[interactive]
+    diffFilter = delta --color-only
+```
+
+## History search
+
+`bash` and `zsh` ship with a nice search history (press `ctrl + r`). But it's old and ugly. For a better experience I install [fzf](https://github.com/junegunn/fzf).
+
+```sh
+brew install fzf
+
+# To install useful key bindings and fuzzy completion:
+$(brew --prefix)/opt/fzf/install
+```
+
+## `cd` => `z` (zoxide)
+
+[Easily jump to directories](https://github.com/ajeetdsouza/zoxide). Just supply a part of the path and it will change the directory to the last matching path. I still use `cd` but I use `z` to jump between projects.
+
+```sh
+brew tap ajeetdsouza/zoxide
+brew install zoxide
+```
+
+And add some config in your `~/.zshrc`.
+
+```sh
+eval "$(zoxide init zsh)"
+```
+
+`zoxide` ships with a `zi` alias. This allows you to fuzzy search though all possible directory matches.
