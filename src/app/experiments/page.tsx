@@ -7,6 +7,7 @@ import Link from "next/link";
 import { NavigationHeader } from "../../components/NavigationHeader";
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from "./preview/constants";
 import { ExperimentPreviewImage } from "./ExperimentPreviewImage.server";
+import { PageHeader } from "../../components/ui/PageHeader";
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
 
@@ -71,8 +72,9 @@ export default function ExperimentsList() {
   return (
     <>
       <NavigationHeader />
-      <main className="flex min-h-screen flex-col items-center justify-between px-2 py-4 md:py-24">
-        <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-lg">
+      <PageHeader>Experiments</PageHeader>
+      <main className="flex min-h-screen flex-col items-center justify-between p-5 md:px-24 md:py-12">
+        <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-md">
           {experiments.map((experiment) => (
             <li key={experiment.path}>
               <ExperimentCard experiment={experiment} />

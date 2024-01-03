@@ -28,19 +28,21 @@ export function NavigationHeader() {
   }
 
   return (
-    <nav className="flex items-center justify-between h-12 max-w-screen-lg mx-auto px-2">
-      <Button variant="ghost" size="sm" asChild={true}>
-        <Link href="/">Andrew Lisowski</Link>
-      </Button>
+    <div className="px-2 md:px-20">
+      <nav className="flex items-center justify-between h-12 w-full max-w-screen-md mx-auto">
+        <Button variant="ghost" size="sm" asChild={true}>
+          <Link href="/">Andrew Lisowski</Link>
+        </Button>
 
-      <ol className="flex gap-4">
-        <li>
-          <NavigationButton href="/blog">Blog</NavigationButton>
-        </li>
-        <li>
-          <NavigationButton href="/experiments">Experiments</NavigationButton>
-        </li>
-      </ol>
-    </nav>
+        <ol className="flex gap-4">
+          <li>
+            <NavigationButton href="/blog">Blog</NavigationButton>
+          </li>
+          <li>
+            <NavigationButton href="/experiments">Experiments</NavigationButton>
+          </li>
+        </ol>
+      </nav>
+    </div>
   );
 }
