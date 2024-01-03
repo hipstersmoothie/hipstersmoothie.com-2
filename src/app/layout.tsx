@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import makeClass from "clsx";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 import "./globals.css";
 
@@ -14,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={makeClass(GeistMono.variable, GeistSans.variable)}>
+        {children}
+      </body>
     </html>
   );
 }

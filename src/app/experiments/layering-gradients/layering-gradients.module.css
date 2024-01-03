@@ -1,0 +1,48 @@
+.example1 {
+  --pink: 228 120 174;
+  --blue: 68 222 246;
+  --yellow: 245 236 136;
+
+  background: radial-gradient(
+      circle at bottom right,
+      rgb(var(--pink) / 100%),
+      rgb(var(--pink) / 0%) 45%
+    ),
+    radial-gradient(
+      circle at 100% 20%,
+      rgb(var(--pink) / 30%),
+      rgb(var(--pink) / 0%) 20%
+    ),
+    radial-gradient(
+      ellipse at 30% -5%,
+      rgb(var(--blue) / 80%),
+      rgb(var(--blue) / 0%) 36%
+    ),
+    radial-gradient(
+      ellipse at 60% -5%,
+      rgb(var(--blue) / 80%),
+      rgb(var(--blue) / 0%) 26%
+    ),
+    radial-gradient(
+      circle at -10% 70%,
+      rgb(var(--yellow) / 100%),
+      rgb(var(--yellow) / 0%) 26%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgb(var(--yellow) / 100%),
+      rgb(var(--yellow) / 0%) 36%
+    ),
+    radial-gradient(
+      ellipse at 40% 80%,
+      rgb(var(--yellow) / 100%),
+      rgb(var(--yellow) / 0%) 26%
+    );
+
+  transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
+  transform-style: preserve-3d;
+
+  box-shadow: 0 0 3px -1px transparent, 0 0 2px 1px transparent,
+    0 0 5px 0px transparent, 0px 10px 20px -5px black, 0 2px 15px -5px black,
+    0 0 20px 0px transparent;
+}

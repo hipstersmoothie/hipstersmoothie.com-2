@@ -73,6 +73,10 @@
   }
 }
 
+body {
+  @apply font-sans;
+}
+
 code[data-theme*=" "],
 code[data-theme*=" "] span {
   color: var(--shiki-light);

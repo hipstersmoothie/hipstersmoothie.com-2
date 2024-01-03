@@ -9,40 +9,49 @@ import { useContext, useRef, useState } from "react";
 import { Time } from "./Time";
 import { useFrontMatterContext } from "../../lib/front-matter-context";
 import { useIsInIframe } from "../../lib/useIsInIframe";
+import { PageHeader } from "./PageHeader";
+
+function WidthContainer({ children }: { children: React.ReactNode }) {
+  return <div className="max-w-prose mx-auto px-4">{children}</div>;
+}
 
 export const Paragraph = ({
   className,
   ...props
 }: React.ComponentProps<"p">) => (
-  <p className={makeClass(className, "my-6")} {...props} />
+  <WidthContainer>
+    <p className={makeClass(className, "my-6")} {...props} />
+  </WidthContainer>
 );
 
 export const MdxImage = ({
   className,
   ...props
 }: React.ComponentProps<"img">) => (
-  <figure className="my-10 flex flex-col gap-2">
-    <div className="w-full flex-1 min-h-0 flex">
-      {props.src && props.src.startsWith("http") ? (
-        // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-        <img
-          className={makeClass(className, "max-h-[500px] h-full w-full")}
-          {...props}
-        />
-      ) : (
-        // eslint-disable-next-line jsx-a11y/alt-text
-        <Image
-          className={makeClass(className, "max-h-[500px] object-contain")}
-          {...(props as ImageProps)}
-        />
+  <WidthContainer>
+    <figure className="my-10 flex flex-col gap-2">
+      <div className="w-full flex-1 min-h-0 flex">
+        {props.src && props.src.startsWith("http") ? (
+          // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+          <img
+            className={makeClass(className, "max-h-[500px] h-full w-full")}
+            {...props}
+          />
+        ) : (
+          // eslint-disable-next-line jsx-a11y/alt-text
+          <Image
+            className={makeClass(className, "max-h-[500px] object-contain")}
+            {...(props as ImageProps)}
+          />
+        )}
+      </div>
+      {props.alt && (
+        <figcaption className="text-sm font-medium my-2 text-center italic">
+          {props.alt}
+        </figcaption>
       )}
-    </div>
-    {props.alt && (
-      <figcaption className="text-sm font-medium my-2 text-center italic">
-        {props.alt}
-      </figcaption>
-    )}
-  </figure>
+    </figure>
+  </WidthContainer>
 );
 
 interface BlockquoteProps extends React.ComponentProps<"figure"> {
@@ -56,16 +65,18 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
   ...props
 }) => {
   return (
-    <figure
-      {...props}
-      className={makeClass("-m-2 my-6 grid", className)}
-      style={{ gridTemplateColumns: "8px auto" }}
-    >
-      <div className="rounded-sm rounded-r-none bg-pink-500" />
-      <div className="rounded-sm rounded-l-none bg-white border-2 border-l-0 border-gray-100 px-4">
-        <blockquote>{children}</blockquote>
-      </div>
-    </figure>
+    <WidthContainer>
+      <figure
+        {...props}
+        className={makeClass("-m-2 my-6 grid", className)}
+        style={{ gridTemplateColumns: "8px auto" }}
+      >
+        <div className="rounded-sm rounded-r-none bg-pink-500" />
+        <div className="rounded-sm rounded-l-none bg-white border-2 border-l-0 border-gray-100 px-4">
+          <blockquote>{children}</blockquote>
+        </div>
+      </figure>
+    </WidthContainer>
   );
 };
 
@@ -74,11 +85,15 @@ export const HorizontalRule: React.FC = (props) => (
 );
 
 export const OrderedList: React.FC = (props) => (
-  <ol {...props} className="list-decimal ml-6 my-6" />
+  <WidthContainer>
+    <ol {...props} className="list-decimal ml-6 my-6" />
+  </WidthContainer>
 );
 
 export const UnorderedList: React.FC = (props) => (
-  <ul {...props} className="list-disc ml-4 my-6" />
+  <WidthContainer>
+    <ul {...props} className="list-disc ml-4 my-6" />
+  </WidthContainer>
 );
 
 export const Code = (props: {
@@ -91,6 +106,7 @@ export const Code = (props: {
         {...props}
         className={makeClass(
           props.className,
+          "font-mono",
           "text-gray-600 rounded block py-8 px-6 overflow-auto",
           "h-full w-full"
         )}
@@ -107,14 +123,18 @@ export const Code = (props: {
 };
 
 export const Pre = (props: React.ComponentProps<"pre">) => (
-  <pre {...props} className="bg-gray-200 rounded border my-6" />
+  <WidthContainer>
+    <pre {...props} className="bg-gray-200 rounded border my-6" />
+  </WidthContainer>
 );
 
 export const H1 = (props: React.ComponentProps<"h1">) => (
-  <h1
-    {...props}
-    className="mt-6 md:mt-8 pb-4 md:pb-6 mb-6 md:mb-4 border-b flex justify-between text-4xl md:text-6xl"
-  />
+  <WidthContainer>
+    <h1
+      {...props}
+      className="mt-6 md:mt-8 pb-4 md:pb-6 mb-6 md:mb-4 border-b flex justify-between text-4xl md:text-6xl"
+    />
+  </WidthContainer>
 );
 
 export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
@@ -123,7 +143,9 @@ export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
   console.log("???", frontMatter);
   return (
     <>
-      <H1 {...props} />
+      <div className="mb-8 md:mb-12">
+        <PageHeader {...props} />
+      </div>
       {/* <div className="mb-10 md:mb-12 sm:flex items-baseline justify-between">
         <div className="space-x-4 md:space-y-0 text-sm flex flex-row mb-4 md:mb-0">
           <div className="text-gray-500">
@@ -152,62 +174,74 @@ const onHeadingClick = (e: React.MouseEvent<HTMLHeadingElement>) => {
 };
 
 export const H2 = (props: React.ComponentProps<"h2">) => (
-  <h2
-    {...props}
-    className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 font-medium"
-    onClick={(e) => {
-      props.onClick?.(e);
-      onHeadingClick(e);
-    }}
-  />
+  <WidthContainer>
+    <h2
+      {...props}
+      className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 font-medium"
+      onClick={(e) => {
+        props.onClick?.(e);
+        onHeadingClick(e);
+      }}
+    />
+  </WidthContainer>
 );
 
 export const H3 = (props: React.ComponentProps<"h3">) => (
-  <h3
-    {...props}
-    className="lvl3 text-xl my-4 font-semibold"
-    onClick={(e) => {
-      props.onClick?.(e);
-      onHeadingClick(e);
-    }}
-  />
+  <WidthContainer>
+    <h3
+      {...props}
+      className="lvl3 text-xl my-4 font-semibold"
+      onClick={(e) => {
+        props.onClick?.(e);
+        onHeadingClick(e);
+      }}
+    />
+  </WidthContainer>
 );
 
 export const H4 = (props: React.ComponentProps<"h4">) => (
-  <h4
-    {...props}
-    className="lvl4 text-lg my-4 font-bold"
-    onClick={(e) => {
-      props.onClick?.(e);
-      onHeadingClick(e);
-    }}
-  />
+  <WidthContainer>
+    <h4
+      {...props}
+      className="lvl4 text-lg my-4 font-bold"
+      onClick={(e) => {
+        props.onClick?.(e);
+        onHeadingClick(e);
+      }}
+    />
+  </WidthContainer>
 );
 
 export const H5 = (props: React.ComponentProps<"h5">) => (
-  <h5
-    {...props}
-    className="lvl5 my-4 font-bold"
-    onClick={(e) => {
-      props.onClick?.(e);
-      onHeadingClick(e);
-    }}
-  />
+  <WidthContainer>
+    <h5
+      {...props}
+      className="lvl5 my-4 font-bold"
+      onClick={(e) => {
+        props.onClick?.(e);
+        onHeadingClick(e);
+      }}
+    />
+  </WidthContainer>
 );
 
 export const H6 = (props: React.ComponentProps<"h6">) => (
-  <h6
-    {...props}
-    className="lvl6 text-sm my-4 font-bold"
-    onClick={(e) => {
-      props.onClick?.(e);
-      onHeadingClick(e);
-    }}
-  />
+  <WidthContainer>
+    <h6
+      {...props}
+      className="lvl6 text-sm my-4 font-bold"
+      onClick={(e) => {
+        props.onClick?.(e);
+        onHeadingClick(e);
+      }}
+    />
+  </WidthContainer>
 );
 
 export const Table: React.FC = (props) => (
-  <table {...props} className="w-full my-6" />
+  <WidthContainer>
+    <table {...props} className="w-full my-6" />
+  </WidthContainer>
 );
 
 export const TH: React.FC = (props) => (

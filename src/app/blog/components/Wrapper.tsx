@@ -7,13 +7,6 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   const inIframe = useIsInIframe();
 
   return (
-    <main
-      className={makeClass(
-        "max-w-prose mx-auto px-4",
-        inIframe ? "pb-4" : "py-12 md:py-16"
-      )}
-    >
-      {children}
-    </main>
+    <main className={makeClass(inIframe ? "pb-4" : "pb-24")}>{children}</main>
   );
 }

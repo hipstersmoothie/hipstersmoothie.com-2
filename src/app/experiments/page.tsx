@@ -52,7 +52,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             "group-hover:opacity-100"
           )}
         />
-        <div className="bg-gray-200 aspect-video">
+        <div className="bg-gray-200 aspect-video border-b border-gray-200">
           <ExperimentPreviewImage
             src={experiment.path}
             width={PREVIEW_WIDTH}
@@ -60,8 +60,8 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             alt="Preview of the experiment"
           />
         </div>
-        <div className="px-4 py-2 ">
-          <h2 className="text-2xl font-semibold">{experiment.name}</h2>
+        <div className="px-4 py-2">
+          <h2 className="text-xl font-semibold">{experiment.name}</h2>
         </div>
       </div>
     </Link>
