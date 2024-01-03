@@ -1,0 +1,12 @@
+---
+creationDate: 2021-06-27T14:57:19-07:00
+---
+
+# Getting Files out of a Docker Container
+So you set up a cool tool in a docker container but forgot to expose a `/config` path and now all your setting are stored in the docker container and are not easy to back up. This note will guide you on transitioning your config files out of the container.
+
+1. Create a folder on the host machine
+2. Mount that folder to your docker container. Make sure you map it to a path that doesn't exist such as `/new-config`
+3. Run `docker exit -it CONTAINER` to run shell commands in the container
+4. Run `cp -r /config /new-config` to copy the files into our mounted folder
+5. Now your files are outside of the container! You can now change the volume path mapping from `/new-config` to `/config` :tada:

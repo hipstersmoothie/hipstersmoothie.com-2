@@ -3,8 +3,12 @@
 import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
+import { flip, offset, useFloating } from "@floating-ui/react";
+import { useContext, useRef, useState } from "react";
+
 import { Time } from "./Time";
 import { useFrontMatterContext } from "../../lib/front-matter-context";
+import { useIsInIframe } from "../../lib/useIsInIframe";
 
 export const Paragraph = ({
   className,
@@ -28,7 +32,7 @@ export const MdxImage = ({
       ) : (
         // eslint-disable-next-line jsx-a11y/alt-text
         <Image
-          className={makeClass(className, "max-h-[500px]")}
+          className={makeClass(className, "max-h-[500px] object-contain")}
           {...(props as ImageProps)}
         />
       )}
@@ -116,10 +120,11 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
 export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
   const frontMatter = useFrontMatterContext();
 
+  console.log("???", frontMatter);
   return (
     <>
       <H1 {...props} />
-      <div className="mb-10 md:mb-12 sm:flex items-baseline justify-between">
+      {/* <div className="mb-10 md:mb-12 sm:flex items-baseline justify-between">
         <div className="space-x-4 md:space-y-0 text-sm flex flex-row mb-4 md:mb-0">
           <div className="text-gray-500">
             <span className="italic">Created: </span>
@@ -128,16 +133,15 @@ export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
               className="text-gray-900 font-medium"
             />
           </div>
-          {/* 
           <div className="text-gray-500">
             <span className="italic">Updated: </span>
             <Time
               date={currentLeaf.lastUpdatedDate || new Date().toLocaleString()}
               className="text-gray-900 font-medium"
             />
-          </div> */}
+          </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
@@ -214,11 +218,75 @@ export const TD: React.FC = (props) => (
   <td {...props} className="py-2 px-3 border-b border-t" />
 );
 
+function Backlink(props: React.ComponentPropsWithoutRef<"a">) {
+  const inIframe = useIsInIframe();
+  const showTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const [showPopper, setShowPopper] = useState(false);
+  const { refs, floatingStyles } = useFloating({
+    middleware: [flip(), offset(8)],
+  });
+
+  const hidePopperDelayed = () => {
+    hideTimeout.current = setTimeout(() => setShowPopper(false), 500);
+  };
+  const showPopperDelayed = () => {
+    showTimeout.current = setTimeout(() => setShowPopper(true), 500);
+  };
+
+  let href = props.href;
+
+  if (!href) {
+    return null;
+  }
+
+  return (
+    <>
+      <NextLink
+        {...props}
+        data-backlink
+        href={href}
+        className={makeClass("underline text-pink-500", props.className)}
+        ref={refs.setReference}
+        onMouseEnter={() => {
+          clearTimeout(hideTimeout.current);
+          showPopperDelayed();
+        }}
+        onMouseOut={() => {
+          clearTimeout(showTimeout.current);
+          hidePopperDelayed();
+        }}
+        onClick={(e) => {
+          clearTimeout(showTimeout.current);
+          props.onClick?.(e);
+        }}
+      />
+
+      {showPopper && !inIframe && (
+        <iframe
+          ref={refs.setFloating}
+          style={floatingStyles}
+          onMouseOver={() => clearTimeout(hideTimeout.current)}
+          onMouseOut={hidePopperDelayed}
+          className="bg-white border rounded-sm w-[400px] h-[400px] shadow-xl"
+          src={`${window.location.origin}${props.href}?in-iframe=true`}
+        />
+      )}
+    </>
+  );
+}
+
 export function Link(props: React.ComponentPropsWithoutRef<"a">) {
   let href = props.href;
 
   if (href?.startsWith("#")) {
     return <a {...props} />;
+  }
+
+  const isBackLink = href?.startsWith("/blog/posts/");
+
+  if (isBackLink) {
+    return <Backlink {...props} />;
   }
 
   const className = "text-blue-500 underline";

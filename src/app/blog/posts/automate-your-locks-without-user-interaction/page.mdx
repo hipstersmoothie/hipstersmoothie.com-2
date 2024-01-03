@@ -1,0 +1,81 @@
+---
+creationDate: 2021-06-27T14:57:19-07:00
+---
+
+
+# Automate your locks without user interaction
+
+When I first installed my [Level](http://level.co) lock and set up the default leave/arrive automation in the Home app I was disappointed to find out that it still required user interaction.
+
+**How it worked:**
+
+1. Leave house without locking door
+2. Drive away
+3. iPhone detects that I left
+4. iPhone sends me notification to confirm that I want to run the "Lock Door Automation"
+
+If I have to manually lock it every time can you really consider it automated? Nope! This create bad [[HAUX]] for me and my housemates.
+
+## Actually Automating the Lock
+
+So what could I do? The main limitation here is that the lock is a "Secure HomeKit Device", so it is **required** that I authorize the actions it wants to take when run in an automation context. 
+
+After some reading through the [HomeKit sub-reddit](https://www.reddit.com/r/HomeKit/) I found that this limitation doesn't exist when automating the lock in relation to another device! In simpler terms: if I tied the state of my lock to another device it would lock and unlock without confirmation. So for example I could say: If this light is turned on lock the door, if it's off unlock the door. But this is still less than ideal, now I can't use that light like a light!
+
+....enter [Homebridge Dummy](https://github.com/nfarina/homebridge-dummy#readme) :tada:
+
+**From their docs:**
+
+> With this plugin, you can create any number of fake switches that will do nothing when turned on (and will automatically turn off right afterward, simulating a stateless switch). This can be very useful for advanced automation with HomeKit scenes.
+
+This is exactly what I want! Instead of using a light to control the state of my lock I could use a "dummy switch" that works in the exact same way without me losing a light :smile: This fits the [[Home Automation#^6bd18d || golden rule of home automation]] perfectly and is always working _for me_ and **never against!**
+
+## Setting it up in the Home App
+
+The first step is creating two dummy switches in Homebridge. One called 
+"Lock Door" and another called "Unlock Door", no other settings are needed.
+
+![](/blog/automate-locks-1.png)
+
+### Leave Automations
+
+Next in the Home app I set it so that when anyone leaves the house it sets the "Lock Door" dummy switch to "on".
+
+![](/blog/automate-locks-2.png)
+
+Then I set up another automation to sync the state of that dummy switch to the lock.
+
+![](/blog/automate-locks-3.png)
+
+As an extra convenience I set up another automation that turns off all the devices in my living room when the last person leaves.
+
+![](/blog/automate-locks-4.png)
+
+### Arrive Automations
+
+My arrival automations are very similar.
+
+When anyone comes home it sets the "Unlock Door" dummy switch to "on".
+
+![](/blog/automate-locks-5.png)
+
+That state is synced with the lock.
+
+![](/blog/automate-locks-6.png)
+
+Then the final bit of nice [[HAUX]] is turning on the lights if nobody is in the living room. 
+
+For this automation I wanted:
+
+- Only run after sunset
+- Only run if the lights aren't already on 
+
+I don't think it's possible to do this directly in the Home app so I resorted to using another app call [Controller](https://controllerforhomekit.com) that enables the full automation abilities of HomeKit.
+
+![](/blog/automate-locks-7.png)
+
+## Conclusion
+
+After all of this we've finally creating an home automation workflow with amazing [[HAUX]] :tada:
+
+These workflows do exactly what I want the to and should work for years to come!

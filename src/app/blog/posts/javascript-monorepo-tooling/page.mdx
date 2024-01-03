@@ -1,0 +1,320 @@
+---
+creationDate: 2021-06-06T18:33:12-07:00
+---
+
+# JavaScript Monorepo Tooling
+
+JavaScript monorepo tooling has come a long way. The landscape is vast and filled with varying tools that attempt to solve different parts of the tool chain. Many times while discussing what tools do what I see lots of confusion. This article attempts to summarize a some popular tools and their approach to solving monorepo problems. 
+
+The functionality of these tools can be organized into 3 capabilities.
+
+**Capabilities:**
+
+- `installer` - tools that help with installing a monorepo's dependencies
+- `task-runner` - tools that help with running commands or scripts throughout the repo and possibly creating new packages within the repo
+- `publisher` - tools that help/enforce versioning for a monorepo
+
+Some tools have multiple functions and can encompass multiple Capabilities.
+
+| Tool                                                            | installer | task-runner | publisher |
+| --------------------------------------------------------------- | :-------: | :---------: | :-------: |
+| [yarn v1](JavaScript%20Monorepo%20Tooling.md#yarn-v1)           |    ✅     |             |           |
+| [ultra-runner](JavaScript%20Monorepo%20Tooling.md#ultra-runner) |           |     ✅      |           |
+| [turborepo](JavaScript%20Monorepo%20Tooling.md#turborepo)       |           |     ✅      |           |
+| [rush](JavaScript%20Monorepo%20Tooling.md#rush)                 |    ✅     |     ✅      |    ✅     |
+| [pnpm](JavaScript%20Monorepo%20Tooling.md#pnpm)                 |    ✅     |     ✅      |    ✅     |
+| [nx](JavaScript%20Monorepo%20Tooling.md#nx)                     |           |     ✅      |           |
+| [npm v7](JavaScript%20Monorepo%20Tooling.md#npm-v7)             |    ✅     |             |           |
+| [lerna](JavaScript%20Monorepo%20Tooling.md#lerna)               |    ✅     |     ✅      |    ✅     |
+| [changesets](JavaScript%20Monorepo%20Tooling.md#changesets)     |           |             |    ✅     |
+| [auto](JavaScript%20Monorepo%20Tooling.md#auto)                 |           |             |    ✅     |
+
+Monorepo tooling is a sea of innovation right now and some [best in class](JavaScript%20Monorepo%20Tooling.md#best-in-class) have emerged that enable you to build a monorepo with wonderful DX. With faster builds becoming the focus of many of these tool I'm excited to see what I can do with all my new free time :wink:
+
+## Common Monorepo Structure
+
+Most of the tools in this article operate under the assumption that your project is structured like following:
+
+1. `package.json`: `devDependencies` and `scripts` for the monorepo
+2. `packages/**/package.json`: `dependencies`, unique `devDependencies` and `scripts` for the package
+
+The packages `package.json`s form a dependency graph that describes how everything depends on each other. All of these tools in some way utilize the dependency graph in some way.
+
+## Tools
+
+This is not a comprehensive list and some tools maybe left out. If you see one i've missed tell me about it [on twitter].
+
+### 🐉 [lerna]
+
+> A tool for managing JavaScript projects with multiple packages.
+
+**Capabilities:** `installer` `task-runner` `publisher`
+
+From my experience `lerna` was the first JavaScript monorepo tool that came with all the tools needed to manage a monorepo. It paved the way for all of these other tools and is a piece of software that truly changed my life. If you want to you can just use `lerna` and it's commands in your projects.
+
+#### `installer` => `lerna bootstrap` `lerna add`
+
+The first command `lerna` comes with that most people probably attribute their `lerna` experience to is the `bootstrap` command. This is how it's described in the docs:
+
+> Link local packages together and install remaining package dependencies
+
+Basically it's `npm install` but for monorepos. While not the fastest monorepo installer it gets the job done! It also set the stage for other tool to iterate and improve.
+
+#### `task-runner` =>`lerna changed` `lerna run` `lerna exec` `lerna create`
+
+All of these command in some way facilitate running the various `scripts` in your projects. `lerna` exposes some flags that help you run these scripts in a monorepo-aware way:
+
+- `lerna run --stream`: Run a script in each package in order of the dependency graph
+- `lerna run --parallel`: Run a script in all matches packages in parallel processes
+- `lerna run --since`: Run a script in all changed packages since a specific commit or tag
+
+`lerna` can also quickly scaffold a new package using `lerna create`. Although this doesn't work off of templates, and created packages are don't conain many files.
+
+#### `publisher` => `lerna version` `lerna publish`
+
+^85317e
+
+In my opinion this is really where a `lerna` really shines. Publishing in a monorepo is hard! You have many packages and lots of dependencies between them, so it's pretty hard to know what package to version and when.
+
+To solve this problem `lerna` can publish a project in two modes:
+
+1. `fixed` (recommended) - All packages in the project have the same version
+2. `independent` - All package in the project have independent version
+
+In either mode `lerna` will figure out what packages have changed, even taking into dependencies between packages, then update the `package.json`s as needed.
+
+> Tip: in `fixed` mode you can use the `--force-publish` flag to always publish each package on any change. This makes it simple to debug versions since they should all be the same!
+
+The amount of time that these commands have saved me is immense! This is the `publish` workflow to beat for monorepo tooling.
+
+### 🐈 [yarn v1]
+
+> Fast, reliable, and secure dependency management.
+
+**Capabilities:** `installer`
+
+`yarn` is an alternative to `npm` that came with the promise of faster install times. At the time of it's creation it really delivered! Installs were super fast, so fast even that `npm` improved the performance of their install too.
+
+When `yarn` introduced the concept of `workspaces` they brought that same speed to monorepo install times. Compared to `lerna bootstrap` `yarn` is almost twice as fast for the projects I work on.
+
+All of the monorepos I've set up both at my job and in open source utilize a combination of `lerna` and `yarn` and it's been amazing! They go together like chocolate and peanut butter.
+
+#### `link:`
+
+When declaring a dependency between packages in your monorepo use the `link:../path-to-package` syntax. This will create a symlink in you `node_modules` to the package in your repo so that any requires resolve to the current version of the code. These links will get resolved by `lerna` during a publish for seamless developer experience.
+
+The one caveat to this is that none of the tooling warns you when you created and invalid dependency `link:`. If you mis-type a path, that path won't be resolved during a publish, it will make it's way into consuming projects and break their code!
+
+To fix this my teammate [Kendall Gassner] forked `eslint-plugin-package-json` and added a rule to create an error when an invalid `link:` is found!
+
+Check it out [here].
+
+### 🐻 [npm v7]
+
+> The CLI for the world's largest software registry.
+
+**Capabilities:** `installer`
+
+Very recently `npm` add support for `workspaces`. It works in the same manner as `yarn` workspaces and makes `npm` a monorepo aware `installer`!
+
+### 🐨 [pnpm]
+
+> Fast, disk space efficient package manager
+
+**Capabilities:** `installer` `task-runner` `publisher-ish`
+
+`pnpm` stands for `performant npm`, it aims to be a fast `installer` for any JavaScript project. From my reading of the docs it focuses mainly on the `installer` and `task-runner` aspects of monorepo management.
+
+#### `installer` => `pnpm install` `pnpm add` `pnpm update` and more!
+
+These commands are the bread and butter of `pnpm`. They facilitate managing the decencies for you project and work well for monorepos.
+
+This functionality is a direct competitor to `yarn` and `npm`, any pf these can be a good fit for a project.
+
+#### `task-runner` => `pnpm run`
+
+Much like `lerna`'s `run` command you can use `pnpm run` to run monorepo aware scripts in your project.
+
+- `pnpm run --recursive`: Run a script in each package in order of the dependency graph
+- `pnpm run --parallel`: Run a script in all matches packages in parallel processes
+
+#### `publisher` => `pnpm publisher`
+
+With this command you can edit a package version and then run `pnpm publish --recursive` to publish the current package and it's dependencies.
+
+Other than that `pnpm` does not implement anything further to help you with publishing you monorepo. This is probably the place where `pnpm` lacks the most, but they know that and [recommend other tools in this post].
+
+### 🚴‍♂️ [rush]
+
+> Rush: a scalable monorepo manager for the web
+
+**Capabilities:** `installer` `task-runner` `publisher`
+
+Rush aims to be a full featured tool set for managing monorepos much like `lerna`, but takes a much different approach for each set of problems. A lot of it is very config driven and newly initiated project have a lot of files.
+
+It supports plugins too!
+
+#### `installer` => `rush add` `rush check` `rush install` `rush update`
+
+Rush has it's own approach to monorepo structure. In a Rush project there is not root `package.json` and only each individual package has a `package.json`.
+
+> In one step, Rush installs all the dependencies for all your projects into a common folder. This is not just a `package.json` file at the root of your repo (which might set you up to accidentally require() a sibling's dependencies). Instead, Rush uses symlinks to reconstruct an accurate `node_modules` folder for each project, without any of the limitations or glitches that seem to plague other approaches.
+
+They support all the popular JavaScript package managers (`npm` `yarn` `pnpm`), so you can choose whatever best fits your project.
+
+#### `task-runner` => `rush build` `rush rebuild`
+
+Rush improves running build in your repo through a few methods.
+
+The first is by being smart about execution using the dependency graph.
+
+> Rush detects your dependency graph and builds your projects in the right order. If two packages don't directly depend on each other, Rush parallelizes their build as separate processes.
+
+And the second is by only building the parts of the projects when you want to.
+
+> If you only plan to work with a few projects from your repo, `rush rebuild --to <project>` does a clean build of just your upstream dependencies. After you make changes, `rush rebuild --from <project>` does a clean build of only the affected downstream projects.
+
+It even support incremental builds for even faster builds! Unfortunately this is where Rush's task running abilities end, it only does builds, so you'll have to figure out running other types of scripts on your own.
+
+#### `publisher` => `rush change` `rush version` `rush publish`
+
+Keeping with the trend, Rush also has it's own custom publishing process.
+
+When a developer is submitting a PR to a Rush based monorepo they need to run `rush change` to tell Rush what the change is and how it should effect the package's version.
+
+On a CI the build script will run `rush change -v` to verify that a PR has a change from `rush change` included. Once the PR is merged the CI run `rush publish` to apply the version changes. This command will create a changelog for each effected package in the dependency graph and publish it to `npm`.
+
+A cool new feature they introduced recently is [Version Policies]. Version Policies are a lot like `lerna`'s `fixed` and `independent` mode but more powerful. Instead of saying _all_ packages should be `fixed` or `independent` you can group packages into a policy as you want. This means you could have multiple parts of your repo have different `fixed` versioning and independently version the rest.
+
+### 🌊 [nx]
+
+> Nx is a suite of powerful, extensible dev tools to help you architect, test, and build at any scale — integrating seamlessly with modern technologies and libraries while providing a robust CLI, caching, dependency management, and more.
+
+**Capabilities:** `task-runner`
+
+This tool focuses mainly on being a smart `task-runner`. In the same vein as other tools in this list it will only run commands for code effected in your project's dependency graph. It can also use a `distributed computation cache`, which stores the results of commands in a cache to speed up execution.
+
+Nx changes the monorepo structure by only having a root `package.json`. Instead of a `package.json` for each project in the monorepo all of that is configured through the `workspace.json`. This file describes all of the apps, libraries and tools in the monorepo and how they depend on each other. It also includes command and generator configuration.
+
+Comparing it to `lerna` can be summarized as:
+
+- `lerna` => A tool for managing a monorepo of packages
+- `nx` => A tool for managing a monorepo of applications, tools and services for an
+
+#### Plugins
+
+Nx also has a plugin systems so you can easily add popular development tools in an easy way. These plugins range from test and linting tools to templates for new libraries, services and websites.
+
+This project has the most full featured project templating/package creation of the tools in this list.
+
+#### `task running` => `nx run` `nx run-many` `nx affected`
+
+This tool comes with many of the same features as other task runner, supporting parallel, dependency graph sorted and git detected change builds.
+
+### 🏃 [ultra-runner]
+
+> Zero-config ultra fast monorepo script runner and build tool
+
+**Capabilities:** `task-runner`
+
+This tool is super easy to use in any repo using the common monorepo structure. It parses scripts in your `package.json` to intelligently run theme and only re-executes commands if the files have changes using a local build cache.
+
+While not as full features as other tools on this list it does one things and does it well. One of it's biggest features for me is the ease with which you can add it to an existing monorepo.
+
+### ⏩ [turborepo]
+
+> Monorepos that make ship happen.
+
+**Capabilities:** `task-runner`
+
+This is the only tool on the list [but it's the one I'm most excited about]. From what I've read and seen, `turborepo` seems to be like all the intelligent builds of `rush` and `nx` without all of the config or monorepo structure changes.
+
+`turborepo` use a local+remote caching system with your dependency graph to run your builds and scripts more efficiently. It also is going to shipt with a plugin system that will make it work with various tools. The plugin system seem super cool to me because it potentially opens up the tool for use outside of JavaScript. Imagine have super quick builds for _everything_.
+
+### 🦋 [changesets]
+
+> A way to manage your versioning and changelogs with a focus on monorepos
+
+**Capabilities:** `publisher`
+
+`changesets` operate in a very similar way to how `rush change` works. They both produce a file that describes the change and how it should effect the version.
+
+#### `publishing` => `changeset` `changeset version` `changeset publish`
+
+Once a PR is merged with a changeset file the CI can apply the version bumps described in those files with `changeset version`. This command will create changelog file, apply version bump to the dependency graph, and delete the changeset files. The `changeset publish` command is then called to publish the changes made by the `version` command
+
+### 🏎️ [auto]
+
+> Generate releases based on semantic version labels on pull requests.
+
+> Disclaimer: I'm the main author and maintainer of this project
+
+**Capabilities:** `publisher`
+
+`auto`'s `npm` plugin has built-in support for publishing JavaScript monorepos that's built on top of `lerna` awesome publishing features. Where it differs is that it automates the semantic versioning of you project though GitHub labels. It handles creating changelogs, versioning your packages, creating Github releases, publishing canary/prerelease versions, and a host of other things through its plugin system.
+
+All of this is available of one context aware command that you just run at the end of each build: `auto shipit`.
+
+- call from base branch -> latest version released
+- call from prerelease branch -> prerelease version released
+- call from PR in CI -> canary version released
+- call locally when not on base/prerelease branch -> canary version released
+
+The awesome thing about `auto` is that you can bring its workflow to whatever platform you want! As of today `auto` has 11 different package manager plugins that enable you to publish anything from a rust create to a gradle project.
+
+At the company where I work (Intuit) we have hundreds of projects on various platforms using auto and have made 16,000+ release and saved thousands of developer hours.
+
+## Best In Class
+
+Compared to just a few years ago the open source options for monorepo tooling have exploded with a lot of quality options. If you chose any of the tools mentioned in this article you would be in good hands.
+
+The following details my personal "best" of each category. I have not used a few of these tools at all and my opinions are in now way facts.
+
+### Installation
+
+| Best      | Honorable Mention |
+| --------- | ----------------- |
+| `yarn v1` | `pnpm`            |
+
+While I have put `yarn` as the best it's really because it's the only one I've used in the past few years. While researching this article I now have the itch to try out `pnpm` on a project since the transition seems easy.
+
+### Task Running
+
+| Best           | Honorable Mention |
+| -------------- | ----------------- |
+| `rush` or `nx` | `turborepo`       |
+
+I haven't used either of these tools that I've deemed best, but given their features they have vastly improved build and task execution for monorepo projects. The one detractor for me is that both of those tools rely heavily on radically different monorepo configurations, and lots and lots of config.
+
+This is what has me excited for `turborepo`. Since it can easily fit to the common monorepo model it will be a no brainer for any project.It doesn't seem to rely on a bunch of new configuration either which is a huge plus, the less config the better. If it's plugin system can be extended to other languages and platforms I predict this tool will become popular
+
+### Publishing
+
+| Best   | Honorable Mention |
+| ------ | ----------------- |
+| `auto` | `rush`            |
+
+On this category I am a little biased. I maintain `auto` but I truly believe that it's the best solution for publishing in _any_ project. It's automated publishing system can be used with any package management system though it's plugin systems. It takes one of the most stress filled parts of managing a monorepo and makes it as easy as merging a pull request.
+
+Rush's new Versioning Policy feature is pretty cool. It feels like the next generation of `lerna`'s `fixed` and `independent` modes. I'm excited to test it out, and probably will write and `auto` plugin for it :tada:
+
+## :heart: Thanks for Reading
+
+I hope you found some useful information in this article and learned something! Feel free to hit me up [on twitter] to discuss the latest and greatest in monorepo tooling and automated publishing!
+
+[on twitter]: https://twitter.com/hipstersmoothie
+[lerna]: https://github.com/lerna/lerna/
+[yarn v1]: http://yarnpkg.com/
+[kendall gassner]: https://twitter.com/GassnerKendall
+[here]: https://github.com/kendallgassner/eslint-plugin-package-json
+[npm v7]: https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/
+[pnpm]: https://pnpm.js.org/
+[recommend other tools in this post]: https://pnpm.js.org/en/workspaces#release-workflow
+[rush]: https://rushjs.io/
+[version policies]: https://rushjs.io/pages/maintainer/publishing/#3-version-policy
+[nx]: https://nx.dev/
+[ultra-runner]: https://github.com/folke/ultra-runner
+[turborepo]: https://turborepo.com/
+[but it's the one i'm most excited about]: https://twitter.com/HipsterSmoothie/status/1360435020175867904
+[changesets]: https://github.com/atlassian/changesets
+[auto]: https://intuit.github.io/auto/

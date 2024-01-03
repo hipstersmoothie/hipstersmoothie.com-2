@@ -1,0 +1,97 @@
+---
+creationDate: 2021-06-05T01:23:00-07:00
+---
+
+# Podcast Tooling
+
+One thing I didn't anticipate when starting the [[devtools.fm]] podcast was the amount of tools I would have to evaluate. 
+While choosing my editor was pretty easy (I work a [Descript](http://descript.com)), all of the other tools I needed were unknown to me.
+
+## Guest Scheduling
+
+[[devtools.fm]] is mainly an interview podcast, and that requires a lot of planning and coordination with guests.
+How we've solved this is by setting up a [discord server](http://discord.com) that we invite all potential guests too.
+
+Once invited we create a channel named "#episode-\{episode description\}".
+We then use [doodle.com](https://doodle.com) to find a time that works for every participant in the episode.
+After we all settle on a time a Google Calendar invite is sent out to all participants. 
+
+## Recording a Remote Podcast
+
+My co-host and I live on different ends of the country, so a good remote podcasting app is a must.
+Our current podcast recording app we use is [riverside.fm](http://riverside.fm).
+It will record you computers audio and video locally and upload it to riverside.fm as the podcast is recording.
+We had a few hiccups with recording, but after getting used to it it's gone pretty well.
+
+## Audio Tools
+
+### Krisp.ai
+
+This app is all about background noise removal.
+I use it whenever I'm recording a podcast cause my dogs love to bark!
+[Krisp](http://krisp.ai)'s AI can remove background noise like barks to a magical degree.
+
+#### Loopback
+
+This little app enables you to create virtual device out of multiple sources on your computer.
+You can use it to do things like play music in a zoom meeting, but what I use it for is to route audio into Krisp and remove background noise for my guests during post production. [Read all about it here.](https://dev.to/hipstersmoothie/removing-background-noise-from-pre-recorded-audio-2g6i)
+
+## Editing
+
+I am a huge believer in dog-fooding.
+
+> The use of a newly developed product or service by a company's staff to test it before it is made available to customers.
+
+So I use [Descript](http://descript.com) to edit my podcast.
+Since I'm an avid user of the product I am able to better do my job.
+I can easily have empathy for the user since I am one.
+
+Read more about how I [[Podcast Production Process|produce my podcast]] and [[Podcast Editing Organization|organize my projects]] in Descript.
+
+## Video Publishing
+
+This is another area where I use Descript.
+From Descript I can publish to a few different places.
+I am a big fan of video podcast so I make sure to publish each podcast to [our YouTube channel](https://www.youtube.com/channel/UCtKRj3QiajrQpObzOO0V3yg)
+
+Every good video needs a good Thumbnail. 
+Since both Justin and I have experience with [Figma](https://figma.com) through work we chose to use it for designing both our logo and all of our YouTube assets.
+
+## Podcast Distribution
+
+There are **a lot** of place you can publish a podcast.
+Because of the there are also a lot of apps that handle this for you and streamline the process.
+Instead of uploading your podcast to each platform, you use a service that does that for you.
+
+I surveyed the market and I found that [Buzzsprout](https://buzzsprout.com) was the best bang for my buck and got me on a lot of platforms.
+It doesn't hurt that I can export directly from Descript to Buzzsprout either!
+It also has some AI powered automatic mastering that helps take some work out of publishing a podcast.
+
+## Website
+
+Many of the podcast distribution services will also host a simple website for your podcast.
+But since both my co-host and I are web developers we never miss a chance to over engineer [a website](https://devtools.fm)!
+
+We built a [Next.js](https://nextjs.org) powered static website hosted on [Vercel](https://vercel.com/).
+The website uses [devtools-ds](https://github.com/intuit/devtools-ds) to mimic the look and feel of the devtools on Firefox and Chrome.
+Each episode post is written in [MDX](https://mdxjs.com)
+
+[Check out the repo if you're interested!](https://github.com/devtools-fm/devtools.fm)
+
+## Social Media
+
+The last crucial step in creating a podcast is promoting it!
+I don't pay for any advertisements but I have accounts set up on many platforms and post [[Podcast Social Clips]] throughout the week of interesting bits I find during my [[Podcast Production Process]]
+
+Once I have a clip I use [later.com](https://later.com) to post to all of the platforms I'm on.
+With Later I can schedule posts throughout the week, and even customize clips for each platform
+
+## Analytics
+
+This is an area we could probably be better in, but it start getting costly.
+Currently we get analytics in a few different ways:
+
+- Video - Just check YouTube play counts
+- Podcast - We use Buzzsprout's built-in analytics
+- Social - Nothing other than manually checking
+- Website - Here we use [plausible](http://plausible.io) so we don't sell you data to google

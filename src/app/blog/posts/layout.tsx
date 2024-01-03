@@ -1,4 +1,5 @@
 import { NavigationHeader } from "../../../components/NavigationHeader";
+import Wrapper from "../components/Wrapper";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <NavigationHeader />
-      <main className="max-w-prose mx-auto py-12 md:py-16">{children}</main>
+      <Wrapper>{children}</Wrapper>
     </>
   );
 }

@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import remarkWikiLink from "remark-wiki-link";
+import remarkEmoji from "remark-emoji";
 
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -21,9 +22,11 @@ const withMDX = nextMdx({
       remarkMdxFrontmatter,
       remarkUnwrapImages,
       remarkGfm,
+      remarkEmoji,
       [
         remarkWikiLink,
         {
+          aliasDivider: "||",
           pageResolver: (name) => [name.replace(/ /g, "-").toLowerCase()],
           hrefTemplate: (permalink) => `/blog/posts/${permalink}`,
         },

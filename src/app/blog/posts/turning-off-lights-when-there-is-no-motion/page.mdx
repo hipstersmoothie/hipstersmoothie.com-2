@@ -1,0 +1,59 @@
+---
+creationDate: 2021-06-27T14:57:19-07:00
+---
+
+# Turning Off Lights When There is No Motion
+
+Most of the light in my house are [Phillips Hue](https://www.philips-hue.com/) and automating them based on motion is pretty easy. Their app works okay but for complex motion automations I use [iConnectHue](https://iconnecthue.com). I mainly use it to enable multiple time-based scenes when my hue motion sensors go off:
+
+- Motion during day => bright lights
+- Motion during evening => dimmed lights
+- Motion during night => night lights
+
+When it comes to automating other types of smart lights though I had to find another solution to automation.
+
+## Problem
+
+In my office I use an [Elgato Key Light](https://www.elgato.com/en/key-light) behind my desk to light myself well for zoom calls. The problem is that I never remember to turn it off at the end of the day!
+
+## Solution
+
+To start automating this lights behavior the first things I had to do was add it to HomeKit. While there isn't an official integration, there is a [Key Light HomeBridge Plugin](https://github.com/derjayjay/homebridge-keylights#readme)! Now that that it's added to the Home app we can now think about automating its behavior.
+
+In that room I also have an [ecobee Smart Sensor](https://www.ecobee.com/en-us/accessories/smart-temperature-occupancy-sensor/?utm_source=google&utm_medium=cpc&utm_campaign=brandproducts_sg_gg_srch_US_conv_FFMC2021_tstat_ss_ss&utm_term=%2Becobee%20%2Bsensor&gclsrc=aw.ds&?cb=) which can detect whether there is motion in the room. 
+
+### Error: Timeout
+
+With these two things in place you might think I have enough to start automating the behavior of this particular light, unfortunately you're wrong. One limitation of HomeKit automations is that they aren't the best when they have to wait for something. If you want an automation to wait longer than three minutes you're out of luck. 
+
+For this particular light I wanted it to only turn off if no motion was detected over the last 30 minutes. When deep in thought while coding or working I might not move much and I don't want the light to turn off. So relying on just HomeKit here wasn't going to cut it.
+
+### Homebridge Delay Switch
+
+Time for another Homebridge virtual device! To solve the timeout problem I installed the [Homebridge Delay Switch] plugin. This plugin:
+
+>  Create fake switches that will start a timer when turned ON, when the delay time is reached the switch will automatically turn OFF and trigger a dedicated motion sensor
+
+So with this plugin I could make a switch that stays on for 30 minutes, and then once that 30 minutes is reached it triggers a sensor that I can use for automation :tada:
+
+## Pulling it all Together
+
+Now to combine it all!
+
+First let's create the delay switch. I named mine "30 minute delay" and set the delay to `1800000ms`. This will create a switch and a sensor in the Home App.
+
+![](/blog/motion-light-1.png)
+
+Then create an automation that turns on the switch when no motion is detected. This basically starts the 30 minute timer.
+
+![](/blog/motion-light-2.png)
+
+Then create another automation that turns this switch _off_ when motion is detected. This stops the timer.
+
+![](/blog/motion-light-3.png)
+
+Finally create an automation that uses the motion sensor for the delay switch that actaully turns off the lights. This motion sensor is triggered when the 30 minute timer is complete. 
+
+![](/blog/motion-light-4.png)
+
+![](/blog/motion-light-5.png)
