@@ -18,18 +18,17 @@ export const MdxImage = ({
   ...props
 }: React.ComponentProps<"img">) => (
   <figure className="my-10 flex flex-col gap-2">
-    <div className="block relative h-[500px] w-full">
+    <div className="w-full flex-1 min-h-0 flex">
       {props.src && props.src.startsWith("http") ? (
         // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
         <img
-          className={makeClass(className, "h-full object-contain")}
+          className={makeClass(className, "max-h-[500px] h-full w-full")}
           {...props}
         />
       ) : (
         // eslint-disable-next-line jsx-a11y/alt-text
         <Image
-          fill={true}
-          className={makeClass(className, "object-contain")}
+          className={makeClass(className, "max-h-[500px]")}
           {...(props as ImageProps)}
         />
       )}

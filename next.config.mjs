@@ -1,14 +1,18 @@
 import nextMdx from "@next/mdx";
+import path from "path";
 
 import remarkUnwrapImages from "remark-unwrap-images";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import remarkWikiLink from "remark-wiki-link";
 
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import remarkWikiLink from "remark-wiki-link";
+import rehypeImgSize from "rehype-img-size";
+
+const dir = path.dirname(import.meta.url).replace("file://", "");
 
 const withMDX = nextMdx({
   options: {
@@ -26,6 +30,7 @@ const withMDX = nextMdx({
       ],
     ],
     rehypePlugins: [
+      [rehypeImgSize, { dir: path.join(dir, "public") }],
       rehypeSlug,
       [
         rehypeAutolinkHeadings,
