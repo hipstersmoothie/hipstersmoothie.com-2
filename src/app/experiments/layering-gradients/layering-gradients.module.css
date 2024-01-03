@@ -25,19 +25,21 @@
     ),
     radial-gradient(
       circle at -10% 70%,
-      rgb(var(--yellow) / 100%),
-      rgb(var(--yellow) / 0%) 26%
+      rgb(var(--yellow) / 90%),
+      rgb(var(--yellow) / 0%) 42%
     ),
     radial-gradient(
       circle at 20% 80%,
-      rgb(var(--yellow) / 100%),
-      rgb(var(--yellow) / 0%) 36%
+      rgb(var(--yellow) / 90%),
+      rgb(var(--yellow) / 0%) 26%
     ),
     radial-gradient(
       ellipse at 40% 80%,
-      rgb(var(--yellow) / 100%),
-      rgb(var(--yellow) / 0%) 26%
-    );
+      rgb(var(--yellow) / 90%),
+      rgb(var(--yellow) / 0%) 40%
+    ),
+    white;
+  color: black;
 
   transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
   transform-style: preserve-3d;
