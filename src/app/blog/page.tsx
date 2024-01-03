@@ -80,7 +80,7 @@ export default async function PostList() {
     <>
       <NavigationHeader />
       <PageHeader>Blog</PageHeader>
-      <main className="flex min-h-screen flex-col items-center justify-between p-5 md:px-24 md:py-12">
+      <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12">
         <ol className="flex flex-col w-full max-w-screen-md">
           {sortedPosts.map((post) => (
             <li key={post.path}>
