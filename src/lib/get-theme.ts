@@ -11,6 +11,7 @@ declare global {
 const code = function () {
   window.__onThemeChange = function () {};
 
+  console.log("??? 1");
   function setTheme(newTheme: Theme) {
     document.documentElement.classList.remove(window.__theme);
     window.__theme = newTheme;
@@ -19,12 +20,17 @@ const code = function () {
     window.__onThemeChange(newTheme);
     document.documentElement.classList.add(newTheme);
   }
+  console.log("??? 2");
 
   var preferredTheme;
 
   try {
+    console.log("??? 3");
     preferredTheme = localStorage.getItem("theme") as Theme;
-  } catch (err) {}
+  } catch (err) {
+    console.log("??? 5");
+  }
+  console.log("??? 5");
 
   window.__setPreferredTheme = function (newTheme: Theme) {
     setTheme(newTheme);
@@ -32,14 +38,18 @@ const code = function () {
       localStorage.setItem("theme", newTheme);
     } catch (err) {}
   };
+  console.log("??? 6");
 
   var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
   darkQuery.addEventListener("change", function (e) {
     window.__setPreferredTheme(e.matches ? "dark" : "light");
   });
+  console.log("??? 7");
 
   setTheme(preferredTheme || (darkQuery.matches ? "dark" : "light"));
+
+  console.log("??? 8");
 };
 
-export const getTheme = `(${code})();`;
+export const getTheme = `console.log('??? 0');(${code})();`;

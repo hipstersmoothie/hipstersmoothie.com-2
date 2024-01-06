@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import makeClass from "clsx";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: getTheme }} />
+        <Script id="theme">{getTheme}</Script>
       </head>
       <body className={makeClass(GeistMono.variable, GeistSans.variable)}>
         {children}

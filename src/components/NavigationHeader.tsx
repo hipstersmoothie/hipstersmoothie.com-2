@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { useIsInIframe } from "../lib/useIsInIframe";
 import dynamic from "next/dynamic";
 
-const SetThemeButton = dynamic(() => import("./ui/SetThemeButton.server"), {
+const SetThemeButton = dynamic(() => import("./ui/SetThemeButton"), {
   ssr: false,
   loading: () => <div className="w-9 h-9" />,
 });
