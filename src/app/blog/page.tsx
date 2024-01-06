@@ -8,7 +8,7 @@ import { Post, getBlogPostList } from "./utils";
 function PostItem({ post }: { post: Post }) {
   return (
     <Link
-      href={`/blog/${post.path}`}
+      href={`/blog/posts/${post.path}`}
       className="flex justify-between gap-2 min-h-11 py-2 px-4 -mx-4 relative z-0 group"
     >
       <div className="bg-gray-100 dark:bg-gray-800 absolute inset-[1px] rounded z-[-1] opacity-0 transition-opacity group-hover:opacity-100 duration-75" />
