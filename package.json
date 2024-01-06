@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "create-blog-post": "node -r esbuild-register scripts/create-blog-post/create.ts"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.4",
@@ -19,7 +20,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@react-spring/web": "^9.7.3",
     "@types/mdx": "^2.0.10",
-    "change-case": "^5.3.0",
+    "change-case": "^4.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^3.0.6",
@@ -65,6 +66,8 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "command-line-application": "^0.10.1",
+    "copy-template-dir": "^1.4.0",
     "esbuild": "^0.19.11",
     "esbuild-register": "^3.5.0",
     "eslint": "^8",
