@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "rm -f public/optimized/list.txt",
     "build": "next build",
     "postbuild": "node -r esbuild-register scripts/generate-optimized-images.ts",
     "start": "next start",

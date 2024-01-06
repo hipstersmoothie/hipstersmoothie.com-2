@@ -48,7 +48,7 @@ function ProdImageRenderer(props: ImageProps) {
   );
 }
 
-export function ExperimentPreviewImageClient(props: ImageProps) {
+export function ExperimentPreviewImage(props: ImageProps) {
   if (isDev) {
     return <NextImage {...props} loader={devLoader} />;
   }

@@ -1,22 +1,13 @@
 import makeClass from "clsx";
-import path from "path";
-import { promises as fs } from "fs";
-import glob from "fast-glob";
-import { capitalCase } from "change-case";
+
 import Link from "next/link";
-import { $ } from "execa";
 
 import { NavigationHeader } from "../../components/NavigationHeader";
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from "./preview/constants";
-import { ExperimentPreviewImage } from "./ExperimentPreviewImage.server";
+import { ExperimentPreviewImage } from "./ExperimentPreviewImage";
 import { PageHeader } from "../../components/ui/PageHeader";
-
-const dir = path.dirname(import.meta.url).replace("file://", "");
-
-type Experiment = {
-  name: string;
-  path: string;
-};
+import { Experiment, getExperimentList } from "./utils";
+import { capitalCase } from "change-case";
 
 async function ExperimentCard({ experiment }: { experiment: Experiment }) {
   return (
@@ -51,7 +42,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
         </div>
         <div className="px-4 py-2">
           <h2 className="text-xl font-semibold dark:text-gray-200">
-            {experiment.name}
+            {capitalCase(experiment.slug)}
           </h2>
         </div>
       </div>
@@ -60,33 +51,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
 }
 
 export default async function ExperimentsList() {
-  const experiments = (
-    await Promise.all(
-      glob
-        .sync(`${dir}/**/page.tsx`, {
-          deep: 2,
-        })
-        .map(async (filepath) => {
-          const fileDir = filepath.replace("/page.tsx", "");
-          const experimentName = path.basename(fileDir);
-          const experimentPath = fileDir.replace(`${dir}/`, "");
-
-          const { birthtime } = await fs.stat(filepath);
-          const { stdout } =
-            await $`git log --diff-filter=A --format=%aI ${filepath}`;
-          const creationDate = new Date(stdout || birthtime);
-
-          return {
-            name: capitalCase(experimentName),
-            path: experimentPath,
-            creationDate,
-          };
-        })
-    )
-  )
-    .filter((experiment) => experiment.name !== "Experiments")
-    .sort((a, b) => b.creationDate.getTime() - a.creationDate.getTime());
-
+  const experiments = await getExperimentList();
   return (
     <>
       <NavigationHeader />

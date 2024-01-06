@@ -3,18 +3,12 @@ import path from "path";
 import { spawn, exec } from "child_process";
 import PQueue from "p-queue";
 import sharp from "sharp";
+import { getExperimentList } from "../src/app/experiments/utils";
 
 const queue = new PQueue({ concurrency: 10 });
 
 async function main() {
-  const imagesListFilepath = path.join(
-    __dirname,
-    "../public/optimized/list.txt"
-  );
-  const imageListFile = await fs.readFile(imagesListFilepath, "utf-8");
-  const imageList = Array.from(
-    new Set(imageListFile.split("\n").filter(Boolean))
-  );
+  const experiments = await getExperimentList();
 
   // spawn a child process to run next start
   const child = spawn("npx", ["next", "start"]);
@@ -26,16 +20,16 @@ async function main() {
     }
 
     await Promise.all(
-      imageList.map((item) =>
+      experiments.map(({ slug }) =>
         queue.add(async () => {
-          const url = `http://localhost:3000/experiments/preview?id=${item}`;
+          const url = `http://localhost:3000/experiments/preview?id=${slug}`;
           const response = await fetch(url);
           const blob = await response.blob();
           const buffer = Buffer.from(await blob.arrayBuffer());
           const filename = path.join(
             __dirname,
             "../public/optimized",
-            `${item}.png`
+            `${slug}.png`
           );
 
           await fs.writeFile(filename, buffer);
@@ -44,7 +38,7 @@ async function main() {
           const lqipFilename = path.join(
             __dirname,
             "../public/optimized",
-            `${item}-lqip.png`
+            `${slug}-lqip.png`
           );
 
           await sharp(buffer)
