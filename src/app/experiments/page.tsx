@@ -29,7 +29,6 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
     >
       <div
         className={makeClass(
-          "m-2",
           "flex flex-col",
           "border border-gray-200 dark:border-gray-700 rounded overflow-hidden",
           "dark:bg-gray-900",
@@ -92,8 +91,8 @@ export default async function ExperimentsList() {
     <>
       <NavigationHeader />
       <PageHeader>Experiments</PageHeader>
-      <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12">
-        <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-md">
+      <main className="flex flex-col items-center justify-between py-5 px-3 md:px-24 md:py-12">
+        <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-md gap-3">
           {experiments.map((experiment) => (
             <li key={experiment.path}>
               <ExperimentCard experiment={experiment} />

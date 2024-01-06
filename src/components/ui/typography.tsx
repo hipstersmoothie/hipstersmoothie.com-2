@@ -4,11 +4,27 @@ import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
 import { flip, offset, useFloating } from "@floating-ui/react";
-import { useRef, useState } from "react";
+import {
+  createContext,
+  createElement,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 
-import { useFrontMatterContext } from "../../lib/front-matter-context";
 import { useIsInIframe } from "../../lib/useIsInIframe";
-import { PageHeader } from "./PageHeader";
+import type { Post } from "../../app/blog/utils";
+import { Time } from "./Time";
+
+const _PostDataContext = createContext<Post>(null!);
+export const PostDataContextProvider = (
+  props: React.ComponentProps<typeof _PostDataContext.Provider>
+) => {
+  return createElement(_PostDataContext.Provider, props);
+};
+const usePostDataContext = () => {
+  return useContext(_PostDataContext);
+};
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -123,7 +139,7 @@ export const Code = (props: {
   return (
     <code
       {...props}
-      className="text-xs rounded p-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 inline-block translate-y-[-1px]"
+      className="text-xs rounded px-1 py-0.5 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 inline-block translate-y-[-1px]"
     />
   );
 };
@@ -143,33 +159,43 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
   </WidthContainer>
 );
 
-export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
-  const frontMatter = useFrontMatterContext();
+export const BlogPostTitle = ({
+  className,
+  ...props
+}: React.ComponentProps<"h1">) => {
+  const post = usePostDataContext();
 
-  console.log("???", frontMatter);
   return (
     <>
-      <div className="mb-8 md:mb-12">
-        <PageHeader {...props} />
-      </div>
-      {/* <div className="mb-10 md:mb-12 sm:flex items-baseline justify-between">
-        <div className="space-x-4 md:space-y-0 text-sm flex flex-row mb-4 md:mb-0">
-          <div className="text-gray-500">
-            <span className="italic">Created: </span>
-            <Time
-              date={frontMatter.creationDate || new Date().toLocaleString()}
-              className="text-gray-900 font-medium"
+      <div className="mb-8 md:mb-20">
+        <div className="bg-gray-200 dark:bg-gray-800 dark:text-gray-300 py-5 md:py-8 md:px-24">
+          <div className="max-w-prose px-4 mx-auto flex flex-col gap-4 md:gap-6">
+            <h1
+              className={makeClass(className, "text-3xl md:text-5xl")}
+              {...props}
             />
-          </div>
-          <div className="text-gray-500">
-            <span className="italic">Updated: </span>
-            <Time
-              date={currentLeaf.lastUpdatedDate || new Date().toLocaleString()}
-              className="text-gray-900 font-medium"
-            />
+
+            <div className="sm:flex items-baseline justify-between">
+              <div className="space-x-4 md:space-y-0 text-sm flex flex-row">
+                <div className="text-gray-500">
+                  <span className="italic">Created: </span>
+                  <Time
+                    date={new Date(post.creationDate).toLocaleString()}
+                    className="text-gray-400 font-medium"
+                  />
+                </div>
+                <div className="text-gray-500">
+                  <span className="italic">Updated: </span>
+                  <Time
+                    date={new Date(post.lastUpdated).toLocaleString()}
+                    className="text-gray-400 font-medium"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 };

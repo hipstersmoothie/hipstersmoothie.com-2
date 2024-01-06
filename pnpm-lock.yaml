@@ -5,12 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@alisowski/next-mdx-remote':
+    specifier: ^4.4.3
+    version: 4.4.3(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
   '@floating-ui/react':
     specifier: ^0.26.4
     version: 0.26.4(react-dom@18.2.0)(react@18.2.0)
   '@mdx-js/loader':
     specifier: ^3.0.0
     version: 3.0.0(webpack@5.89.0)
+  '@mdx-js/mdx':
+    specifier: ^3.0.0
+    version: 3.0.0
   '@mdx-js/react':
     specifier: ^3.0.0
     version: 3.0.0(@types/react@18.2.45)(react@18.2.0)
@@ -204,6 +210,25 @@ packages:
   /@adobe/css-tools@4.3.2:
     resolution: {integrity: sha512-DA5a1C0gD/pLOvhv33YMrbf2FK3oUzwNl9oOJqE4XVjuEtt6XIakRcsd7eLiOSPkp1kTRQGICTA8cKra/vFbjw==}
     dev: true
+
+  /@alisowski/next-mdx-remote@4.4.3(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-mluGGaqtqG+V30ea8TAnpU+oZd+P0BQQAvUejasqXQ1UT6H3l/qqPCL+dn45xteF/zlIHMeIKtVsF0Kue1iMbg==}
+    engines: {node: '>=14', npm: '>=7'}
+    peerDependencies:
+      react: '>=16.x <=18.x'
+      react-dom: '>=16.x <=18.x'
+    dependencies:
+      '@mdx-js/mdx': 3.0.0
+      '@mdx-js/react': 3.0.0(@types/react@18.2.45)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      unist-util-remove: 4.0.0
+      vfile: 6.0.1
+      vfile-matter: 5.0.0
+    transitivePeerDependencies:
+      - '@types/react'
+      - supports-color
+    dev: false
 
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -13552,6 +13577,14 @@ packages:
     dependencies:
       '@types/unist': 3.0.2
       unist-util-visit: 5.0.0
+    dev: false
+
+  /unist-util-remove@4.0.0:
+    resolution: {integrity: sha512-b4gokeGId57UVRX/eVKej5gXqGlc9+trkORhFJpu9raqZkZhU0zm8Doi05+HaiBsMEIJowL+2WtQ5ItjsngPXg==}
+    dependencies:
+      '@types/unist': 3.0.2
+      unist-util-is: 6.0.0
+      unist-util-visit-parents: 6.0.1
     dev: false
 
   /unist-util-stringify-position@4.0.0:
