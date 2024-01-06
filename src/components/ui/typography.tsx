@@ -146,7 +146,6 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
 export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
   const frontMatter = useFrontMatterContext();
 
-  console.log("???", frontMatter);
   return (
     <>
       <div className="mb-8 md:mb-12">

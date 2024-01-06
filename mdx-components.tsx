@@ -19,10 +19,12 @@ import {
   Table,
   UnorderedList,
 } from "./src/components/ui/typography";
+import { PostHeader } from "./src/app/blog/components/PostHeader";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
+    PostHeader,
     p: Paragraph,
     img: MdxImage,
     blockquote: Blockquote,

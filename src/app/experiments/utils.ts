@@ -1,3 +1,5 @@
+import "server-only";
+
 import path from "path";
 import { promises as fs } from "fs";
 import glob from "fast-glob";
