@@ -1,6 +1,5 @@
 import { $ } from "execa";
 import path from "path";
-import { cache } from "react";
 
 import { matter } from "vfile-matter";
 import { read } from "to-vfile";
@@ -21,7 +20,7 @@ export type Post = {
   source?: string;
 };
 
-export const getBlogPostList = cache(async function getBlogPostList({
+export async function getBlogPostList({
   includeSource,
 }: { includeSource?: boolean } = {}) {
   const posts = await Promise.all(
@@ -64,4 +63,4 @@ export const getBlogPostList = cache(async function getBlogPostList({
   return posts.sort(
     (a, b) => b.creationDate.getTime() - a.creationDate.getTime()
   );
-});
+}
