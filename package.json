@@ -32,6 +32,7 @@
     "javascript-time-ago": "^2.5.9",
     "lucide-react": "^0.303.0",
     "next": "14.0.4",
+    "next-app-theme": "^0.1.2",
     "next-image-export-optimizer": "^1.11.0",
     "playwright": "^1.40.1",
     "react": "^18",

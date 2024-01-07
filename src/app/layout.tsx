@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import makeClass from "clsx";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 
-import { getTheme } from "../lib/get-theme";
+import { ThemeScript } from "next-app-theme/theme-script";
 
 import "./globals.css";
 
@@ -21,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script id="theme">{getTheme}</Script>
+        <ThemeScript />
       </head>
       <body className={makeClass(GeistMono.variable, GeistSans.variable)}>
         {children}

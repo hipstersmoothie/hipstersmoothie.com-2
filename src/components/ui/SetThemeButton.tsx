@@ -1,20 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
 import { Button } from "./button";
+import { useTheme } from "next-app-theme/use-theme";
 
 export default function SetThemeButton() {
-  const [theme, setTheme] = useState(global.window?.__theme || "light");
+  const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
-
-  const toggleTheme = () => {
-    global.window?.__setPreferredTheme(theme === "light" ? "dark" : "light");
-  };
-
-  useEffect(() => {
-    global.window.__onThemeChange = setTheme;
-  }, []);
 
   return (
     <Button
