@@ -93,3 +93,7 @@ code[data-theme*=" "] span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
 }
+
+.in-iframe .hide-in-iframe {
+  display: none;
+}

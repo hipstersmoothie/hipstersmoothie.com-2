@@ -7,7 +7,6 @@ import { flip, offset, useFloating } from "@floating-ui/react";
 import { useRef, useState } from "react";
 
 import { useFrontMatterContext } from "../../lib/front-matter-context";
-import { useIsInIframe } from "../../lib/useIsInIframe";
 import { PageHeader } from "./PageHeader";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
@@ -258,7 +257,6 @@ export const TD: React.FC = (props) => (
 );
 
 function Backlink(props: React.ComponentPropsWithoutRef<"a">) {
-  const inIframe = useIsInIframe();
   const showTimeout = useRef<ReturnType<typeof setTimeout>>();
   const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
   const [showPopper, setShowPopper] = useState(false);
@@ -301,13 +299,13 @@ function Backlink(props: React.ComponentPropsWithoutRef<"a">) {
         }}
       />
 
-      {showPopper && !inIframe && (
+      {showPopper && (
         <iframe
           ref={refs.setFloating}
           style={floatingStyles}
           onMouseOver={() => clearTimeout(hideTimeout.current)}
           onMouseOut={hidePopperDelayed}
-          className="bg-white border rounded-sm w-[400px] h-[400px] shadow-xl"
+          className="bg-gray-50 dark:bg-gray-950 border border-gray-300 border-gray-600 rounded-sm w-[400px] h-[400px] shadow-xl hide-in-iframe"
           src={`${window.location.origin}${props.href}?in-iframe=true`}
         />
       )}

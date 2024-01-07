@@ -6,6 +6,7 @@ import { GeistMono } from "geist/font/mono";
 import { ThemeScript } from "next-app-theme/theme-script";
 
 import "./globals.css";
+import { IframeScript } from "../lib/IframeScript";
 
 export const metadata: Metadata = {
   title: "Hipstersmoothie.com",
@@ -21,8 +22,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <IframeScript />
       </head>
-      <body className={makeClass(GeistMono.variable, GeistSans.variable)}>
+      <body
+        className={makeClass(
+          GeistMono.variable,
+          GeistSans.variable,
+          "bg-gray-50 dark:bg-gray-950"
+        )}
+      >
         {children}
       </body>
     </html>
