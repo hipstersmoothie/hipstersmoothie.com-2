@@ -2,7 +2,6 @@ import type { MDXComponents } from "mdx/types";
 import {
   Blockquote,
   Code,
-  BlogPostTitle,
   H2,
   H3,
   H4,
@@ -17,6 +16,7 @@ import {
   TH,
   Table,
   UnorderedList,
+  H1,
 } from "./src/components/ui/typography";
 import { PostHeader } from "./src/app/blog/components/PostHeader";
 import { Link } from "./src/components/ui/Link";
@@ -34,7 +34,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     code: Code,
     pre: Pre,
     a: Link,
-    h1: BlogPostTitle,
+    h1: H1,
     h2: H2,
     h3: H3,
     h4: H4,

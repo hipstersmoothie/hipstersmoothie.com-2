@@ -19,13 +19,14 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
       )}
     >
       <div
-        className={makeClass(
-          "m-2",
-          "flex flex-col",
-          "border border-gray-200 dark:border-gray-700 rounded overflow-hidden",
-          "dark:bg-gray-900",
-          "relative" // for the before shadow element
-        )}
+        className="m-2 
+          flex flex-col rounded overflow-hidden
+          border border-sage-6 hover:border-sage-8 
+          dark:border-sagedark-6 dark:hover:border-sagedark-8 
+          bg-sage-2 hover:bg-sage-3 
+          dark:bg-sagedark-2 dark:hover:bg-sagedark-3
+          relative
+        "
       >
         <div
           className={makeClass(
@@ -33,7 +34,13 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             "group-hover:opacity-100"
           )}
         />
-        <div className="bg-gray-200 dark:bg-gray-900 aspect-video border-b border-gray-200 dark:border-gray-800">
+        <div
+          className="
+            aspect-video
+          bg-sagea-3 dark:bg-sagedarka-3
+            border-b border-sage-6 dark:border-sagedark-6
+          "
+        >
           <ExperimentPreviewImage
             src={experiment.path}
             width={PREVIEW_WIDTH}
@@ -42,7 +49,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
           />
         </div>
         <div className="px-4 py-2">
-          <h2 className="text-xl font-semibold dark:text-gray-200">
+          <h2 className="text-xl font-semibold text-sage-12 dark:text-sagedark-12">
             {capitalCase(experiment.slug)}
           </h2>
         </div>

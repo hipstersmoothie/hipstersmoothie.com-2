@@ -5,13 +5,11 @@ import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
-import { useFrontMatterContext } from "../../lib/front-matter-context";
 import { ScrollArea, ScrollBar } from "./scroll-area";
-import { PageHeader } from "./PageHeader";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-prose mx-auto px-4 dark:text-gray-200">
+    <div className="max-w-prose mx-auto px-4 text-jade-12 dark:text-sagedark-12">
       {children}
     </div>
   );
@@ -48,7 +46,7 @@ export const MdxImage = ({
         )}
       </div>
       {props.alt && (
-        <figcaption className="text-sm font-medium my-2 text-center italic dark:text-gray-400">
+        <figcaption className="text-sm font-medium my-2 text-center italic text-sage-11 dark:text-sagedark-11">
           {props.alt}
         </figcaption>
       )}
@@ -70,11 +68,17 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
     <WidthContainer>
       <figure
         {...props}
-        className={makeClass("-m-2 my-6 grid", className)}
+        className={makeClass("my-6 grid", className)}
         style={{ gridTemplateColumns: "8px auto" }}
       >
-        <div className="rounded-sm rounded-r-none bg-pink-500 dark:bg-gray-500" />
-        <div className="rounded-sm rounded-l-none bg-white dark:bg-gray-900 border-2 border-l-0 border-gray-100 dark:border-gray-800 px-4">
+        <div className="rounded-sm rounded-r-none bg-jade-9 dark:bg-jadedark-9 " />
+        <div
+          className="
+            rounded-sm rounded-l-none 
+            bg-sage-1 dark:bg-sagedark-2 
+            border border-l-0 border-sage-6 dark:border-sagedark-6
+          "
+        >
           <blockquote>{children}</blockquote>
         </div>
       </figure>
@@ -85,7 +89,7 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
 export const HorizontalRule: React.FC = (props) => (
   <hr
     {...props}
-    className="mx-auto h-2 w-8 rounded border-none bg-gray-200 dark:bg-gray-600 my-10"
+    className="mx-auto h-2 w-8 rounded border-none bg-sage-7 dark:bg-sagedark-7 my-10"
   />
 );
 
@@ -128,14 +132,25 @@ export const Code = (props: {
   return (
     <code
       {...props}
-      className="text-xs rounded p-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 inline-block translate-y-[-1px]"
+      className="
+        text-xs rounded p-1 inline-block translate-y-[-1px]
+        bg-sage-5 dark:bg-sagedark-4
+        text-sage-12 dark:text-sagedark-12
+      "
     />
   );
 };
 
 export const Pre = (props: React.ComponentProps<"pre">) => (
   <WidthContainer>
-    <pre {...props} className="rounded border dark:border-gray-700 my-6" />
+    <pre
+      {...props}
+      className="
+        my-6 rounded border
+        overflow-hidden
+        border-sage-6 dark:border-sagedark-7
+      "
+    />
   </WidthContainer>
 );
 
@@ -143,40 +158,17 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
   <WidthContainer>
     <h1
       {...props}
-      className="mt-6 md:mt-8 pb-4 md:pb-6 mb-6 md:mb-4 border-b dark:border-gray-400 flex justify-between text-4xl md:text-6xl"
+      className="
+        mt-6 md:mt-8 
+        pb-4 md:pb-6 
+        mb-6 md:mb-10 
+        border-b border-sage-7 dark:border-sagedark-7
+        flex justify-between 
+        text-4xl md:text-6xl
+      "
     />
   </WidthContainer>
 );
-
-export const BlogPostTitle = (props: React.ComponentProps<"h1">) => {
-  const frontMatter = useFrontMatterContext();
-
-  return (
-    <>
-      <div className="mb-8 md:mb-12">
-        <PageHeader {...props} />
-      </div>
-      {/* <div className="mb-10 md:mb-12 sm:flex items-baseline justify-between">
-        <div className="space-x-4 md:space-y-0 text-sm flex flex-row mb-4 md:mb-0">
-          <div className="text-gray-500">
-            <span className="italic">Created: </span>
-            <Time
-              date={frontMatter.creationDate || new Date().toLocaleString()}
-              className="text-gray-900 font-medium"
-            />
-          </div>
-          <div className="text-gray-500">
-            <span className="italic">Updated: </span>
-            <Time
-              date={currentLeaf.lastUpdatedDate || new Date().toLocaleString()}
-              className="text-gray-900 font-medium"
-            />
-          </div>
-        </div>
-      </div> */}
-    </>
-  );
-};
 
 const onHeadingClick = (e: React.MouseEvent<HTMLHeadingElement>) => {
   // Update the location hash without scrolling
@@ -187,7 +179,12 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
   <WidthContainer>
     <h2
       {...props}
-      className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 dark:border-gray-400 font-medium in-preview:text-xl in-preview:mt-6 "
+      className="
+        text-2xl font-medium
+        mt-10 mb-6 pb-3 
+        border-b border-sage-7 dark:border-sagedark-7
+        in-preview:text-xl in-preview:mt-6 
+      "
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -200,7 +197,7 @@ export const H3 = (props: React.ComponentProps<"h3">) => (
   <WidthContainer>
     <h3
       {...props}
-      className="lvl3 text-xl my-4 font-semibold"
+      className="text-xl my-4 font-semibold"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -213,7 +210,7 @@ export const H4 = (props: React.ComponentProps<"h4">) => (
   <WidthContainer>
     <h4
       {...props}
-      className="lvl4 text-lg my-4 font-bold"
+      className="text-lg my-4 font-bold"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -226,7 +223,7 @@ export const H5 = (props: React.ComponentProps<"h5">) => (
   <WidthContainer>
     <h5
       {...props}
-      className="lvl5 my-4 font-bold"
+      className="my-4 font-bold"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -239,7 +236,7 @@ export const H6 = (props: React.ComponentProps<"h6">) => (
   <WidthContainer>
     <h6
       {...props}
-      className="lvl6 text-sm my-4 font-bold"
+      className="text-sm my-4 font-bold"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -259,7 +256,13 @@ export const TH: React.FC = (props) => (
 );
 
 export const TD: React.FC = (props) => (
-  <td {...props} className="py-2 px-3 border-b border-t dark:border-gray-600" />
+  <td
+    {...props}
+    className="
+      py-2 px-3 
+      border-b border-t border-sage-6 dark:border-sagedark-6
+    "
+  />
 );
 
 export function BasicLink(props: React.ComponentPropsWithoutRef<"a">) {
@@ -269,7 +272,11 @@ export function BasicLink(props: React.ComponentPropsWithoutRef<"a">) {
     return <a {...props} />;
   }
 
-  const className = "text-blue-500 underline";
+  const className = `
+    underline
+    text-blue-11 visited:text-violet-11 
+    dark:text-bluedark-11 dark:visited:text-violetdark-11
+  `;
 
   if (href?.startsWith("/")) {
     return (
@@ -300,6 +307,8 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
     return null;
   }
 
+  const linkClass = "underline text-pink-11 dark:text-pinkdark-10";
+
   return (
     <>
       <NextLink
@@ -307,7 +316,8 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
         data-backlink
         href={href}
         className={makeClass(
-          "underline text-pink-500 hidden in-preview:block",
+          linkClass,
+          "hidden in-preview:block",
           props.className
         )}
       />
@@ -318,7 +328,8 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
             data-backlink
             href={href}
             className={makeClass(
-              "underline text-pink-500 in-preview:hidden",
+              linkClass,
+              "in-preview:hidden",
               props.className
             )}
           />
@@ -327,7 +338,11 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
         <HoverCard.Portal>
           <HoverCard.Content collisionPadding={8} sideOffset={8} asChild={true}>
             <ScrollArea
-              className="bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-600 rounded-sm w-[400px] h-[400px] shadow-xl"
+              className="
+                rounded-sm w-[400px] h-[400px] shadow-xl
+                bg-sage-1 dark:bg-sagedark-1
+                border border-sage-6 dark:border-sagedark-6
+              "
               style={{
                 maxWidth:
                   "min(var(--radix-hover-card-content-available-width), 400px)",

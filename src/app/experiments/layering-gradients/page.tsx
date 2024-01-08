@@ -5,7 +5,7 @@ import { DM_Serif_Display } from "next/font/google";
 import { useSpring, animated, config } from "@react-spring/web";
 
 import styles from "./layering-gradients.module.css";
-import { Link, Paragraph } from "../../../components/ui/typography";
+import { BasicLink, Paragraph } from "../../../components/ui/typography";
 import { useRef } from "react";
 
 const font = DM_Serif_Display({ weight: ["400"], subsets: ["latin"] });
@@ -83,9 +83,9 @@ export default function LayeringGradients() {
       <div className="max-w-screen-sm mx-auto p-6">
         <Paragraph>
           An implementation of{" "}
-          <Link href="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Colorful-gradient-business-card-template-830x553.jpg?auto=format&q=60&fit=max&w=930">
+          <BasicLink href="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Colorful-gradient-business-card-template-830x553.jpg?auto=format&q=60&fit=max&w=930">
             this business card
-          </Link>
+          </BasicLink>
           .
         </Paragraph>
         <div className="grid grid-cols-1">

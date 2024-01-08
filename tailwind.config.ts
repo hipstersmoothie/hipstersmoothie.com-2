@@ -1,5 +1,35 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
+import * as radixColors from "@radix-ui/colors";
+
+/**
+ * Convert the colors in Radix format to Tailwind format.
+ *
+ * @example blueDark.blue1 -> bluedark.1
+ */
+function formatRadixColors() {
+  const colors: Record<string, Record<string, string>> = {};
+
+  for (const [radixColorName, radixColor] of Object.entries(radixColors)) {
+    const colorName = radixColorName.toLowerCase();
+    const color: Record<string, string> = {};
+
+    for (const [radixScale, value] of Object.entries(radixColor)) {
+      const scaleRegex = radixScale.match(/\d+$/);
+      if (!scaleRegex || !scaleRegex[0]) {
+        continue;
+      }
+      const scale = scaleRegex[0];
+      color[scale] = value;
+    }
+
+    colors[colorName] = color;
+  }
+
+  return colors;
+}
+
+console.log(formatRadixColors());
 
 const config: Config = {
   darkMode: ["class"],
@@ -54,6 +84,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        ...formatRadixColors(),
       },
       borderRadius: {
         lg: "var(--radius)",
