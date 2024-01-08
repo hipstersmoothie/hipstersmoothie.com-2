@@ -40,26 +40,30 @@ export async function PostHeader({
             >
               {post.title}
             </h1>
-            <div className="sm:flex items-baseline justify-between in-preview:hidden">
-              <div className="space-x-4 md:space-y-0 text-sm flex flex-row">
-                <div>
-                  <span className="italic text-mauve-12 dark:text-mauvedark-12">
-                    Created:{" "}
-                  </span>
-                  <Time
-                    date={new Date(post.creationDate).toLocaleString()}
-                    className="text-mauve-11 dark:text-mauvedark-11 font-medium"
-                  />
-                </div>
-                <div>
-                  <span className="italic text-mauve-12 dark:text-mauvedark-12">
-                    Updated:{" "}
-                  </span>
-                  <Time
-                    date={new Date(post.lastUpdated).toLocaleString()}
-                    className="text-mauve-11 dark:text-mauvedark-11 font-medium"
-                  />
-                </div>
+            <div className="text-sm flex flex-row gap-4 flex-1 in-preview:hidden">
+              <div className="hidden sm:block">
+                <span className="italic text-mauve-12 dark:text-mauvedark-12">
+                  Created:{" "}
+                </span>
+                <Time
+                  date={new Date(post.creationDate).toLocaleString()}
+                  className="text-mauve-11 dark:text-mauvedark-11 font-medium"
+                />
+              </div>
+              <div>
+                <span className="italic text-mauve-12 dark:text-mauvedark-12">
+                  Updated:{" "}
+                </span>
+                <Time
+                  date={new Date(post.lastUpdated).toLocaleString()}
+                  className="text-mauve-11 dark:text-mauvedark-11 font-medium"
+                />
+              </div>
+              <div className="flex-1" />
+              <div>
+                <span className="text-mauve-11 dark:text-mauvedark-11">
+                  {post.readingTime.text}
+                </span>
               </div>
             </div>
           </div>

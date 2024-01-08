@@ -80,6 +80,8 @@
     "postcss": "^8",
     "rehype-pretty-code": "^0.12.3",
     "rehype-shikiji": "^0.9.17",
+    "remark": "^15.0.1",
+    "remark-reading-time": "^2.0.1",
     "storybook": "^7.6.6",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"

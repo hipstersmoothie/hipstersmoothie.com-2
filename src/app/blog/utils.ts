@@ -9,6 +9,11 @@ import { promises as fs } from "fs";
 import { capitalCase } from "change-case";
 import glob from "fast-glob";
 
+import { remark } from "remark";
+import readingTime from "remark-reading-time";
+
+const mdxProcessor = remark().use(readingTime, {});
+
 const dir = path.dirname(import.meta.url).replace("file://", "");
 
 interface FrontMatter {
@@ -27,6 +32,7 @@ export async function getBlogPostList({
       .map(async (filepath) => {
         const file = await read(filepath);
         matter(file);
+        await mdxProcessor.process(file);
         const frontMatter = file.data.matter as FrontMatter;
 
         const fileDir = filepath.replace("/page.mdx", "");
@@ -52,6 +58,12 @@ export async function getBlogPostList({
           lastUpdated: lastUpdated ? new Date(lastUpdated) : creationDate,
           frontMatter,
           source: includeSource ? file.toString() : undefined,
+          readingTime: file.data.readingTime as {
+            text: string;
+            minutes: number;
+            time: number;
+            words: number;
+          },
         };
       })
   );
