@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   darkMode: ["class"],
@@ -79,6 +80,12 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    plugin(({ addVariant }) => {
+      // Add a `third` variant, ie. `third:pb-0`
+      addVariant("in-preview", ".in-preview &");
+    }),
+  ],
 };
 export default config;

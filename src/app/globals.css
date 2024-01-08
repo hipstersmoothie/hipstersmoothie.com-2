@@ -94,6 +94,6 @@ code[data-theme*=" "] span {
   background-color: var(--shiki-dark-bg);
 }
 
-.in-iframe .hide-in-iframe {
+.in-preview .hide-in-preview {
   display: none;
 }

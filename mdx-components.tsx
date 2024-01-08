@@ -10,7 +10,6 @@ import {
   H6,
   HorizontalRule,
   MdxImage,
-  Link,
   OrderedList,
   Paragraph,
   Pre,
@@ -20,6 +19,7 @@ import {
   UnorderedList,
 } from "./src/components/ui/typography";
 import { PostHeader } from "./src/app/blog/components/PostHeader";
+import { Link } from "./src/components/ui/Link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {

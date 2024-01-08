@@ -13,10 +13,11 @@
     "create-blog-post": "node -r esbuild-register scripts/create-blog-post/create.ts"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.26.4",
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.0.4",
+    "@radix-ui/react-hover-card": "^1.0.7",
+    "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-spring/web": "^9.7.3",
     "@types/mdx": "^2.0.10",

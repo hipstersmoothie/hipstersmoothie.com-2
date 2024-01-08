@@ -3,10 +3,10 @@
 import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
-import { flip, offset, useFloating } from "@floating-ui/react";
-import { useRef, useState } from "react";
+import * as HoverCard from "@radix-ui/react-hover-card";
 
 import { useFrontMatterContext } from "../../lib/front-matter-context";
+import { ScrollArea } from "./scroll-area";
 import { PageHeader } from "./PageHeader";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
@@ -181,7 +181,7 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
   <WidthContainer>
     <h2
       {...props}
-      className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 dark:border-gray-400 font-medium"
+      className="lvl2 text-2xl mt-10 mb-6 pb-3 border-b border-gray-300 dark:border-gray-400 font-medium in-preview:text-xl in-preview:mt-6 "
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -256,74 +256,11 @@ export const TD: React.FC = (props) => (
   <td {...props} className="py-2 px-3 border-b border-t dark:border-gray-600" />
 );
 
-function Backlink(props: React.ComponentPropsWithoutRef<"a">) {
-  const showTimeout = useRef<ReturnType<typeof setTimeout>>();
-  const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
-  const [showPopper, setShowPopper] = useState(false);
-  const { refs, floatingStyles } = useFloating({
-    middleware: [flip(), offset(8)],
-  });
-
-  const hidePopperDelayed = () => {
-    hideTimeout.current = setTimeout(() => setShowPopper(false), 500);
-  };
-  const showPopperDelayed = () => {
-    showTimeout.current = setTimeout(() => setShowPopper(true), 500);
-  };
-
-  let href = props.href;
-
-  if (!href) {
-    return null;
-  }
-
-  return (
-    <>
-      <NextLink
-        {...props}
-        data-backlink
-        href={href}
-        className={makeClass("underline text-pink-500", props.className)}
-        ref={refs.setReference}
-        onMouseEnter={() => {
-          clearTimeout(hideTimeout.current);
-          showPopperDelayed();
-        }}
-        onMouseOut={() => {
-          clearTimeout(showTimeout.current);
-          hidePopperDelayed();
-        }}
-        onClick={(e) => {
-          clearTimeout(showTimeout.current);
-          props.onClick?.(e);
-        }}
-      />
-
-      {showPopper && (
-        <iframe
-          ref={refs.setFloating}
-          style={floatingStyles}
-          onMouseOver={() => clearTimeout(hideTimeout.current)}
-          onMouseOut={hidePopperDelayed}
-          className="bg-gray-50 dark:bg-gray-950 border border-gray-300 border-gray-600 rounded-sm w-[400px] h-[400px] shadow-xl hide-in-iframe"
-          src={`${window.location.origin}${props.href}?in-iframe=true`}
-        />
-      )}
-    </>
-  );
-}
-
-export function Link(props: React.ComponentPropsWithoutRef<"a">) {
+export function BasicLink(props: React.ComponentPropsWithoutRef<"a">) {
   let href = props.href;
 
   if (href?.startsWith("#")) {
     return <a {...props} />;
-  }
-
-  const isBackLink = href?.startsWith("/blog/posts/");
-
-  if (isBackLink) {
-    return <Backlink {...props} />;
   }
 
   const className = "text-blue-500 underline";
@@ -343,5 +280,60 @@ export function Link(props: React.ComponentPropsWithoutRef<"a">) {
       {...props}
       className={className}
     />
+  );
+}
+
+interface BacklinkProps extends React.ComponentPropsWithoutRef<"a"> {
+  preview: React.ReactNode;
+}
+
+export function Backlink({ preview, ...props }: BacklinkProps) {
+  let href = props.href;
+
+  if (!href) {
+    return null;
+  }
+
+  return (
+    <>
+      <NextLink
+        {...props}
+        data-backlink
+        href={href}
+        className={makeClass(
+          "underline text-pink-500 hidden in-preview:block",
+          props.className
+        )}
+      />
+      <HoverCard.Root>
+        <HoverCard.Trigger asChild={true}>
+          <NextLink
+            {...props}
+            data-backlink
+            href={href}
+            className={makeClass(
+              "underline text-pink-500 in-preview:hidden",
+              props.className
+            )}
+          />
+        </HoverCard.Trigger>
+
+        <HoverCard.Portal>
+          <HoverCard.Content collisionPadding={8} sideOffset={8} asChild={true}>
+            <ScrollArea
+              className="bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-600 rounded-sm w-[400px] h-[400px] shadow-xl"
+              style={{
+                maxWidth:
+                  "min(var(--radix-hover-card-content-available-width), 400px)",
+                maxHeight:
+                  "min(var(--radix-hover-card-content-available-height), 400px)",
+              }}
+            >
+              {preview}
+            </ScrollArea>
+          </HoverCard.Content>
+        </HoverCard.Portal>
+      </HoverCard.Root>
+    </>
   );
 }
