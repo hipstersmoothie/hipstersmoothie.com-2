@@ -1,8 +1,9 @@
 import { Backlink, BasicLink } from "./typography";
 
 async function PostPreview({ slug }: { slug: string }) {
-  const PostComponent = (await import(`../../app/blog/posts/${slug}/page.mdx`))
-    .default;
+  const { default: PostComponent } = await import(
+    `../../app/blog/posts/${slug}/page.mdx`
+  );
 
   return (
     <div className="in-preview">
@@ -11,11 +12,11 @@ async function PostPreview({ slug }: { slug: string }) {
   );
 }
 
-export async function Link(props: React.ComponentPropsWithoutRef<"a">) {
+export function Link(props: React.ComponentPropsWithoutRef<"a">) {
   const isBackLink = props.href?.startsWith("/blog/posts/");
 
   if (isBackLink) {
-    const slug = props.href?.replace("/blog/posts/", "").split("/")[0];
+    const [slug] = props.href?.replace("/blog/posts/", "").split("/") || [];
 
     if (!slug) {
       throw new Error("slug is required");

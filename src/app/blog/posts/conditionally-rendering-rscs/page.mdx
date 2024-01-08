@@ -1,0 +1,128 @@
+---
+creationDate: 2024-01-08T01:53:06.864Z
+---
+
+<PostHeader slug="conditionally-rendering-rscs" />
+
+> NOTE: I'm just playing around with RSCs and assuming a lot about how they work. My assumptions may be wrong!
+> I'm viewing them from the "static website" perspective and not the "dynamic website" perspective.
+
+[React Server Components (RSCs)](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components) are a new way to partially render your react application on the server!
+This is really cool because it means you can use the file system, any node package, or even call an API right from an "async component".
+
+And even cooler property of RSCs is the you can next server components _inside of client components_. 
+So potentially you could have a react tree that looks something like this:
+
+```jsx
+function App() {
+  return (
+    <ServerComponent1>
+      <ClientComponent>
+        <ServerComponent2 />
+      </ClientComponent>
+    </ServerComponent1>
+  );
+}
+```
+
+When react does the "server" part of rendering each server component will be rendered and will create somewhat of a "bundle".
+This bundles contains the output of the "async component".
+
+Say you have a `Badge` component that displays the latest commit has of the repo.
+
+```jsx
+async function Badge() {
+  const hash = await $`git rev-parse HEAD`;
+  return <span>{hash}</span>;
+}
+```
+
+When this runs at build time it will run the shell command and return the component to render in the application.
+Pretty sweet!
+
+## Conditionally rendering
+
+You might think that's enough to reason about RSCs, but you're wrong!
+
+In the above app what if we instead had this:
+
+`client-component.ts`:
+
+```tsx
+'use client';
+
+export function ClientComponent() {
+  return <ServerComponent2 />
+}
+```
+
+`app.tsx`:
+
+```tsx
+import { ClientComponent } from './client-component';
+
+function App() {
+  return (
+    <ServerComponent1>
+      <ClientComponent />
+    </ServerComponent1>
+  );
+}
+```
+
+This doesn't actually work because the `ClientComponent` is not a server component and client components cannot render server components.
+
+...but didn't I just say the opposite? Not quite!
+
+While a client component itself cannot render a server component, it _can be passed_ a server component as a prop.
+The reason the first `App` works is because we use `ClientComponent`'s `children` prop to pass the server component to the client component.
+Then the client component can choose to render it or not!
+
+Component composition for the win!
+
+## Example
+
+For the website you're currently on I wanted to have a "post preview" when you hovered over a link to another post hosted on this website.
+My posts are written in MDX and rendered with `@next/mdx`.
+This handles the "bundling" of the MDX files into RSCs.
+
+If I rendered the preview RSCs within the client component I would get an error.
+I assume this was happening because the "bundle" I mentioned above was required to happen at "build time" and I was trying to do it at "run time".
+
+Try hovering the following link to see it in action.
+
+[[devtools-fm]]
+
+Here is how the `PostPreview` component works:
+
+```tsx
+async function PostPreview({ slug }: { slug: string }) {
+  // Dynamically import the the MDX
+  const { default: PostComponent } = await import(
+    `../../app/blog/posts/${slug}/page.mdx`
+  );
+
+  return (
+    <div className="in-preview">
+      {/** And just render it! */}
+      <PostComponent />
+    </div>
+  );
+}
+```
+
+And here is how I use it:
+
+```tsx
+export function Link(props: React.ComponentPropsWithoutRef<"a">) {
+  const isBackLink = props.href?.startsWith("/blog/posts/");
+
+  if (isBackLink) {
+    const slug = props.href?.replace("/blog/posts/", "").split("/")[0];
+    // ✨ Magic ✨
+    return <Backlink {...props} preview={<PostPreview slug={slug} />} />;
+  }
+
+  return <BasicLink {...props} />;
+}
+```
