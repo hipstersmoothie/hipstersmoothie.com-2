@@ -83,12 +83,14 @@ body {
 }
 
 code[data-theme*=" "],
+.bg-code,
 code[data-theme*=" "] span {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
 
 .dark code[data-theme*=" "],
+.dark .bg-code,
 .dark code[data-theme*=" "] span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);

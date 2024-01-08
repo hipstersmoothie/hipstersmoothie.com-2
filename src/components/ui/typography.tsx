@@ -6,7 +6,7 @@ import NextLink from "next/link";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
 import { useFrontMatterContext } from "../../lib/front-matter-context";
-import { ScrollArea } from "./scroll-area";
+import { ScrollArea, ScrollBar } from "./scroll-area";
 import { PageHeader } from "./PageHeader";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
@@ -107,15 +107,21 @@ export const Code = (props: {
 }) => {
   if ((props as any)["data-language"]) {
     return (
-      <code
-        {...props}
-        className={makeClass(
-          props.className,
-          "font-mono",
-          "rounded block py-8 px-6 overflow-auto",
-          "h-full w-full"
-        )}
-      />
+      <ScrollArea type="always" className="bg-code">
+        <code
+          {...props}
+          className={makeClass(
+            props.className,
+            "font-mono",
+            "rounded block",
+            "h-full w-full",
+            "py-8 px-6"
+          )}
+        >
+          {props.children}
+        </code>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     );
   }
 
