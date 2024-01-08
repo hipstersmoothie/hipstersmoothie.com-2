@@ -21,10 +21,10 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
       <div
         className="m-2 
           flex flex-col rounded overflow-hidden
-          border border-sage-6 hover:border-sage-8 
-          dark:border-sagedark-6 dark:hover:border-sagedark-8 
-          bg-sage-2 hover:bg-sage-3 
-          dark:bg-sagedark-2 dark:hover:bg-sagedark-3
+          border border-mauve-6 hover:border-mauve-8 
+          dark:border-mauvedark-6 dark:hover:border-mauvedark-8 
+          bg-mauve-2 hover:bg-mauve-3 
+          dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
           relative
         "
       >
@@ -37,8 +37,8 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
         <div
           className="
             aspect-video
-          bg-sagea-3 dark:bg-sagedarka-3
-            border-b border-sage-6 dark:border-sagedark-6
+          bg-mauvea-3 dark:bg-mauvedarka-3
+            border-b border-mauve-6 dark:border-mauvedark-6
           "
         >
           <ExperimentPreviewImage
@@ -49,7 +49,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
           />
         </div>
         <div className="px-4 py-2">
-          <h2 className="text-xl font-semibold text-sage-12 dark:text-sagedark-12">
+          <h2 className="text-xl font-semibold text-mauve-12 dark:text-mauvedark-12">
             {capitalCase(experiment.slug)}
           </h2>
         </div>

@@ -19,13 +19,13 @@ function PostItem({ post }: { post: Post }) {
         className="
           absolute inset-[1px] rounded z-[-1]
           opacity-0 transition-opacity group-hover:opacity-100 duration-75
-        bg-sage-3 dark:bg-sagedark-3
+        bg-mauve-3 dark:bg-mauvedark-3
         "
       />
       <h2
         className="
           text-lg md:text-xl font-medium
-          text-sage-12 dark:text-sagedark-12
+          text-mauve-12 dark:text-mauvedark-12
         "
       >
         {post.title}
@@ -33,7 +33,7 @@ function PostItem({ post }: { post: Post }) {
       <span
         className="
           flex-shrink-0 text-sm flex items-center
-          text-sage-11 dark:text-sagedark-11
+          text-mauve-11 dark:text-mauvedark-11
         "
       >
         <RelativeTime date={post.creationDate} />

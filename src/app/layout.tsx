@@ -28,7 +28,7 @@ export default function RootLayout({
         className={makeClass(
           GeistMono.variable,
           GeistSans.variable,
-          "bg-sage-1 dark:bg-sagedark-1"
+          "bg-mauve-1 dark:bg-mauvedark-1"
         )}
       >
         {children}

@@ -25,7 +25,7 @@ export async function PostHeader({
       >
         <div
           className="
-         bg-sage-4  dark:bg-sagedark-3 
+         bg-mauve-4  dark:bg-mauvedark-3 
             py-5 md:py-12 md:px-24
             in-preview:py-4 in-preview:px-0
           "
@@ -35,7 +35,7 @@ export async function PostHeader({
               className={makeClass(
                 className,
                 "text-3xl md:text-5xl in-preview:text-xl",
-                "text-sage-12 dark:text-sagedark-12"
+                "text-mauve-12 dark:text-mauvedark-12"
               )}
             >
               {post.title}
@@ -43,21 +43,21 @@ export async function PostHeader({
             <div className="sm:flex items-baseline justify-between in-preview:hidden">
               <div className="space-x-4 md:space-y-0 text-sm flex flex-row">
                 <div>
-                  <span className="italic text-sage-12 dark:text-sagedark-12">
+                  <span className="italic text-mauve-12 dark:text-mauvedark-12">
                     Created:{" "}
                   </span>
                   <Time
                     date={new Date(post.creationDate).toLocaleString()}
-                    className="text-sage-11 dark:text-sagedark-11 font-medium"
+                    className="text-mauve-11 dark:text-mauvedark-11 font-medium"
                   />
                 </div>
                 <div>
-                  <span className="italic text-sage-12 dark:text-sagedark-12">
+                  <span className="italic text-mauve-12 dark:text-mauvedark-12">
                     Updated:{" "}
                   </span>
                   <Time
                     date={new Date(post.lastUpdated).toLocaleString()}
-                    className="text-sage-11 dark:text-sagedark-11 font-medium"
+                    className="text-mauve-11 dark:text-mauvedark-11 font-medium"
                   />
                 </div>
               </div>

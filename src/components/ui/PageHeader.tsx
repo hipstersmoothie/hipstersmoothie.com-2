@@ -8,8 +8,8 @@ export function PageHeader({
     <div
       className="
         p-5 md:py-16 md:px-24
-      bg-sage-4  dark:bg-sagedark-3 
-      text-sage-12 dark:text-sagedark-12
+      bg-mauve-4  dark:bg-mauvedark-3 
+      text-mauve-12 dark:text-mauvedark-12
       "
     >
       <div className="max-w-screen-md mx-auto">

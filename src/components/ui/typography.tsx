@@ -9,7 +9,7 @@ import { ScrollArea, ScrollBar } from "./scroll-area";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-prose mx-auto px-4 text-jade-12 dark:text-sagedark-12">
+    <div className="max-w-prose mx-auto px-4 text-crimson-12 dark:text-mauvedark-12">
       {children}
     </div>
   );
@@ -46,7 +46,7 @@ export const MdxImage = ({
         )}
       </div>
       {props.alt && (
-        <figcaption className="text-sm font-medium my-2 text-center italic text-sage-11 dark:text-sagedark-11">
+        <figcaption className="text-sm font-medium my-2 text-center italic text-mauve-11 dark:text-mauvedark-11">
           {props.alt}
         </figcaption>
       )}
@@ -71,12 +71,12 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
         className={makeClass("my-6 grid", className)}
         style={{ gridTemplateColumns: "8px auto" }}
       >
-        <div className="rounded-sm rounded-r-none bg-jade-9 dark:bg-jadedark-9 " />
+        <div className="rounded-sm rounded-r-none bg-crimson-9 dark:bg-crimsondark-9 " />
         <div
           className="
             rounded-sm rounded-l-none 
-            bg-sage-1 dark:bg-sagedark-2 
-            border border-l-0 border-sage-6 dark:border-sagedark-6
+            bg-mauve-1 dark:bg-mauvedark-2 
+            border border-l-0 border-mauve-6 dark:border-mauvedark-6
           "
         >
           <blockquote>{children}</blockquote>
@@ -89,7 +89,7 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
 export const HorizontalRule: React.FC = (props) => (
   <hr
     {...props}
-    className="mx-auto h-2 w-8 rounded border-none bg-sage-7 dark:bg-sagedark-7 my-10"
+    className="mx-auto h-2 w-8 rounded border-none bg-mauve-7 dark:bg-mauvedark-7 my-10"
   />
 );
 
@@ -134,8 +134,8 @@ export const Code = (props: {
       {...props}
       className="
         text-xs rounded p-1 inline-block translate-y-[-1px]
-        bg-sage-5 dark:bg-sagedark-4
-        text-sage-12 dark:text-sagedark-12
+        bg-mauve-5 dark:bg-mauvedark-4
+        text-mauve-12 dark:text-mauvedark-12
       "
     />
   );
@@ -148,7 +148,7 @@ export const Pre = (props: React.ComponentProps<"pre">) => (
       className="
         my-6 rounded border
         overflow-hidden
-        border-sage-6 dark:border-sagedark-7
+        border-mauve-6 dark:border-mauvedark-7
       "
     />
   </WidthContainer>
@@ -162,7 +162,7 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
         mt-6 md:mt-8 
         pb-4 md:pb-6 
         mb-6 md:mb-10 
-        border-b border-sage-7 dark:border-sagedark-7
+        border-b border-mauve-7 dark:border-mauvedark-7
         flex justify-between 
         text-4xl md:text-6xl
       "
@@ -182,7 +182,7 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
       className="
         text-2xl font-medium
         mt-10 mb-6 pb-3 
-        border-b border-sage-7 dark:border-sagedark-7
+        border-b border-mauve-7 dark:border-mauvedark-7
         in-preview:text-xl in-preview:mt-6 
       "
       onClick={(e) => {
@@ -260,7 +260,7 @@ export const TD: React.FC = (props) => (
     {...props}
     className="
       py-2 px-3 
-      border-b border-t border-sage-6 dark:border-sagedark-6
+      border-b border-t border-mauve-6 dark:border-mauvedark-6
     "
   />
 );
@@ -340,8 +340,8 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
             <ScrollArea
               className="
                 rounded-sm w-[400px] h-[400px] shadow-xl
-                bg-sage-1 dark:bg-sagedark-1
-                border border-sage-6 dark:border-sagedark-6
+                bg-mauve-1 dark:bg-mauvedark-1
+                border border-mauve-6 dark:border-mauvedark-6
               "
               style={{
                 maxWidth:
