@@ -9,7 +9,7 @@ import { ScrollArea, ScrollBar } from "./scroll-area";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-prose mx-auto px-4 text-crimson-12 dark:text-mauvedark-12">
+    <div className="max-w-prose mx-auto px-4 text-mauve-12 dark:text-mauvedark-12">
       {children}
     </div>
   );
@@ -20,7 +20,7 @@ export const Paragraph = ({
   ...props
 }: React.ComponentProps<"p">) => (
   <WidthContainer>
-    <p className={makeClass(className, "my-6")} {...props} />
+    <p className={makeClass(className, "my-4")} {...props} />
   </WidthContainer>
 );
 
@@ -197,7 +197,7 @@ export const H3 = (props: React.ComponentProps<"h3">) => (
   <WidthContainer>
     <h3
       {...props}
-      className="text-xl my-4 font-semibold"
+      className="text-xl mt-8 mb-4 font-semibold"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
