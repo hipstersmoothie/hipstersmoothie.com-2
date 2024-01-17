@@ -1,5 +1,22 @@
 import { Backlink, BasicLink } from "./typography";
 
+/** Don't render previews for links in previews */
+function PreviewLink(props: React.ComponentPropsWithoutRef<"a">) {
+  const isBackLink = props.href?.startsWith("/blog/posts/");
+
+  if (isBackLink) {
+    const [slug] = props.href?.replace("/blog/posts/", "").split("/") || [];
+
+    if (!slug) {
+      throw new Error("slug is required");
+    }
+
+    return <Backlink {...props} />;
+  }
+
+  return <BasicLink {...props} />;
+}
+
 async function PostPreview({ slug }: { slug: string }) {
   const { default: PostComponent } = await import(
     `../../app/blog/posts/${slug}/page.mdx`
@@ -7,7 +24,7 @@ async function PostPreview({ slug }: { slug: string }) {
 
   return (
     <div className="in-preview">
-      <PostComponent />
+      <PostComponent components={{ BackLinks: () => null, a: PreviewLink }} />
     </div>
   );
 }

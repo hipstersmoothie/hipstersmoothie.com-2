@@ -29,8 +29,6 @@ function formatRadixColors() {
   return colors;
 }
 
-console.log(formatRadixColors());
-
 const config: Config = {
   darkMode: ["class"],
   content: [

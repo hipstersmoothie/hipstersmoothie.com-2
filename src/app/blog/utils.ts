@@ -11,8 +11,21 @@ import glob from "fast-glob";
 
 import { remark } from "remark";
 import readingTime from "remark-reading-time";
+import remarkWikiLink from "remark-wiki-link";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import remarkEmoji from "remark-emoji";
 
-const mdxProcessor = remark().use(readingTime, {});
+export const mdxProcessor = remark()
+  .use(readingTime, {})
+  .use(remarkFrontmatter)
+  .use(remarkGfm)
+  .use(remarkEmoji)
+  .use(remarkWikiLink, {
+    aliasDivider: "||",
+    pageResolver: (name: string) => [name.replace(/ /g, "-").toLowerCase()],
+    hrefTemplate: (permalink: string) => `/blog/posts/${permalink}`,
+  });
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
 

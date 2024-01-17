@@ -20,10 +20,12 @@ import {
 } from "./src/components/ui/typography";
 import { PostHeader } from "./src/app/blog/components/PostHeader";
 import { Link } from "./src/components/ui/Link";
+import { BackLinks } from "./src/app/blog/components/Backlinks";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
+    BackLinks,
     PostHeader,
     p: Paragraph,
     img: MdxImage,

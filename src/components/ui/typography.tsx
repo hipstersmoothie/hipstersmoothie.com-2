@@ -6,6 +6,7 @@ import NextLink from "next/link";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
 import { ScrollArea, ScrollBar } from "./scroll-area";
+import { ComponentProps } from "react";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -99,7 +100,7 @@ export const OrderedList: React.FC = (props) => (
   </WidthContainer>
 );
 
-export const UnorderedList: React.FC = (props) => (
+export const UnorderedList = (props: ComponentProps<"ul">) => (
   <WidthContainer>
     <ul {...props} className="list-disc ml-4 my-6" />
   </WidthContainer>
@@ -297,7 +298,7 @@ export function BasicLink(props: React.ComponentPropsWithoutRef<"a">) {
 }
 
 interface BacklinkProps extends React.ComponentPropsWithoutRef<"a"> {
-  preview: React.ReactNode;
+  preview?: React.ReactNode;
 }
 
 export function Backlink({ preview, ...props }: BacklinkProps) {
@@ -310,31 +311,17 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
   const linkClass = "underline text-pink-11 dark:text-pinkdark-10";
 
   return (
-    <>
-      <NextLink
-        {...props}
-        data-backlink
-        href={href}
-        className={makeClass(
-          linkClass,
-          "hidden in-preview:block",
-          props.className
-        )}
-      />
-      <HoverCard.Root>
-        <HoverCard.Trigger asChild={true}>
-          <NextLink
-            {...props}
-            data-backlink
-            href={href}
-            className={makeClass(
-              linkClass,
-              "in-preview:hidden",
-              props.className
-            )}
-          />
-        </HoverCard.Trigger>
+    <HoverCard.Root>
+      <HoverCard.Trigger asChild={true}>
+        <NextLink
+          {...props}
+          data-backlink
+          href={href}
+          className={makeClass(linkClass, props.className)}
+        />
+      </HoverCard.Trigger>
 
+      {preview && (
         <HoverCard.Portal>
           <HoverCard.Content collisionPadding={8} sideOffset={8} asChild={true}>
             <ScrollArea
@@ -354,7 +341,7 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
             </ScrollArea>
           </HoverCard.Content>
         </HoverCard.Portal>
-      </HoverCard.Root>
-    </>
+      )}
+    </HoverCard.Root>
   );
 }
