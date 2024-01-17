@@ -1,8 +1,8 @@
-import { Github, Twitter, Mail } from "lucide-react";
+import { Github, Twitter, Mail, ArrowRight } from "lucide-react";
 
 import { NavigationHeader } from "../components/NavigationHeader";
 import { Button } from "../components/ui/button";
-import { Code, H3, H4, Paragraph } from "../components/ui/typography";
+import { Code, H3, Paragraph } from "../components/ui/typography";
 
 const skills = [
   "React",
@@ -69,13 +69,13 @@ function Project({
     <a
       href={href}
       className="
-        flex group
+        flex group 
         scale-100 transition-transform hover:scale-[1.025]
       "
     >
       <div
         className="
-          py-2
+          py-2 w-full
           flex flex-col gap-2 rounded overflow-hidden
           border border-mauve-6 hover:border-mauve-8 
           dark:border-mauvedark-6 dark:hover:border-mauvedark-8 
@@ -239,6 +239,14 @@ export default function Home() {
           >
             A storybook addon that lets your users toggle between dark and light
             mode.
+          </Project>
+          <Project
+            href="https://github.com/hipstersmoothie?tab=repositories"
+            title="And many more..."
+          >
+            <span className="flex gap-4">
+              <span>300+ repositories on GitHub</span> <ArrowRight />
+            </span>
           </Project>
         </div>
       </main>
