@@ -1,25 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import NextImage, { ImageProps, StaticImageData } from "next/image";
+import NextImage, { ImageProps } from "next/image";
+import { devLoader, prodLoader } from "./image-utils";
 
 const isDev = process.env.NODE_ENV === "development";
-
-const devLoader = ({ src }: { src: string | StaticImageData }) => {
-  // In dev mode hit the route directly
-  return `/experiments/preview?id=${typeof src === "object" ? src.src : src}`;
-};
-
-const prodLoader = ({
-  src,
-  lqip,
-}: {
-  src: string | StaticImageData;
-  lqip?: boolean;
-}) => {
-  const _src = typeof src === "object" ? src.src : src;
-  return `/optimized/${_src}${lqip ? "-lqip" : ""}.png`;
-};
 
 function ProdImageRenderer(props: ImageProps) {
   const [imageError, setImageError] = useState(false);

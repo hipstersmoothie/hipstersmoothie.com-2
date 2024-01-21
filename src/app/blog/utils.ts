@@ -34,9 +34,13 @@ interface FrontMatter {
   creationDate: string;
 }
 
+interface GetBlogPostListOptions {
+  includeSource?: boolean;
+}
+
 export async function getBlogPostList({
   includeSource,
-}: { includeSource?: boolean } = {}) {
+}: GetBlogPostListOptions = {}) {
   const posts = await Promise.all(
     glob
       .sync(`${dir}/posts/**/*.mdx`, {
@@ -88,7 +92,10 @@ export async function getBlogPostList({
 
 export type Post = Awaited<ReturnType<typeof getBlogPostList>>[number];
 
-export async function getBlogPost(slug: string) {
-  const posts = await getBlogPostList();
+export async function getBlogPost(
+  slug: string,
+  options?: GetBlogPostListOptions
+) {
+  const posts = await getBlogPostList(options);
   return posts.find((post) => post.path === slug);
 }

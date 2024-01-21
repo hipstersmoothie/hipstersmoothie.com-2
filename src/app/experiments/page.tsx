@@ -50,7 +50,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
         </div>
         <div className="px-4 py-2">
           <h2 className="text-xl font-semibold text-mauve-12 dark:text-mauvedark-12">
-            {capitalCase(experiment.slug)}
+            {experiment.title}
           </h2>
         </div>
       </div>
