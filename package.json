@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node -r esbuild-register scripts/generate-optimized-images.ts",
     "build": "next build",
-    "postbuild": "node -r esbuild-register scripts/generate-optimized-images.ts",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",

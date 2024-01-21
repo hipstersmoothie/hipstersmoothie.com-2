@@ -11,7 +11,7 @@ async function main() {
   const experiments = await getExperimentList();
 
   // spawn a child process to run next start
-  const child = spawn("npx", ["next", "start"]);
+  const child = spawn("npx", ["next", "dev"]);
 
   // listen for "Ready" message from child stdout
   child.stdout.on("data", async (data) => {
