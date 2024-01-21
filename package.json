@@ -10,7 +10,8 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "create-blog-post": "node -r esbuild-register scripts/create-blog-post/create.ts"
+    "create-blog-post": "node -r esbuild-register scripts/create-blog-post/create.ts",
+    "create-experiment": "node -r esbuild-register scripts/create-experiment/create.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",
