@@ -151,7 +151,9 @@ export default function Home() {
               key={work.name}
               title={work.name}
               subtitle={work.position}
-              range={`${getYear(work.startDate)} - Present`}
+              range={`${getYear(work.startDate)} - ${
+                work.endDate ? getYear(work.endDate) : "Present"
+              }`}
               href={work.website}
             >
               {work.summary}
