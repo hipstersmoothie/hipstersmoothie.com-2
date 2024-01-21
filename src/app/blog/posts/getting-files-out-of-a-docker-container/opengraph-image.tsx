@@ -9,5 +9,6 @@ export const size = {
 export default async function Image() {
   return await getPostOgImage({
     slug: "getting-files-out-of-a-docker-container",
+    size,
   });
 }

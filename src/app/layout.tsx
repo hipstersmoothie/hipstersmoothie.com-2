@@ -11,6 +11,11 @@ import { IframeScript } from "../lib/IframeScript";
 export const metadata: Metadata = {
   title: "Hipstersmoothie.com",
   description: "Andrew Lisowski's personal website",
+  metadataBase: new URL(
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://hipstersmoothie.com"
+  ),
 };
 
 export default function RootLayout({

@@ -6,7 +6,7 @@ import { Avatar, Row, Stack, Text } from "./";
 import { getRelativeTime } from "../ui/RelativeTime";
 import { getBlogPost, mdxProcessor, renderPhrase } from "../../app/blog/utils";
 
-function BlockRenderer({ value, key }: { value: RootContent; key: string }) {
+function BlockRenderer({ value, id }: { value: RootContent; id: string }) {
   if (value.type === "paragraph") {
     return (
       <p
@@ -17,12 +17,7 @@ function BlockRenderer({ value, key }: { value: RootContent; key: string }) {
           color: "transparent",
         }}
       >
-        {value.children.map((child, index) =>
-          renderPhrase({
-            key: `${key}-paragraph-${index}`,
-            value: child,
-          })
-        )}
+        {value.children.map(renderPhrase)}
       </p>
     );
   }
@@ -35,12 +30,7 @@ function BlockRenderer({ value, key }: { value: RootContent; key: string }) {
           color: "transparent",
         }}
       >
-        {value.children.map((child, index) =>
-          renderPhrase({
-            key: `${key}-heading-${index}`,
-            value: child,
-          })
-        )}
+        {value.children.map(renderPhrase)}
       </h1>
     );
   }
@@ -53,14 +43,15 @@ function BlockRenderer({ value, key }: { value: RootContent; key: string }) {
             <li
               tw="ml-4 flex"
               style={{ color: "transparent", gap: 8 }}
-              key={`${key}-list-${index}`}
+              key={`${id}-list-${index}`}
             >
               <span tw="text-5xl h-12 flex items-center justify-center">
                 <span>•</span>
               </span>
-              {child.children.map((child, index) => (
-                <BlockRenderer key={`${key}-list-${index}`} value={child} />
-              ))}
+              {child.children.map((child, index) => {
+                const key = `${id}-list-${index}`;
+                return <BlockRenderer key={key} id={key} value={child} />;
+              })}
             </li>
           );
         })}
@@ -68,7 +59,6 @@ function BlockRenderer({ value, key }: { value: RootContent; key: string }) {
     );
   }
 
-  console.log("block", value);
   return null;
 }
 
@@ -84,7 +74,6 @@ export async function getPostOgImage({
 }) {
   const post = await getBlogPost(slug, { includeSource: true });
 
-  console.log(post);
   if (!post) {
     throw new Error("Post not found");
   }
@@ -140,7 +129,8 @@ export async function getPostOgImage({
           }}
         >
           {ast.children.slice(0, 7).map((child, index) => {
-            return <BlockRenderer key={`root-${index}`} value={child} />;
+            const key = `root-${index}`;
+            return <BlockRenderer key={key} id={key} value={child} />;
           })}
         </Stack>
       </Stack>

@@ -122,6 +122,5 @@ export function renderPhrase(value: PhrasingContent): string {
     return value.children.map(renderPhrase).join("");
   }
 
-  console.log(value);
   return "";
 }

@@ -5,6 +5,10 @@ import { Row, Stack, Text } from ".";
 import { getRelativeTime } from "../ui/RelativeTime";
 import { devLoader, prodLoader } from "../../app/experiments/image-utils";
 import { getExperiment } from "../../app/experiments/utils";
+import {
+  PREVIEW_HEIGHT,
+  PREVIEW_WIDTH,
+} from "../../app/experiments/preview/constants";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -16,7 +20,7 @@ export async function geExperimentOgImage({
   size: { width: number; height: number };
 }) {
   const experiment = await getExperiment(slug);
-  console.log(experiment);
+
   return new ImageResponse(
     (
       <Stack
@@ -50,15 +54,21 @@ export async function geExperimentOgImage({
             0 0 0 1px ${radixColors.crimsonDark.crimson4}`,
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            alt=""
-            src={
-              isDev
-                ? `http://localhost:3000${devLoader({ src: slug })}`
-                : `https://hipstsersmoothie.com${prodLoader({ src: slug })}`
-            }
-          />
+          <div tw="flex items-center justify-center flex-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt=""
+              width={PREVIEW_WIDTH}
+              height={PREVIEW_HEIGHT}
+              tw="flex-1"
+              style={{ objectFit: "cover" }}
+              src={
+                isDev
+                  ? `http://localhost:3000${devLoader({ src: slug })}`
+                  : `https://hipstsersmoothie.com${prodLoader({ src: slug })}`
+              }
+            />
+          </div>
         </Row>
         <Row>
           <Text fontSize={24} color="mauve11" tw="flex-1 px-6">
