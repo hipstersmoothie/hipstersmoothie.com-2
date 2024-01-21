@@ -1,22 +1,11 @@
-import { Github, Twitter, Mail, ArrowRight } from "lucide-react";
+import { Github, Twitter, Mail, ArrowRight, ExternalLink } from "lucide-react";
 
 import { NavigationHeader } from "../components/NavigationHeader";
 import { Button } from "../components/ui/button";
 import { Code, H3, Paragraph } from "../components/ui/typography";
-
-const skills = [
-  "React",
-  "TypeScript",
-  "JavaScript",
-  "Node",
-  "Accessibility",
-  "Design Systems",
-  "CSS",
-  "HTML",
-  "Playwright",
-  "Build Tooling",
-  "Release Automation",
-];
+import { Footer } from "../components/Footer";
+import resume from "./resume.json";
+import { getYear } from "date-fns/getYear";
 
 function InfoBlock({
   title,
@@ -106,42 +95,44 @@ export default function Home() {
     <>
       <NavigationHeader />
       <main className="pb-8 md:pb-20">
-        <div className="w-full py-8 bg-mauve-3 dark:bg-mauvedark-3 md:mb-16">
+        <div className="w-full py-8 bg-mauve-4 dark:bg-mauvedark-3 md:mb-16">
           <div className="flex items-center justify-center gap-2 md:gap-10 max-w-prose mx-auto px-4">
             <div className="flex flex-col gap-2 md:gap-4 flex-1">
               <h1 className="text-2xl md:text-5xl text-mauve-12 dark:text-mauvedark-12">
-                Andrew Lisowski
+                {resume.basics.name}
               </h1>
+
               <div className="flex gap-2">
                 <Button asChild variant="outline" size="icon">
-                  <a href="mailto:lisowski54@gmail.com">
+                  <a href={`mailto:${resume.basics.email}`}>
                     <Mail />
                   </a>
                 </Button>
-                <Button asChild variant="outline" size="icon">
-                  <a
-                    href="https://github.com/hipstersmoothie"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                {resume.basics.profiles.map((profile) => (
+                  <Button
+                    key={profile.network}
+                    asChild
+                    variant="outline"
+                    size="icon"
                   >
-                    <Github />
-                  </a>
-                </Button>
-                <Button asChild variant="outline" size="icon">
-                  <a
-                    href="https://twitter.com/hipstersmoothie"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Twitter />
-                  </a>
-                </Button>
+                    <a
+                      href={profile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {(profile.network === "github" && <Github />) ||
+                        (profile.network === "twitter" && <Twitter />) || (
+                          <ExternalLink />
+                        )}
+                    </a>
+                  </Button>
+                ))}
               </div>
             </div>
             <div className="px-2 flex-shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://pbs.twimg.com/profile_images/1685360377754947584/PhKnYmq-_400x400.jpg"
+                src={resume.basics.image}
                 className="rounded-full h-24 w-24 md:h-40 md:w-40 border-2 border-mauve-6 dark:border-mauvedark-6"
                 alt="Andrew smiling"
               />
@@ -150,54 +141,40 @@ export default function Home() {
         </div>
 
         <H3>About</H3>
-        <Paragraph>
-          I&apos;m a Front End Engineer with a passion for sweating the details.
-          Building good UI is easy, building great UI is hard. I love the
-          challenge of creating interfaces that are both beautiful and
-          functional for a wide range of users.
-        </Paragraph>
+        <Paragraph>{resume.basics.summary}</Paragraph>
 
         <H3>Work</H3>
 
         <div className="flex flex-col gap-6 max-w-prose mx-auto">
-          <InfoBlock
-            title="Descript"
-            subtitle="Senior Full Stack Developer"
-            range="2021 - Present"
-            href="https://descript.com/"
-          >
-            Implemented a new design system and component library to completely
-            redesign the app, modernized the codebase into a proper monorepo,
-            helped bring the electron app to the web, and implemented an E2E
-            testing framework on top of playwright.
-          </InfoBlock>
-
-          <InfoBlock
-            title="Intuit - TurboTax"
-            subtitle="Intern => Senior Front End Developer"
-            range="2013 - 2021"
-            href="https://intuit.com/"
-          >
-            Interned on 3 different product teams, getting hired on full time in
-            2016 to work on a client rendering library and a design system. That
-            eventually led to my team being leaders in the design systems and
-            front end tooling space at the company, eventually leading to me
-            becoming the &ldquo;Open Source Leader&rdquo; for the San Diego
-            office.
-          </InfoBlock>
+          {resume.work.map((work) => (
+            <InfoBlock
+              key={work.name}
+              title={work.name}
+              subtitle={work.position}
+              range={`${getYear(work.startDate)} - Present`}
+              href={work.website}
+            >
+              {work.summary}
+            </InfoBlock>
+          ))}
         </div>
 
         <H3>Education</H3>
-        <InfoBlock
-          title="Cal Poly, San Luis Obispo"
-          subtitle="Bachelor's Degree in Computer Science"
-          range="2011 - 2016"
-          href="https://calpoly.edu/"
-        />
+        {resume.education.map((education) => (
+          <InfoBlock
+            key={education.institution}
+            title={education.institution}
+            subtitle={`${education.studyType} - ${education.area}`}
+            range={`${getYear(education.startDate)} - ${getYear(
+              education.endDate
+            )}`}
+            href={education.url}
+          />
+        ))}
 
         <H3>Skills</H3>
         <ul className="flex flex-wrap gap-2 px-4 max-w-prose mx-auto">
-          {skills.map((skill) => (
+          {resume.skills[0].keywords.map((skill) => (
             <li key={skill}>
               <Code>{skill}</Code>
             </li>
@@ -250,6 +227,7 @@ export default function Home() {
           </Project>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { ExperimentPreviewImage } from "./ExperimentPreviewImage";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Experiment, getExperimentList } from "./utils";
 import { capitalCase } from "change-case";
+import { Footer } from "../../components/Footer";
 
 async function ExperimentCard({ experiment }: { experiment: Experiment }) {
   return (
@@ -64,7 +65,7 @@ export default async function ExperimentsList() {
     <>
       <NavigationHeader />
       <PageHeader>Experiments</PageHeader>
-      <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12">
+      <main className="flex-1 flex flex-col items-center justify-between p-5 md:px-24 md:py-12">
         <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-md">
           {experiments.map((experiment) => (
             <li key={experiment.path}>
@@ -73,6 +74,7 @@ export default async function ExperimentsList() {
           ))}
         </ol>
       </main>
+      <Footer />
     </>
   );
 }

@@ -1,0 +1,76 @@
+{
+  "basics": {
+    "name": "Andrew Lisowski",
+    "label": "Front End Developer",
+    "image": "https://pbs.twimg.com/profile_images/1685360377754947584/PhKnYmq-_400x400.jpg",
+    "summary": "I'm a Front End Engineer with a passion for sweating the details. Building good UI is easy, building great UI is hard. I love the challenge of creating interfaces that are both beautiful and functional for a wide range of users.",
+    "website": "https://hipstersmoothie.com",
+    "email": "lisowski54@gmail.com",
+    "location": {
+      "city": "San Jose, CA",
+      "countryCode": "US"
+    },
+    "profiles": [
+      {
+        "url": "https://github.com/hipstersmoothie",
+        "username": "hipstersmoothie",
+        "network": "github",
+        "label": "Github"
+      },
+      {
+        "username": "hipstersmoothie",
+        "url": "https://twitter.com/hipstersmoothie",
+        "network": "twitter",
+        "label": "Twitter"
+      }
+    ]
+  },
+  "education": [
+    {
+      "endDate": "2016-1-1",
+      "startDate": "2011-08-1",
+      "area": "Computer Science",
+      "studyType": "Bachelors",
+      "institution": "Cal Poly, San Luis Obispo",
+      "url": "https://www.calpoly.edu/"
+    }
+  ],
+  "skills": [
+    {
+      "keywords": [
+        "React",
+        "TypeScript",
+        "JavaScript",
+        "Node",
+        "Accessibility",
+        "Design Systems",
+        "CSS",
+        "HTML",
+        "Playwright",
+        "Build Tooling",
+        "Release Automation"
+      ],
+      "level": "Senior",
+      "name": "Frontend"
+    }
+  ],
+  "work": [
+    {
+      "summary": "Implemented a new design system and component library to completely redesign the app, modernized the codebase into a proper monorepo, helped bring the electron app to the web, and implemented an E2E testing framework on top of playwright.",
+      "website": "https://descript.com/",
+      "name": "Descript",
+      "location": "Remote",
+      "position": "Senior Full Stack Developer",
+      "startDate": "2021-03-1"
+    },
+    {
+      "summary": "Interned on 3 different product teams, getting hired on full time in 2016 to work on a client rendering library and a design system. That eventually led to my team being leaders in the design systems and front end tooling space at the company, eventually leading to me becoming the &ldquo;Open Source Leader&rdquo; for the San Diego office.",
+      "website": "https://intuit.com/",
+      "name": "Intuit - TurboTax",
+      "location": "San Diego, CA",
+      "position": "Intern => Senior Front End Developer",
+      "startDate": "2013-6-1",
+      "endDate": "2021-3-1"
+    }
+  ]
+}

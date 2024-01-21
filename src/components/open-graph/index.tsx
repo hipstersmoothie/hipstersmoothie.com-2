@@ -1,4 +1,5 @@
 import * as radixColors from "@radix-ui/colors";
+import resume from "../../app/resume.json";
 
 export function Row({
   align: alignItems = "center",
@@ -91,7 +92,7 @@ export function Avatar({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="https://pbs.twimg.com/profile_images/1685360377754947584/PhKnYmq-_400x400.jpg"
+      src={resume.basics.image}
       alt="Andrew smiling"
       style={{
         borderRadius: borderRadius,

@@ -34,6 +34,7 @@ export default function RootLayout({
         className={makeClass(
           GeistMono.variable,
           GeistSans.variable,
+          "min-h-screen flex flex-col",
           "bg-mauve-1 dark:bg-mauvedark-1"
         )}
       >

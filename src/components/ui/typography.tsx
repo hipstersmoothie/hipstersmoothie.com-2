@@ -4,6 +4,7 @@ import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
 import * as HoverCard from "@radix-ui/react-hover-card";
+import { twMerge } from "tailwind-merge";
 
 import { ScrollArea, ScrollBar } from "./scroll-area";
 import { ComponentProps } from "react";
@@ -266,18 +267,24 @@ export const TD: React.FC = (props) => (
   />
 );
 
-export function BasicLink(props: React.ComponentPropsWithoutRef<"a">) {
+export function BasicLink({
+  className: classNameProp,
+  ...props
+}: React.ComponentPropsWithoutRef<"a">) {
   let href = props.href;
 
   if (href?.startsWith("#")) {
     return <a {...props} />;
   }
 
-  const className = `
-    underline
-    text-blue-11 visited:text-violet-11 
-    dark:text-bluedark-11 dark:visited:text-violetdark-11
-  `;
+  const className = twMerge(
+    `
+      underline
+      text-blue-11 visited:text-violet-11 
+      dark:text-bluedark-11 dark:visited:text-violetdark-11
+    `,
+    classNameProp
+  );
 
   if (href?.startsWith("/")) {
     return (

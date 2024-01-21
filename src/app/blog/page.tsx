@@ -4,6 +4,7 @@ import { NavigationHeader } from "../../components/NavigationHeader";
 import { RelativeTime } from "../../components/ui/RelativeTime";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Post, getBlogPostList } from "./utils";
+import { Footer } from "../../components/Footer";
 
 function PostItem({ post }: { post: Post }) {
   return (
@@ -49,7 +50,7 @@ export default async function PostList() {
     <>
       <NavigationHeader />
       <PageHeader>Blog</PageHeader>
-      <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12">
+      <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12 md:pb-20">
         <ol className="flex flex-col w-full max-w-screen-md">
           {posts.map((post) => (
             <li key={post.path}>
@@ -58,6 +59,7 @@ export default async function PostList() {
           ))}
         </ol>
       </main>
+      <Footer />
     </>
   );
 }
