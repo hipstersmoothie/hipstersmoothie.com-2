@@ -15,6 +15,7 @@ import remarkWikiLink from "remark-wiki-link";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
+import { PhrasingContent } from "mdast";
 
 export const mdxProcessor = remark()
   .use(readingTime, {})
@@ -92,10 +93,35 @@ export async function getBlogPostList({
 
 export type Post = Awaited<ReturnType<typeof getBlogPostList>>[number];
 
+export function isBlogPost(value: unknown): value is Post {
+  return typeof value === "object" && value !== null && "frontMatter" in value;
+}
+
 export async function getBlogPost(
   slug: string,
   options?: GetBlogPostListOptions
 ) {
   const posts = await getBlogPostList(options);
   return posts.find((post) => post.path === slug);
+}
+
+export function renderPhrase(value: PhrasingContent): string {
+  if (value.type === "text") {
+    return value.value;
+  }
+
+  if ((value as any).type === "wikiLink") {
+    return (value as any).value;
+  }
+
+  if (
+    value.type === "link" ||
+    value.type === "emphasis" ||
+    value.type === "strong"
+  ) {
+    return value.children.map(renderPhrase).join("");
+  }
+
+  console.log(value);
+  return "";
 }

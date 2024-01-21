@@ -1,10 +1,8 @@
 import { ImageResponse } from "next/og";
 import * as radixColors from "@radix-ui/colors";
-import { PhrasingContent, RootContent } from "mdast";
 
-import { Avatar, Row, Stack, Text } from ".";
+import { Row, Stack, Text } from ".";
 import { getRelativeTime } from "../ui/RelativeTime";
-import { getBlogPost, mdxProcessor } from "../../app/blog/utils";
 import { devLoader, prodLoader } from "../../app/experiments/image-utils";
 import { getExperiment } from "../../app/experiments/utils";
 

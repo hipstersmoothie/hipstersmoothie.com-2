@@ -23,6 +23,12 @@ export default function RootLayout({
       <head>
         <ThemeScript />
         <IframeScript />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          href="/rss.xml"
+          title="RSS Feed for hipstersmoothie.com"
+        />
       </head>
       <body
         className={makeClass(

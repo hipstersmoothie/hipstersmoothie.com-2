@@ -1,46 +1,10 @@
 import { ImageResponse } from "next/og";
 import * as radixColors from "@radix-ui/colors";
-import { PhrasingContent, RootContent } from "mdast";
+import { RootContent } from "mdast";
 
 import { Avatar, Row, Stack, Text } from "./";
 import { getRelativeTime } from "../ui/RelativeTime";
-import { getBlogPost, mdxProcessor } from "../../app/blog/utils";
-
-const processor = mdxProcessor;
-
-function renderPhrase({
-  value,
-  key,
-}: {
-  value: PhrasingContent;
-  key: string;
-}): string {
-  if (value.type === "text") {
-    return value.value;
-  }
-
-  if ((value as any).type === "wikiLink") {
-    return (value as any).value;
-  }
-
-  if (
-    value.type === "link" ||
-    value.type === "emphasis" ||
-    value.type === "strong"
-  ) {
-    return value.children
-      .map((child, index) =>
-        renderPhrase({
-          key: `${key}-link-${index}`,
-          value: child,
-        })
-      )
-      .join("");
-  }
-
-  console.log(value);
-  return "";
-}
+import { getBlogPost, mdxProcessor, renderPhrase } from "../../app/blog/utils";
 
 function BlockRenderer({ value, key }: { value: RootContent; key: string }) {
   if (value.type === "paragraph") {
@@ -126,7 +90,7 @@ export async function getPostOgImage({
   }
   // full size - avatar size - gap - padding
   const availableWidth = size.width - 200 - 40 - 80;
-  const ast = processor.parse(post.source);
+  const ast = mdxProcessor.parse(post.source);
 
   return new ImageResponse(
     (
