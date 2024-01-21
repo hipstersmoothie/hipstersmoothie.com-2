@@ -56,7 +56,7 @@ export async function geExperimentOgImage({
         >
           <div tw="flex items-center justify-center flex-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {/* <img
+            <img
               alt=""
               width={PREVIEW_WIDTH}
               height={PREVIEW_HEIGHT}
@@ -67,7 +67,7 @@ export async function geExperimentOgImage({
                   ? `http://localhost:3000${devLoader({ src: slug })}`
                   : `https://hipstsersmoothie.com${prodLoader({ src: slug })}`
               }
-            /> */}
+            />
           </div>
         </Row>
         <Row>

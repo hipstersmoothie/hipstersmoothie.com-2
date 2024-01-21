@@ -11,7 +11,7 @@ import { ComponentProps } from "react";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-prose mx-auto px-4 text-mauve-12 dark:text-mauvedark-12">
+    <div className="max-w-prose mx-auto px-4 text-mauve-12 dark:text-mauvedark-12 ">
       {children}
     </div>
   );
