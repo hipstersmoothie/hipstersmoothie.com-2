@@ -23,7 +23,8 @@ function ProdImageRenderer(props: ImageProps) {
   return (
     <NextImage
       {...props}
-      loader={imageError ? devLoader : prodLoader}
+      loader={prodLoader}
+      data-prod
       style={{ ...props.style, ...blurStyle }}
       onError={() => {
         setImageError(true);
