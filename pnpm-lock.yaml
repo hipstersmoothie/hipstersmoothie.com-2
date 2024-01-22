@@ -72,8 +72,8 @@ dependencies:
     specifier: ^14.1.0
     version: 14.1.0(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0)
   next-app-theme:
-    specifier: ^0.1.4
-    version: 0.1.4(next@14.1.0)(react@18.2.0)
+    specifier: ^0.1.7
+    version: 0.1.7(next@14.1.0)(react@18.2.0)
   next-image-export-optimizer:
     specifier: ^1.11.0
     version: 1.11.0(next@14.1.0)(react@18.2.0)
@@ -11417,8 +11417,8 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  /next-app-theme@0.1.4(next@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-eKPAnlwjSn9sIxXWbG93NVt2Uy9PLGcCY2RAa1ULEkSAyCVzSWyG2rrQkVq/mJaJu52MmjbGQoplhZPZ7g09cQ==}
+  /next-app-theme@0.1.7(next@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-iaqWgrjrynGsaOsBeNkKprLwgT1JWAeLIzf7y/UbCQbJLPUaW524AsR2inLqn/n1BTvOQ6IW+YH6Q1BWmMHLbA==}
     peerDependencies:
       next: '>=13'
       react: '>=16'
