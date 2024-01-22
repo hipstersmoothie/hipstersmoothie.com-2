@@ -135,7 +135,7 @@ export const Code = (props: {
     <code
       {...props}
       className="
-        text-xs rounded p-1 inline-block translate-y-[-1px]
+        text-xs rounded p-1 py-0.5 inline-block translate-y-[-1px]
         bg-crimsona-5 dark:bg-crimsondarka-4
         text-crimsona-12 dark:text-crimsondarka-12
       "
