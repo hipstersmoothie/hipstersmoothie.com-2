@@ -6,7 +6,6 @@ import { GeistMono } from "geist/font/mono";
 import { ThemeScript } from "next-app-theme/theme-script";
 
 import "./globals.css";
-import { IframeScript } from "../lib/IframeScript";
 
 export const metadata: Metadata = {
   title: "Hipstersmoothie.com",
@@ -27,7 +26,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
-        <IframeScript />
         <link
           rel="alternate"
           type="application/rss+xml"
