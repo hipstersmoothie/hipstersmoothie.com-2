@@ -6,6 +6,8 @@ import {
   ExternalLink,
   Rss,
   Mic,
+  Globe,
+  MapPin,
 } from "lucide-react";
 
 import { NavigationHeader } from "../components/NavigationHeader";
@@ -132,7 +134,7 @@ export default function Home() {
                 {resume.basics.name}
               </h1>
 
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <HeroButton href="https://devtools.fm" tooltip="Podcast">
                   <Mic />
                 </HeroButton>
@@ -158,6 +160,16 @@ export default function Home() {
                 <HeroButton href="/rss" tooltip="RSS Feed">
                   <Rss />
                 </HeroButton>
+                <div className="flex-1" />
+                <div
+                  className="
+                    text-sm text-mauve-11 dark:text-mauvedark-11
+                    hidden md:flex items-center gap-2
+                  "
+                >
+                  {resume.basics.location.city}
+                  <MapPin size={20} />
+                </div>
               </div>
             </div>
             <div className="px-2 flex-1">
