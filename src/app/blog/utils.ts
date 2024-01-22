@@ -39,6 +39,43 @@ interface GetBlogPostListOptions {
   includeSource?: boolean;
 }
 
+async function parseBlogPost(
+  filepath: string,
+  options: GetBlogPostListOptions = {}
+) {
+  const file = await read(filepath);
+  matter(file);
+  await mdxProcessor.process(file);
+  const frontMatter = file.data.matter as FrontMatter;
+
+  const fileDir = filepath.replace("/page.mdx", "");
+  const postSlug = path.basename(fileDir);
+  const postPath = fileDir.replace(`${dir}/posts/`, "").replace(".mdx", "");
+
+  const { birthtime } = await fs.stat(filepath);
+  const { stdout } = await $`git log --diff-filter=A --format=%aI ${filepath}`;
+  const creationDate = new Date(
+    frontMatter.creationDate || stdout || birthtime
+  );
+  // get the last updated time from git
+  const { stdout: lastUpdated } = await $`git log -1 --format=%aI ${filepath}`;
+
+  return {
+    title: frontMatter.title || capitalCase(postSlug),
+    path: postPath,
+    creationDate,
+    lastUpdated: lastUpdated ? new Date(lastUpdated) : creationDate,
+    frontMatter,
+    source: options.includeSource ? file.toString() : undefined,
+    readingTime: file.data.readingTime as {
+      text: string;
+      minutes: number;
+      time: number;
+      words: number;
+    },
+  };
+}
+
 export async function getBlogPostList({
   includeSource,
 }: GetBlogPostListOptions = {}) {
@@ -47,43 +84,7 @@ export async function getBlogPostList({
       .sync(`${dir}/posts/**/*.mdx`, {
         deep: 2,
       })
-      .map(async (filepath) => {
-        const file = await read(filepath);
-        matter(file);
-        await mdxProcessor.process(file);
-        const frontMatter = file.data.matter as FrontMatter;
-
-        const fileDir = filepath.replace("/page.mdx", "");
-        const postSlug = path.basename(fileDir);
-        const postPath = fileDir
-          .replace(`${dir}/posts/`, "")
-          .replace(".mdx", "");
-
-        const { birthtime } = await fs.stat(filepath);
-        const { stdout } =
-          await $`git log --diff-filter=A --format=%aI ${filepath}`;
-        const creationDate = new Date(
-          frontMatter.creationDate || stdout || birthtime
-        );
-        // get the last updated time from git
-        const { stdout: lastUpdated } =
-          await $`git log -1 --format=%aI ${filepath}`;
-
-        return {
-          title: frontMatter.title || capitalCase(postSlug),
-          path: postPath,
-          creationDate,
-          lastUpdated: lastUpdated ? new Date(lastUpdated) : creationDate,
-          frontMatter,
-          source: includeSource ? file.toString() : undefined,
-          readingTime: file.data.readingTime as {
-            text: string;
-            minutes: number;
-            time: number;
-            words: number;
-          },
-        };
-      })
+      .map((filepath) => parseBlogPost(filepath, { includeSource }))
   );
 
   return posts.sort(
@@ -101,8 +102,8 @@ export async function getBlogPost(
   slug: string,
   options?: GetBlogPostListOptions
 ) {
-  const posts = await getBlogPostList(options);
-  return posts.find((post) => post.path === slug);
+  const filepath = `${dir}/posts/${slug}/page.mdx`;
+  return parseBlogPost(filepath, options);
 }
 
 export function renderPhrase(value: PhrasingContent): string {

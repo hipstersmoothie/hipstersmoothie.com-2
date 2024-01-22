@@ -7,6 +7,28 @@ import { readFile } from "fs/promises";
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
 
+async function parseExperiment(filepath: string) {
+  const fileDir = filepath.replace("/page.tsx", "");
+  const experimentName = path.basename(fileDir);
+  const experimentPath = fileDir.replace(`${dir}/`, "");
+  const description =
+    experimentName === "experiments"
+      ? ""
+      : await readFile(filepath.replace("page.tsx", "description.txt"), "utf8");
+
+  const { birthtime } = await fs.stat(filepath);
+  const { stdout } = await $`git log --diff-filter=A --format=%aI ${filepath}`;
+  const creationDate = new Date(stdout || birthtime);
+
+  return {
+    title: capitalCase(experimentName),
+    description,
+    slug: experimentName,
+    path: experimentPath,
+    creationDate,
+  };
+}
+
 export async function getExperimentList() {
   const experiments = (
     await Promise.all(
@@ -14,31 +36,7 @@ export async function getExperimentList() {
         .sync(`${dir}/**/page.tsx`, {
           deep: 2,
         })
-        .map(async (filepath) => {
-          const fileDir = filepath.replace("/page.tsx", "");
-          const experimentName = path.basename(fileDir);
-          const experimentPath = fileDir.replace(`${dir}/`, "");
-          const description =
-            experimentName === "experiments"
-              ? ""
-              : await readFile(
-                  filepath.replace("page.tsx", "description.txt"),
-                  "utf8"
-                );
-
-          const { birthtime } = await fs.stat(filepath);
-          const { stdout } =
-            await $`git log --diff-filter=A --format=%aI ${filepath}`;
-          const creationDate = new Date(stdout || birthtime);
-
-          return {
-            title: capitalCase(experimentName),
-            description,
-            slug: experimentName,
-            path: experimentPath,
-            creationDate,
-          };
-        })
+        .map(parseExperiment)
     )
   )
     .filter((experiment) => experiment.slug !== "experiments")
@@ -48,12 +46,8 @@ export async function getExperimentList() {
 }
 
 export async function getExperiment(slug: string) {
-  const experiments = await getExperimentList();
-  const experiment = experiments.find((e) => e.slug === slug);
-  if (!experiment) {
-    throw new Error(`No experiment found with slug "${slug}"`);
-  }
-  return experiment;
+  const filepath = `${dir}/${slug}/page.tsx`;
+  return parseExperiment(filepath);
 }
 
 export type Experiment = Awaited<ReturnType<typeof getExperimentList>>[number];
