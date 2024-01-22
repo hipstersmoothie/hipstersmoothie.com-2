@@ -1,6 +1,28 @@
 import resume from "../app/resume.json";
 import { BasicLink } from "./ui/typography";
 
+function FooterLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <BasicLink
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="
+      text-mauve-11 dark:text-mauvedark-11 
+      visited:text-mauve-11 visited:dark:text-mauvedark-11
+      "
+    >
+      {children}
+    </BasicLink>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="flex flex-col gap-4 items-center justify-center w-full  py-8 bg-mauve-3 dark:bg-mauvedark-2">
@@ -15,17 +37,11 @@ export function Footer() {
             after:bg-mauve-8 dark:after:bg-mauvedark-8
             "
           >
-            <BasicLink
-              href={profile.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-              text-mauve-11 dark:text-mauvedark-11 visited:text-mauve-11 visited:dark:text-mauvedark-11"
-            >
-              {profile.label}
-            </BasicLink>
+            <FooterLink href={profile.url}>{profile.label}</FooterLink>
           </li>
         ))}
+
+        <FooterLink href="/rss">RSS</FooterLink>
       </ul>
       <span className="text-mauve-11 dark:text-mauvedark-11">
         © {new Date().getFullYear()} Andrew Lisowski
