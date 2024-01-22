@@ -111,6 +111,7 @@ const config: Config = {
   },
   plugins: [
     require("tailwindcss-animate"),
+    require("@tailwindcss/container-queries"),
     plugin(({ addVariant }) => {
       // Add a `third` variant, ie. `third:pb-0`
       addVariant("in-preview", ".in-preview &");

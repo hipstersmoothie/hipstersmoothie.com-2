@@ -96,9 +96,9 @@ export default function Home() {
       <NavigationHeader />
       <main className="pb-8 md:pb-20">
         <div className="w-full py-8 bg-mauve-4 dark:bg-mauvedark-3 md:mb-16">
-          <div className="flex items-center justify-center gap-2 md:gap-10 max-w-prose mx-auto px-4">
-            <div className="flex flex-col gap-2 md:gap-4 flex-1">
-              <h1 className="text-2xl md:text-5xl text-mauve-12 dark:text-mauvedark-12">
+          <div className="flex items-center justify-center gap-8 md:gap-10 max-w-prose mx-auto px-4">
+            <div className="@container flex flex-col gap-2 md:gap-4 flex-[2.5]">
+              <h1 className="text-[12.7cqw] text-mauve-12 dark:text-mauvedark-12">
                 {resume.basics.name}
               </h1>
 
@@ -129,11 +129,11 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="px-2 flex-shrink-0">
+            <div className="px-2 flex-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={resume.basics.image}
-                className="rounded-full h-24 w-24 md:h-40 md:w-40 border-2 border-mauve-6 dark:border-mauvedark-6"
+                className="rounded-full aspect-square flex-1 border-2 border-mauve-6 dark:border-mauvedark-6"
                 alt="Andrew smiling"
               />
             </div>
