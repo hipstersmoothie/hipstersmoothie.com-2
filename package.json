@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "clean": "rm -rf .next",
+    "clean": "rm -rf .next && rm -rf public/optimized",
     "dev": "next dev",
-    "build": "pnpm exec playwright install chromium && NODE_ENV=development node -r esbuild-register scripts/generate-optimized-images.ts && NODE_ENV=production next build",
+    "build": "pnpm exec playwright install chromium && node -r esbuild-register scripts/generate-optimized-images.ts && next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",

@@ -11,7 +11,12 @@ async function main() {
   const experiments = await getExperimentList();
 
   // spawn a child process to run next start
-  const child = spawn("npx", ["next", "dev"]);
+  const child = spawn("npx", ["next", "dev"], {
+    env: {
+      ...process.env,
+      NODE_ENV: "development",
+    },
+  });
 
   // listen for "Ready" message from child stdout
   child.stdout.on("data", async (data) => {
@@ -32,6 +37,7 @@ async function main() {
             `${slug}.png`
           );
 
+          await fs.mkdir(path.dirname(filename), { recursive: true });
           await fs.writeFile(filename, buffer);
           console.log(`Saved ${filename}`);
 
