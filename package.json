@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rm -rf .next",
     "dev": "next dev",
-    "build": "pnpm run clean && node -r esbuild-register scripts/generate-optimized-images.ts && next build",
+    "build": "pnpm exec playwright install && node -r esbuild-register scripts/generate-optimized-images.ts && next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
