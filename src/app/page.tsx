@@ -1,11 +1,40 @@
-import { Github, Twitter, Mail, ArrowRight, ExternalLink } from "lucide-react";
+import {
+  Github,
+  Twitter,
+  Mail,
+  ArrowRight,
+  ExternalLink,
+  Rss,
+  Mic,
+} from "lucide-react";
 
 import { NavigationHeader } from "../components/NavigationHeader";
 import { Button } from "../components/ui/button";
+import { Tooltip } from "../components/ui/tooltip";
 import { Code, H3, Paragraph } from "../components/ui/typography";
 import { Footer } from "../components/Footer";
 import resume from "./resume.json";
 import { getYear } from "date-fns/getYear";
+
+function HeroButton({
+  href,
+  children,
+  tooltip,
+}: {
+  href: string;
+  children: React.ReactNode;
+  tooltip: string;
+}) {
+  return (
+    <Tooltip title={tooltip}>
+      <Button asChild variant="outline" size="icon">
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      </Button>
+    </Tooltip>
+  );
+}
 
 function InfoBlock({
   title,
@@ -104,30 +133,31 @@ export default function Home() {
               </h1>
 
               <div className="flex gap-2">
-                <Button asChild variant="outline" size="icon">
-                  <a href={`mailto:${resume.basics.email}`}>
-                    <Mail />
-                  </a>
-                </Button>
+                <HeroButton href="https://devtools.fm" tooltip="Podcast">
+                  <Mic />
+                </HeroButton>
+
                 {resume.basics.profiles.map((profile) => (
-                  <Button
+                  <HeroButton
                     key={profile.network}
-                    asChild
-                    variant="outline"
-                    size="icon"
+                    href={profile.url}
+                    tooltip={profile.label}
                   >
-                    <a
-                      href={profile.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {(profile.network === "github" && <Github />) ||
-                        (profile.network === "twitter" && <Twitter />) || (
-                          <ExternalLink />
-                        )}
-                    </a>
-                  </Button>
+                    {(profile.network === "github" && <Github />) ||
+                      (profile.network === "twitter" && <Twitter />) || (
+                        <ExternalLink />
+                      )}
+                  </HeroButton>
                 ))}
+                <HeroButton
+                  href={`mailto:${resume.basics.email}`}
+                  tooltip="Email"
+                >
+                  <Mail />
+                </HeroButton>
+                <HeroButton href="/rss" tooltip="RSS Feed">
+                  <Rss />
+                </HeroButton>
               </div>
             </div>
             <div className="px-2 flex-1">

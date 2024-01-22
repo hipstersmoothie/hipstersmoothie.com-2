@@ -5,6 +5,8 @@ import { GeistMono } from "geist/font/mono";
 
 import { ThemeScript } from "next-app-theme/theme-script";
 
+import { TooltipProvider } from "../components/ui/tooltip";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,26 +25,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <ThemeScript />
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          href="/rss.xml"
-          title="RSS Feed for hipstersmoothie.com"
-        />
-      </head>
-      <body
-        className={makeClass(
-          GeistMono.variable,
-          GeistSans.variable,
-          "min-h-screen flex flex-col",
-          "bg-mauve-1 dark:bg-mauvedark-1"
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <TooltipProvider>
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          <ThemeScript />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            href="/rss.xml"
+            title="RSS Feed for hipstersmoothie.com"
+          />
+        </head>
+        <body
+          className={makeClass(
+            GeistMono.variable,
+            GeistSans.variable,
+            "min-h-screen flex flex-col",
+            "bg-mauve-1 dark:bg-mauvedark-1"
+          )}
+        >
+          {children}
+        </body>
+      </html>
+    </TooltipProvider>
   );
 }

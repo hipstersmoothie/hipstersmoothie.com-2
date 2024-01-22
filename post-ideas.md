@@ -1,3 +1,0 @@
-- gold foil
-- mdx woes
-- conditional rsc
