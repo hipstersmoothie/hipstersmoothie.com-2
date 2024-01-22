@@ -60,6 +60,7 @@ function Project({
       className="
         flex group 
         scale-100 transition-transform hover:scale-[1.025]
+        active:animate-press
       "
     >
       <div

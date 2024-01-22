@@ -32,8 +32,8 @@ export function NavigationHeader() {
         <Button variant="ghost" size="sm" asChild={true}>
           <Link href="/">Andrew Lisowski</Link>
         </Button>
-        <div className="flex gap-4">
-          <ol className="flex gap-4">
+        <div className="flex gap-1 md:gap-4">
+          <ol className="flex gap-1 md:gap-4">
             <li>
               <NavigationButton href="/blog">Blog</NavigationButton>
             </li>
