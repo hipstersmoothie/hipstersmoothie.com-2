@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean": "rm -rf .next",
     "dev": "next dev",
-    "prebuild": "node -r esbuild-register scripts/generate-optimized-images.ts",
+    "prebuild": "pnpm run clean && node -r esbuild-register scripts/generate-optimized-images.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
