@@ -5,6 +5,8 @@ import { RelativeTime } from "../../components/ui/RelativeTime";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Post, getBlogPostList } from "./utils";
 import { Footer } from "../../components/Footer";
+import { Backlink } from "../../components/ui/typography";
+import { PostPreview } from "../../components/ui/Link";
 
 function PostItem({ post }: { post: Post }) {
   return (
@@ -49,7 +51,23 @@ export default async function PostList() {
   return (
     <>
       <NavigationHeader />
-      <PageHeader>Blog</PageHeader>
+      <PageHeader
+        subtitle={
+          <>
+            A collection of disorganized interconnected notes on front-end, dev
+            tools, home automation and podcasting. Be on the lookout for the
+            special pink links{" "}
+            <Backlink
+              href="/blog/posts/devtools-fm"
+              preview={<PostPreview slug="devtools-fm" />}
+            >
+              like this.
+            </Backlink>
+          </>
+        }
+      >
+        Blog
+      </PageHeader>
       <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12 md:pb-20">
         <ol className="flex flex-col w-full max-w-screen-md">
           {posts.map((post) => (

@@ -7,7 +7,6 @@ import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from "./preview/constants";
 import { ExperimentPreviewImage } from "./ExperimentPreviewImage";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Experiment, getExperimentList } from "./utils";
-import { capitalCase } from "change-case";
 import { Footer } from "../../components/Footer";
 
 async function ExperimentCard({ experiment }: { experiment: Experiment }) {
@@ -49,10 +48,13 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             alt="Preview of the experiment"
           />
         </div>
-        <div className="px-4 py-2">
+        <div className="px-4 py-3 flex flex-col gap-2">
           <h2 className="text-xl font-semibold text-mauve-12 dark:text-mauvedark-12">
             {experiment.title}
           </h2>
+          <p className="text-sm text-mauve-11 dark:text-mauvedark-11">
+            {experiment.description}
+          </p>
         </div>
       </div>
     </Link>
@@ -64,8 +66,10 @@ export default async function ExperimentsList() {
   return (
     <>
       <NavigationHeader />
-      <PageHeader>Experiments</PageHeader>
-      <main className="flex-1 flex flex-col items-center justify-between p-5 md:px-24 md:py-12">
+      <PageHeader subtitle="A collection of one-off experiments that explore different ideas and browser APIs.">
+        Experiments
+      </PageHeader>
+      <main className="flex-1 flex flex-col items-center justify-between p-3 md:px-24 md:py-12">
         <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-md">
           {experiments.map((experiment) => (
             <li key={experiment.path}>

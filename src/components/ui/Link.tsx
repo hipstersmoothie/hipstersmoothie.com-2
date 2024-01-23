@@ -17,7 +17,7 @@ function PreviewLink(props: React.ComponentPropsWithoutRef<"a">) {
   return <BasicLink {...props} />;
 }
 
-async function PostPreview({ slug }: { slug: string }) {
+export async function PostPreview({ slug }: { slug: string }) {
   const { default: PostComponent } = await import(
     `../../app/blog/posts/${slug}/page.mdx`
   );
