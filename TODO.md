@@ -3,8 +3,7 @@
 - fix padding/spacing in og images
 - post tags
 - search
-- copy to clipboard button on code blocks
-  - toasts
+- code block names, etc
 
 ## Posts
 

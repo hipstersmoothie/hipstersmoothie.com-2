@@ -6,6 +6,7 @@ import { GeistMono } from "geist/font/mono";
 import { ThemeScript } from "next-app-theme/theme-script";
 
 import { TooltipProvider } from "../components/ui/tooltip";
+import { Toaster } from "../components/ui/sonner";
 
 import "./globals.css";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
           )}
         >
           {children}
+          <Toaster />
         </body>
       </html>
     </TooltipProvider>

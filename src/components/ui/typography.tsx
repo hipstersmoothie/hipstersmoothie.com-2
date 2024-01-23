@@ -1,13 +1,17 @@
 "use client";
 
+import { ComponentProps, useRef } from "react";
 import makeClass from "clsx";
 import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import { twMerge } from "tailwind-merge";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
 
+import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
-import { ComponentProps } from "react";
+import { Tooltip } from "./tooltip";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -111,22 +115,43 @@ export const Code = (props: {
   children?: React.ReactNode;
   className?: string;
 }) => {
+  const codeRef = useRef<HTMLPreElement>(null);
+
   if ((props as any)["data-language"]) {
     return (
-      <ScrollArea type="always" className="bg-code">
+      <ScrollArea type="always" className="bg-code relative group">
         <code
           {...props}
+          ref={codeRef}
           className={makeClass(
             props.className,
             "font-mono",
             "rounded block",
             "h-full w-full",
-            "py-8 px-6"
+            "py-5 px-6"
           )}
         >
           {props.children}
         </code>
         <ScrollBar orientation="horizontal" />
+
+        <Tooltip title="Copy" asChild={true}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="
+              h-8 w-8 p-2 
+              absolute top-2 right-2
+              opacity-0 group-hover:opacity-100 transition-opacity duration-75
+            "
+            onClick={() => {
+              navigator.clipboard.writeText(codeRef.current?.innerText ?? "");
+              toast.success("Copied to clipboard");
+            }}
+          >
+            <Copy />
+          </Button>
+        </Tooltip>
       </ScrollArea>
     );
   }
