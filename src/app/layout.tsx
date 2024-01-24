@@ -7,6 +7,7 @@ import { ThemeScript } from "next-app-theme/theme-script";
 
 import { TooltipProvider } from "../components/ui/tooltip";
 import { Toaster } from "../components/ui/sonner";
+import { CommandPallette } from "./components/CommandPallette/CommandPallette";
 
 import "./globals.css";
 
@@ -47,6 +48,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          <CommandPallette />
         </body>
       </html>
     </TooltipProvider>
