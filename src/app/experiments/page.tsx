@@ -21,8 +21,8 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
       <div
         className="m-2 
           flex flex-col rounded overflow-hidden
-          border border-mauve-6 hover:border-mauve-8 
-          dark:border-mauvedark-6 dark:hover:border-mauvedark-8 
+          border border-mauve-7 hover:border-mauve-8 
+          dark:border-mauvedark-7 dark:hover:border-mauvedark-8 
           bg-mauve-2 hover:bg-mauve-3 
           dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
           relative
@@ -39,6 +39,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             aspect-video
           bg-mauvea-3 dark:bg-mauvedarka-3
             border-b border-mauve-6 dark:border-mauvedark-6
+            box-border
           "
         >
           <ExperimentPreviewImage

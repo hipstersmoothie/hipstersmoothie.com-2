@@ -21,7 +21,7 @@ const TooltipContent = React.forwardRef<
     className={cn(
       `
         z-50 overflow-hidden 
-        rounded-sm border border-mauve-6 dark:border-mauvedark-6
+        rounded-sm border border-mauve-7 dark:border-mauvedark-7
         bg-mauve-2 dark:bg-mauvedark-2 
         px-2 py-1 text-xs 
         text-mauve-12 dark:text-mauvedark-12

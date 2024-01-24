@@ -81,7 +81,7 @@ const CommandInput = React.forwardRef<
   <div
     className="
       flex items-center px-3
-      border-b border-mauve-6 dark:border-mauvedark-6
+      border-b border-mauve-7 dark:border-mauvedark-7
     "
     cmdk-input-wrapper=""
   >
@@ -160,7 +160,7 @@ const CommandSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 h-px bg-mauve-6 dark:bg-mauvedark-6", className)}
+    className={cn("-mx-1 h-px bg-mauve-7 dark:bg-mauvedark-7", className)}
     {...props}
   />
 ));

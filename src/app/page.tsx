@@ -98,8 +98,8 @@ function Project({
         className="
           py-2 w-full
           flex flex-col gap-2 rounded overflow-hidden
-          border border-mauve-6 hover:border-mauve-8 
-          dark:border-mauvedark-6 dark:hover:border-mauvedark-8 
+          border border-mauve-7 hover:border-mauve-8 
+          dark:border-mauvedark-7 dark:hover:border-mauvedark-8 
           bg-mauve-2 hover:bg-mauve-3 
           dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
           relative
@@ -176,7 +176,10 @@ export default function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={resume.basics.image}
-                className="rounded-full aspect-square flex-1 border-2 border-mauve-6 dark:border-mauvedark-6"
+                className="
+                  rounded-full aspect-square flex-1 
+                  border-2 border-mauve-6 dark:border-mauvedark-6
+                "
                 alt="Andrew smiling"
               />
             </div>

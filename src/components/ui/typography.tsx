@@ -82,7 +82,7 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
           className="
             rounded-sm rounded-l-none 
             bg-mauve-1 dark:bg-mauvedark-2 
-            border border-l-0 border-mauve-6 dark:border-mauvedark-6
+            border border-l-0 border-mauve-7 dark:border-mauvedark-7
           "
         >
           <blockquote>{children}</blockquote>
@@ -175,7 +175,7 @@ export const Pre = (props: React.ComponentProps<"pre">) => (
       className="
         my-6 rounded border
         overflow-hidden
-        border-mauve-6 dark:border-mauvedark-7
+        border-mauve-7 dark:border-mauvedark-7
       "
     />
   </WidthContainer>
@@ -360,7 +360,7 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
               className="
                 rounded-sm w-[400px] h-[400px] shadow-xl
                 bg-mauve-1 dark:bg-mauvedark-1
-                border border-mauve-6 dark:border-mauvedark-6
+                border border-mauve-7 dark:border-mauvedark-7
               "
               style={{
                 maxWidth:
