@@ -2,6 +2,7 @@ import "server-only";
 
 import { $ } from "execa";
 import path from "path";
+import { cache } from "react";
 
 import { matter } from "vfile-matter";
 import { read } from "to-vfile";
@@ -76,7 +77,7 @@ async function parseBlogPost(
   };
 }
 
-export async function getBlogPostList({
+export const getBlogPostList = cache(async function getBlogPostList({
   includeSource,
 }: GetBlogPostListOptions = {}) {
   const posts = await Promise.all(
@@ -90,7 +91,7 @@ export async function getBlogPostList({
   return posts.sort(
     (a, b) => b.creationDate.getTime() - a.creationDate.getTime()
   );
-}
+});
 
 export type Post = Awaited<ReturnType<typeof getBlogPostList>>[number];
 
@@ -98,13 +99,13 @@ export function isBlogPost(value: unknown): value is Post {
   return typeof value === "object" && value !== null && "frontMatter" in value;
 }
 
-export async function getBlogPost(
+export const getBlogPost = cache(async function getBlogPost(
   slug: string,
   options?: GetBlogPostListOptions
 ) {
   const filepath = `${dir}/posts/${slug}/page.mdx`;
   return parseBlogPost(filepath, options);
-}
+});
 
 export function renderPhrase(value: PhrasingContent): string {
   if (value.type === "text") {
