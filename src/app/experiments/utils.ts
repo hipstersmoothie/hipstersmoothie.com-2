@@ -4,7 +4,6 @@ import glob from "fast-glob";
 import { $ } from "execa";
 import { capitalCase } from "change-case";
 import { readFile } from "fs/promises";
-import { cache } from "react";
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
 
@@ -30,7 +29,7 @@ async function parseExperiment(filepath: string) {
   };
 }
 
-export const getExperimentList = cache(async function getExperimentList() {
+export async function getExperimentList() {
   const experiments = (
     await Promise.all(
       glob
@@ -44,11 +43,11 @@ export const getExperimentList = cache(async function getExperimentList() {
     .sort((a, b) => b.creationDate.getTime() - a.creationDate.getTime());
 
   return experiments;
-});
+}
 
-export const getExperiment = cache(async function getExperiment(slug: string) {
+export async function getExperiment(slug: string) {
   const filepath = `${dir}/${slug}/page.tsx`;
   return parseExperiment(filepath);
-});
+}
 
 export type Experiment = Awaited<ReturnType<typeof getExperimentList>>[number];

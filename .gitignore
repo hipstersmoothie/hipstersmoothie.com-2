@@ -168,3 +168,4 @@ dist
 certificates
 
 public/optimized
+public/**/page.mdx
