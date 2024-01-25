@@ -16,6 +16,7 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
 import { PhrasingContent } from "mdast";
+import { execSync } from "child_process";
 
 export const mdxProcessor = remark()
   .use(readingTime, {})
@@ -37,6 +38,7 @@ interface FrontMatter {
 
 interface GetBlogPostListOptions {
   includeSource?: boolean;
+  inputDir?: string;
 }
 
 async function parseBlogPost(
@@ -78,13 +80,23 @@ async function parseBlogPost(
 
 export async function getBlogPostList({
   includeSource,
+  inputDir = dir,
 }: GetBlogPostListOptions = {}) {
+  console.log("???", `${inputDir}/posts/**/*.mdx`);
+  execSync("ls -alt", { stdio: "inherit" });
   const posts = await Promise.all(
     glob
-      .sync(`${dir}/posts/**/*.mdx`, {
+      .sync(`${inputDir}/posts/**/*.mdx`, {
         deep: 2,
       })
       .map((filepath) => parseBlogPost(filepath, { includeSource }))
+  );
+  console.log(
+    "???",
+    posts,
+    glob.sync(`${inputDir}/posts/**/*.mdx`, {
+      deep: 2,
+    })
   );
 
   return posts.sort(

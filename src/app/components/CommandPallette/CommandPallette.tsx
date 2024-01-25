@@ -18,6 +18,7 @@ import {
 } from "../../blog/utils";
 import { Heading, Paragraph } from "mdast";
 import { Code } from "../../../components/ui/typography";
+import path from "path";
 
 function SearchResults({
   query: queryParam,
@@ -96,8 +97,6 @@ function SearchResults({
   );
 }
 
-const blogPostsPromise = getBlogPostList({ includeSource: true });
-
 export async function CommandPallette({
   open,
   query,
@@ -105,8 +104,11 @@ export async function CommandPallette({
   open: boolean;
   query?: string;
 }) {
-  const blogPosts = await blogPostsPromise;
-  console.log("???", blogPosts);
+  const blogPosts = await getBlogPostList({
+    includeSource: true,
+    inputDir:
+      process.env.NODE_ENV === "production" ? "./src/app/blog" : undefined,
+  });
 
   return (
     <CommandDialog open={open}>
