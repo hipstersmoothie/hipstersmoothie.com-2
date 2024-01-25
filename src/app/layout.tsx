@@ -7,7 +7,7 @@ import { ThemeScript } from "next-app-theme/theme-script";
 
 import { TooltipProvider } from "../components/ui/tooltip";
 import { Toaster } from "../components/ui/sonner";
-import { CommandPallette } from "./components/CommandPallette/CommandPallette";
+import { CommandPalletteLaunchCommand } from "../components/ui/CommandPalletteLaunchCommand";
 
 import "./globals.css";
 
@@ -23,8 +23,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <TooltipProvider>
@@ -47,8 +49,9 @@ export default function RootLayout({
           )}
         >
           {children}
+          {modal}
           <Toaster />
-          <CommandPallette />
+          <CommandPalletteLaunchCommand />
         </body>
       </html>
     </TooltipProvider>

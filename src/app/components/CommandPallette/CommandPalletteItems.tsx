@@ -10,16 +10,19 @@ export function CommandPalletteLink({
   href,
   children,
   external,
+  value,
 }: {
   href: string;
   children: React.ReactNode;
   external?: boolean;
+  value?: string;
 }) {
   const closeCommandPallette = useCommandDialogClose();
   const router = useRouter();
 
   return (
     <CommandItem
+      value={value}
       onSelect={() => {
         closeCommandPallette();
 

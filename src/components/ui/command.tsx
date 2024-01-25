@@ -4,9 +4,11 @@ import * as React from "react";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
+import debounce from "lodash/debounce";
 
 import { cn } from "../../lib/utils";
 import { Dialog, DialogContent } from "./dialog";
+import { useRouter } from "next/navigation";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -34,25 +36,21 @@ const CommandDialogCloseContext = React.createContext<() => void>(() => {});
 export const useCommandDialogClose = () =>
   React.useContext(CommandDialogCloseContext);
 
-const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
-  const [open, setOpen] = React.useState(false);
-  const onClose = React.useCallback(() => setOpen(false), []);
-
-  React.useEffect(() => {
-    function onShortcut(e: KeyboardEvent) {
-      if (e.key === "k" && e.metaKey) {
-        setOpen(true);
-      }
-    }
-
-    window.addEventListener("keydown", onShortcut);
-
-    return () => window.removeEventListener("keydown", onShortcut);
-  }, []);
+const CommandDialog = ({ children, open, ...props }: CommandDialogProps) => {
+  const router = useRouter();
+  const onClose = React.useCallback(() => router.back(), [router]);
 
   return (
     <CommandDialogCloseContext.Provider value={onClose}>
-      <Dialog {...props} onOpenChange={setOpen} open={open}>
+      <Dialog
+        {...props}
+        open={open}
+        onOpenChange={(newOpen) => {
+          if (!newOpen) {
+            onClose();
+          }
+        }}
+      >
         <DialogContent className="overflow-hidden p-0 shadow-lg">
           <Command
             className="
@@ -77,30 +75,50 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
->(({ className, ...props }, ref) => (
-  <div
-    className="
-      flex items-center px-3
-      border-b border-mauve-7 dark:border-mauvedark-7
-    "
-    cmdk-input-wrapper=""
-  >
-    <Search className="mr-2 h-3 w-3 p-0.5 shrink-0 opacity-50" />
-    <CommandPrimitive.Input
-      ref={ref}
-      className={cn(
-        `
-          flex h-11 w-full rounded-md 
-          bg-transparent py-3 text-sm outline-none 
-          placeholder:text-mauve-11 dark:placeholder-text-mauvedark-11
-          disabled:cursor-not-allowed disabled:opacity-50
-        `,
-        className
-      )}
-      {...props}
-    />
-  </div>
-));
+>(({ className, ...props }, ref) => {
+  const router = useRouter();
+  const onUpdateSearch = React.useMemo(() => {
+    return debounce((value: string) => {
+      // update the url with query param
+      // if value is empty, remove the query param
+      const url = new URL(window.location.href);
+
+      if (value) {
+        url.searchParams.set("q", value);
+      } else {
+        url.searchParams.delete("q");
+      }
+
+      router.replace(url.pathname + url.search);
+    }, 300);
+  }, [router]);
+
+  return (
+    <div
+      className="
+        flex items-center px-3
+        border-b border-mauve-7 dark:border-mauvedark-7
+      "
+      cmdk-input-wrapper=""
+    >
+      <Search className="mr-2 h-3 w-3 p-0.5 shrink-0 opacity-50" />
+      <CommandPrimitive.Input
+        ref={ref}
+        className={cn(
+          `
+            flex h-11 w-full rounded-md 
+            bg-transparent py-3 text-sm outline-none 
+            placeholder:text-mauve-11 dark:placeholder-text-mauvedark-11
+            disabled:cursor-not-allowed disabled:opacity-50
+          `,
+          className
+        )}
+        {...props}
+        onValueChange={onUpdateSearch}
+      />
+    </div>
+  );
+});
 
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 

@@ -29,9 +29,25 @@ export function NavigationHeader() {
   return (
     <div className="px-2 md:px-20">
       <nav className="flex items-center justify-between h-12 w-full max-w-screen-md mx-auto">
-        <Button variant="ghost" size="sm" asChild={true}>
-          <Link href="/">Andrew Lisowski</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" asChild={true}>
+            <Link href="/">Andrew Lisowski</Link>
+          </Button>
+          <Link
+            href="/command"
+            className="
+              hidden md:flex items-center justify-center
+              border rounded-sm border-mauve-7 dark:border-mauvedark-7
+              px-2 py-1 text-xs mono
+              self-center
+              hover:border-mauve-8 dark:hover:border-mauvedark-8
+              hover:bg-mauve-4 dark:hover:bg-mauvedark-4
+              cursor-default
+            "
+          >
+            ⌘K
+          </Link>
+        </div>
         <div className="flex gap-1 md:gap-4">
           <ol className="flex gap-1 md:gap-4">
             <li>
