@@ -10,24 +10,24 @@ import { Suspense } from "react";
 
 import { CommandPalletteLink } from "./CommandPalletteItems";
 import resume from "../../resume.json";
-import {
-  Post,
-  getBlogPostList,
-  mdxProcessor,
-  renderPhrase,
-} from "../../blog/utils";
+import { getBlogPostList, mdxProcessor, renderPhrase } from "../../blog/utils";
 import { Heading, Paragraph } from "mdast";
 import { Code } from "../../../components/ui/typography";
-import path from "path";
 
-function SearchResults({
+async function SearchResults({
   query: queryParam,
-  blogPosts,
 }: {
   query: string | undefined;
-  blogPosts: Post[];
 }) {
   const query = (queryParam || "").trim().toLowerCase();
+
+  if (!query) {
+    return null;
+  }
+
+  const blogPosts = await getBlogPostList({
+    includeSource: true,
+  });
   const searches = blogPosts.map((blogPost) => {
     return {
       ...blogPost,
@@ -104,10 +104,6 @@ export async function CommandPallette({
   open: boolean;
   query?: string;
 }) {
-  const blogPosts = await getBlogPostList({
-    includeSource: true,
-  });
-
   return (
     <CommandDialog open={open}>
       <CommandInput placeholder="Type a command or search..." />
@@ -134,7 +130,7 @@ export async function CommandPallette({
         </CommandGroup>
         <CommandSeparator />
         <Suspense fallback={<div>Loading...</div>}>
-          <SearchResults query={query} blogPosts={blogPosts} />
+          <SearchResults query={query} />
         </Suspense>
       </CommandList>
     </CommandDialog>
