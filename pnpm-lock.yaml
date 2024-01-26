@@ -223,6 +223,9 @@ devDependencies:
   eslint-plugin-storybook:
     specifier: ^0.6.15
     version: 0.6.15(eslint@8.56.0)(typescript@5.3.3)
+  fast-glob:
+    specifier: ^3.3.2
+    version: 3.3.2
   p-queue:
     specifier: ^8.0.1
     version: 8.0.1

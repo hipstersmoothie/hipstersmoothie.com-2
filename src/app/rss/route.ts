@@ -29,7 +29,7 @@ async function feed() {
   });
 
   posts.forEach((post) => {
-    let description = "";
+    let description: string = "";
 
     if (isBlogPost(post)) {
       const paragraph = mdxProcessor
@@ -40,7 +40,7 @@ async function feed() {
         description = paragraph.children.map(renderPhrase).join("");
       }
     } else {
-      description = post.description;
+      description = post.description as string;
     }
 
     feed.item({

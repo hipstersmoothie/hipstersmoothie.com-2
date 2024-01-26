@@ -3,12 +3,16 @@ import path from "path";
 import { spawn, exec } from "child_process";
 import PQueue from "p-queue";
 import sharp from "sharp";
-import { getExperimentList } from "../src/app/experiments/utils";
+import glob from "fast-glob";
 
 const queue = new PQueue({ concurrency: 10 });
 
 async function main() {
-  const experiments = await getExperimentList();
+  const experiments = await glob("**/page.tsx", {
+    cwd: path.join(__dirname, "../src/app/experiments"),
+  })
+    .then((paths) => paths.filter((p) => p !== "page.tsx"))
+    .then((paths) => paths.map((p) => p.replace("/page.tsx", "")));
 
   // spawn a child process to run next start
   const child = spawn("npx", ["next", "dev"], {
@@ -25,7 +29,7 @@ async function main() {
     }
 
     await Promise.all(
-      experiments.map(({ slug }) =>
+      experiments.map((slug) =>
         queue.add(async () => {
           const url = `http://localhost:3000/experiments/preview?id=${slug}`;
           const response = await fetch(url);
