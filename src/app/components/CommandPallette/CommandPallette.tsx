@@ -3,6 +3,7 @@ import {
   CommandInput,
   CommandList,
   CommandEmpty,
+  CommandItem,
   CommandGroup,
   CommandSeparator,
 } from "../../../components/ui/command";
@@ -81,9 +82,9 @@ async function SearchResults({
 }
 
 const loading = (
-  <div className="flex items-center gap-2 px-3 py-2">
+  <div className="flex items-center justify-center gap-2 px-3 h-12">
     <Loader2 className="animate-spin h-4 w-4" />
-    <div className="text-mauve-11 dark:text-mauvedark-11 text-sm">
+    <div className="text-mauve-11 dark:text-mauvedark-11 text-sm font-light">
       Searching blogs posts...
     </div>
   </div>
