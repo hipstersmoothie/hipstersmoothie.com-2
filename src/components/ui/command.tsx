@@ -90,7 +90,7 @@ const CommandInput = React.forwardRef<
       }
 
       router.replace(url.pathname + url.search);
-    }, 300);
+    }, 100);
   }, [router]);
 
   return (

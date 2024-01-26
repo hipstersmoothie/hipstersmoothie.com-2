@@ -94,6 +94,9 @@ async function BlogSection({
 }: {
   query: string | undefined;
 }) {
+  // Somehow makes the non suspended components render faster
+  await new Promise((resolve) => setTimeout(resolve, 0));
+
   const query = (queryParam || "").trim().toLowerCase();
   const blogPosts = await getBlogPostList({
     includeSource: true,
@@ -150,9 +153,13 @@ export async function CommandPallette({
               {profile.label}
             </CommandPalletteLink>
           ))}
+
+          <CommandPalletteLink external href="https://devtools.fm">
+            devtools.fm
+          </CommandPalletteLink>
         </CommandGroup>
         <CommandSeparator />
-        <Suspense key={query}>
+        <Suspense fallback={<CommandGroup heading="Blog Posts" />}>
           <BlogSection query={query} />
         </Suspense>
       </CommandList>
