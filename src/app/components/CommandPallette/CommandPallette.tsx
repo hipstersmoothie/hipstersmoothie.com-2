@@ -8,26 +8,27 @@ import {
 } from "../../../components/ui/command";
 import { Suspense } from "react";
 
+import { Loader2 } from "lucide-react";
 import { CommandPalletteLink } from "./CommandPalletteItems";
 import resume from "../../resume.json";
-import { getBlogPostList, mdxProcessor, renderPhrase } from "../../blog/utils";
+import {
+  Post,
+  getBlogPostList,
+  mdxProcessor,
+  renderPhrase,
+} from "../../blog/utils";
 import { Heading, Paragraph } from "mdast";
 import { Code } from "../../../components/ui/typography";
 
 async function SearchResults({
   query: queryParam,
+  blogPosts,
 }: {
   query: string | undefined;
+  blogPosts: Post[];
 }) {
   const query = (queryParam || "").trim().toLowerCase();
 
-  if (!query) {
-    return null;
-  }
-
-  const blogPosts = await getBlogPostList({
-    includeSource: true,
-  });
   const searches = blogPosts.map((blogPost) => {
     return {
       ...blogPost,
@@ -52,6 +53,53 @@ async function SearchResults({
   }
 
   return (
+    <CommandGroup heading="Search">
+      {sourceMatches.map(([post, source], index) => (
+        <CommandPalletteLink
+          key={`${post.path}-${index}`}
+          href={`/blog/posts/${post.path}`}
+          value={source.toLowerCase().indexOf(query) > -1 ? source : ""}
+        >
+          <div className="flex flex-col gap-2">
+            <div className="">{post.title}</div>
+            <div className="text-mauve-11 dark:text-mauvedark-11">
+              {source
+                .split(new RegExp(`(${query})`, "i"))
+                .map((item, itemIndex) => {
+                  if (item.toLowerCase() === query) {
+                    return <Code key={`${item}-${itemIndex}`}>{item}</Code>;
+                  }
+
+                  return <span key={`${item}-${itemIndex}`}>{item}</span>;
+                })}
+            </div>
+          </div>
+        </CommandPalletteLink>
+      ))}
+    </CommandGroup>
+  );
+}
+
+const loading = (
+  <div className="flex items-center gap-2 px-3 py-2">
+    <Loader2 className="animate-spin h-4 w-4" />
+    <div className="text-mauve-11 dark:text-mauvedark-11 text-sm">
+      Searching blogs posts...
+    </div>
+  </div>
+);
+
+async function BlogSection({
+  query: queryParam,
+}: {
+  query: string | undefined;
+}) {
+  const query = (queryParam || "").trim().toLowerCase();
+  const blogPosts = await getBlogPostList({
+    includeSource: true,
+  });
+
+  return (
     <>
       <CommandGroup heading="Blog Posts">
         {blogPosts.map((post) => (
@@ -63,35 +111,11 @@ async function SearchResults({
           </CommandPalletteLink>
         ))}
       </CommandGroup>
-      {query && (
-        <>
-          <CommandGroup heading="Search">
-            {sourceMatches.map(([post, source], index) => (
-              <CommandPalletteLink
-                key={`${post.path}-${index}`}
-                href={`/blog/posts/${post.path}`}
-                value={source.toLowerCase().indexOf(query) > -1 ? source : ""}
-              >
-                <div className="flex flex-col gap-2">
-                  <div className="">{post.title}</div>
-                  <div className="text-mauve-11 dark:text-mauvedark-11">
-                    {source
-                      .split(new RegExp(`(${query})`, "i"))
-                      .map((item, itemIndex) => {
-                        if (item.toLowerCase() === query) {
-                          return (
-                            <Code key={`${item}-${itemIndex}`}>{item}</Code>
-                          );
-                        }
 
-                        return <span key={`${item}-${itemIndex}`}>{item}</span>;
-                      })}
-                  </div>
-                </div>
-              </CommandPalletteLink>
-            ))}
-          </CommandGroup>
-        </>
+      {query && (
+        <Suspense key={query} fallback={loading}>
+          <SearchResults query={query} blogPosts={blogPosts} />
+        </Suspense>
       )}
     </>
   );
@@ -108,7 +132,6 @@ export async function CommandPallette({
     <CommandDialog open={open}>
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Sections">
           <CommandPalletteLink href="/">Resume</CommandPalletteLink>
           <CommandPalletteLink href="/blog">Blog</CommandPalletteLink>
@@ -129,8 +152,8 @@ export async function CommandPallette({
           ))}
         </CommandGroup>
         <CommandSeparator />
-        <Suspense fallback={<div>Loading...</div>}>
-          <SearchResults query={query} />
+        <Suspense key={query}>
+          <BlogSection query={query} />
         </Suspense>
       </CommandList>
     </CommandDialog>
