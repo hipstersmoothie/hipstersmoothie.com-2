@@ -8,7 +8,7 @@ import debounce from "lodash/debounce";
 
 import { cn } from "../../lib/utils";
 import { Dialog, DialogContent } from "./dialog";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -38,13 +38,22 @@ export const useCommandDialogClose = () =>
 
 const CommandDialog = ({ children, open, ...props }: CommandDialogProps) => {
   const router = useRouter();
-  const onClose = React.useCallback(() => router.back(), [router]);
+  const pathname = usePathname();
+  const [openState, setOpenState] = React.useState(open);
+  const onClose = React.useCallback(() => {
+    setOpenState(false);
+    router.back();
+  }, [router]);
+
+  React.useEffect(() => {
+    setOpenState(pathname == "/command");
+  }, [pathname, onClose]);
 
   return (
     <CommandDialogCloseContext.Provider value={onClose}>
       <Dialog
         {...props}
-        open={open}
+        open={openState}
         onOpenChange={(newOpen) => {
           if (!newOpen) {
             onClose();

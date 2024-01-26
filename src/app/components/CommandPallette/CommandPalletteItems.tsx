@@ -24,9 +24,8 @@ export function CommandPalletteLink({
     <CommandItem
       value={value}
       onSelect={() => {
-        closeCommandPallette();
-
         if (external) {
+          closeCommandPallette();
           window.open(href, "_blank");
         } else {
           router.push(href);
