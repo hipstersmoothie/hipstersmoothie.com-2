@@ -1,53 +1,57 @@
 import path from "path";
-import { promises as fs } from "fs";
-import glob from "fast-glob";
-import { $ } from "execa";
 import { capitalCase } from "change-case";
-import { readFile } from "fs/promises";
 
-const dir = path.dirname(import.meta.url).replace("file://", "");
+interface GitLoaderOutput {
+  source: string;
+  creationDate: string;
+  lastUpdated: string;
+  description?: string;
+}
 
-async function parseExperiment(filepath: string) {
+async function parseExperiment(
+  filepath: string,
+  { creationDate, description }: GitLoaderOutput
+) {
   const fileDir = filepath.replace("/page.tsx", "");
   const experimentName = path.basename(fileDir);
-  const experimentPath = fileDir.replace(`${dir}/`, "");
-  const description =
-    experimentName === "experiments"
-      ? ""
-      : await readFile(filepath.replace("page.tsx", "description.txt"), "utf8");
-
-  const { birthtime } = await fs.stat(filepath);
-  const { stdout } = await $`git log --diff-filter=A --format=%aI ${filepath}`;
-  const creationDate = new Date(stdout || birthtime);
 
   return {
     title: capitalCase(experimentName),
     description,
     slug: experimentName,
-    path: experimentPath,
-    creationDate,
+    creationDate: new Date(creationDate),
   };
 }
 
-export async function getExperimentList() {
-  const experiments = (
-    await Promise.all(
-      glob
-        .sync(`${dir}/**/page.tsx`, {
-          deep: 2,
-        })
-        .map(parseExperiment)
-    )
-  )
-    .filter((experiment) => experiment.slug !== "experiments")
-    .sort((a, b) => b.creationDate.getTime() - a.creationDate.getTime());
+const postContext = require.context(
+  "!!../../lib/webpack-git-loader.js!./",
+  true,
+  /page\.tsx$/
+);
 
-  return experiments;
+export async function getExperimentList() {
+  const experiments = await Promise.all(
+    postContext
+      .keys()
+      .filter((key) => key !== "./page.tsx")
+      .map((key): [string, GitLoaderOutput] => [key, postContext(key).default])
+      .map(([filepath, contents]) => parseExperiment(filepath, contents))
+  );
+
+  return experiments.sort(
+    (a, b) => b.creationDate.getTime() - a.creationDate.getTime()
+  );
 }
 
 export async function getExperiment(slug: string) {
-  const filepath = `${dir}/${slug}/page.tsx`;
-  return parseExperiment(filepath);
+  const filepath = postContext.keys().find((key) => key.includes(slug));
+
+  if (!filepath) {
+    throw new Error(`No experiment found with slug "${slug}"`);
+  }
+
+  const post: GitLoaderOutput = postContext(filepath).default;
+  return parseExperiment(filepath, post);
 }
 
 export type Experiment = Awaited<ReturnType<typeof getExperimentList>>[number];

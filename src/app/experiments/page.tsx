@@ -12,7 +12,7 @@ import { Footer } from "../../components/Footer";
 async function ExperimentCard({ experiment }: { experiment: Experiment }) {
   return (
     <Link
-      href={`/experiments/${experiment.path}`}
+      href={`/experiments/${experiment.slug}`}
       className={makeClass(
         "flex group",
         "scale-100 transition-transform hover:scale-[1.025]"
@@ -43,7 +43,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
           "
         >
           <ExperimentPreviewImage
-            src={experiment.path}
+            src={experiment.slug}
             width={PREVIEW_WIDTH}
             height={PREVIEW_HEIGHT}
             alt="Preview of the experiment"
@@ -73,7 +73,7 @@ export default async function ExperimentsList() {
       <main className="flex-1 flex flex-col items-center justify-between p-3 md:px-24 md:py-12">
         <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full max-w-screen-md">
           {experiments.map((experiment) => (
-            <li key={experiment.path}>
+            <li key={experiment.slug}>
               <ExperimentCard experiment={experiment} />
             </li>
           ))}

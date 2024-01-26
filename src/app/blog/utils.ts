@@ -1,13 +1,9 @@
 import "server-only";
 
-import { $ } from "execa";
 import path from "path";
-
 import { matter } from "vfile-matter";
-import { read } from "to-vfile";
-import { promises as fs } from "fs";
+import { VFile } from "vfile";
 import { capitalCase } from "change-case";
-import glob from "fast-glob";
 
 import { remark } from "remark";
 import readingTime from "remark-reading-time";
@@ -16,7 +12,13 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
 import { PhrasingContent } from "mdast";
-import { execSync } from "child_process";
+
+interface GitLoaderOutput {
+  source: string;
+  creationDate: string;
+  lastUpdated: string;
+  description?: string;
+}
 
 export const mdxProcessor = remark()
   .use(readingTime, {})
@@ -29,8 +31,6 @@ export const mdxProcessor = remark()
     hrefTemplate: (permalink: string) => `/blog/posts/${permalink}`,
   });
 
-const dir = path.dirname(import.meta.url).replace("file://", "");
-
 interface FrontMatter {
   title?: string;
   creationDate: string;
@@ -38,37 +38,32 @@ interface FrontMatter {
 
 interface GetBlogPostListOptions {
   includeSource?: boolean;
-  inputDir?: string;
 }
 
 async function parseBlogPost(
   filepath: string,
+  { source, creationDate: creationDateStr, lastUpdated }: GitLoaderOutput,
   options: GetBlogPostListOptions = {}
 ) {
-  const file = await read(filepath);
+  const file = new VFile({
+    path: filepath,
+    value: source,
+  });
   matter(file);
   await mdxProcessor.process(file);
   const frontMatter = file.data.matter as FrontMatter;
 
   const fileDir = filepath.replace("/page.mdx", "");
   const postSlug = path.basename(fileDir);
-  const postPath = fileDir.replace(`${dir}/posts/`, "").replace(".mdx", "");
-
-  const { birthtime } = await fs.stat(filepath);
-  const { stdout } = await $`git log --diff-filter=A --format=%aI ${filepath}`;
-  const creationDate = new Date(
-    frontMatter.creationDate || stdout || birthtime
-  );
-  // get the last updated time from git
-  const { stdout: lastUpdated } = await $`git log -1 --format=%aI ${filepath}`;
+  const creationDate = new Date(frontMatter.creationDate || creationDateStr);
 
   return {
     title: frontMatter.title || capitalCase(postSlug),
-    path: postPath,
+    path: postSlug,
     creationDate,
     lastUpdated: lastUpdated ? new Date(lastUpdated) : creationDate,
     frontMatter,
-    source: options.includeSource ? file.toString() : undefined,
+    source: options.includeSource ? source : undefined,
     readingTime: file.data.readingTime as {
       text: string;
       minutes: number;
@@ -78,25 +73,22 @@ async function parseBlogPost(
   };
 }
 
+const postContext = require.context(
+  "!!../../lib/webpack-git-loader.js!./posts",
+  true,
+  /page\.mdx$/
+);
+
 export async function getBlogPostList({
   includeSource,
-  inputDir = dir,
 }: GetBlogPostListOptions = {}) {
-  console.log("???", `${inputDir}/posts/**/*.mdx`);
-  execSync("ls -alt", { stdio: "inherit" });
   const posts = await Promise.all(
-    glob
-      .sync(`${inputDir}/posts/**/*.mdx`, {
-        deep: 2,
-      })
-      .map((filepath) => parseBlogPost(filepath, { includeSource }))
-  );
-  console.log(
-    "???",
-    posts,
-    glob.sync(`${inputDir}/posts/**/*.mdx`, {
-      deep: 2,
-    })
+    postContext
+      .keys()
+      .map((key): [string, GitLoaderOutput] => [key, postContext(key).default])
+      .map(([filepath, contents]) =>
+        parseBlogPost(filepath, contents, { includeSource })
+      )
   );
 
   return posts.sort(
@@ -114,8 +106,14 @@ export async function getBlogPost(
   slug: string,
   options?: GetBlogPostListOptions
 ) {
-  const filepath = `${dir}/posts/${slug}/page.mdx`;
-  return parseBlogPost(filepath, options);
+  const filepath = postContext.keys().find((key) => key.includes(slug));
+
+  if (!filepath) {
+    throw new Error(`Could not find blog post with slug "${slug}"`);
+  }
+
+  const post: GitLoaderOutput = postContext(filepath).default;
+  return parseBlogPost(filepath, post, options);
 }
 
 export function renderPhrase(value: PhrasingContent): string {

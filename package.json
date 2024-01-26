@@ -36,8 +36,6 @@
     "cmdk": "^0.2.0",
     "date-fns": "^3.0.6",
     "endent": "^2.1.0",
-    "execa": "^8.0.1",
-    "fast-glob": "^3.3.2",
     "geist": "^1.2.0",
     "javascript-time-ago": "^2.5.9",
     "lodash": "^4.17.21",
@@ -64,8 +62,8 @@
     "sonner": "^1.3.1",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "to-vfile": "^8.0.0",
     "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.1",
     "vfile-matter": "^5.0.0"
   },
   "devDependencies": {
@@ -82,6 +80,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/rss": "^0.0.32",
+    "@types/webpack-env": "^1.18.4",
     "autoprefixer": "^10.0.1",
     "command-line-application": "^0.10.1",
     "copy-template-dir": "^1.4.0",

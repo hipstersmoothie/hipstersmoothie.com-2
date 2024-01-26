@@ -106,8 +106,6 @@ export async function CommandPallette({
 }) {
   const blogPosts = await getBlogPostList({
     includeSource: true,
-    inputDir:
-      process.env.NODE_ENV === "production" ? "./src/app/blog" : undefined,
   });
 
   return (
