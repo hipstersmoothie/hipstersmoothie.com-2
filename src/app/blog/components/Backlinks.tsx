@@ -13,7 +13,7 @@ function createPostGraph(posts: Post[]) {
       if (!graph[node.data.permalink]) {
         graph[node.data.permalink] = new Set();
       }
-      graph[node.data.permalink].add(post.path);
+      graph[node.data.permalink].add(post.slug);
     });
   }
 
@@ -36,7 +36,7 @@ export async function BackLinks({ slug }: { slug: string }) {
       <H2>Backlinks</H2>
       <UnorderedList>
         {Array.from(backlinks).map((path) => {
-          const post = posts.find((post) => post.path === path);
+          const post = posts.find((post) => post.slug === path);
 
           if (!post) {
             return null;

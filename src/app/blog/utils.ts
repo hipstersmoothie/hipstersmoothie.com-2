@@ -59,7 +59,7 @@ async function parseBlogPost(
 
   return {
     title: frontMatter.title || capitalCase(postSlug),
-    path: postSlug,
+    slug: postSlug,
     creationDate,
     lastUpdated: lastUpdated ? new Date(lastUpdated) : creationDate,
     frontMatter,

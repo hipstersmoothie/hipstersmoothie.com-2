@@ -11,7 +11,7 @@ import { PostPreview } from "../../components/ui/Link";
 function PostItem({ post }: { post: Post }) {
   return (
     <Link
-      href={`/blog/posts/${post.path}`}
+      href={`/blog/posts/${post.slug}`}
       className="
         group
         flex justify-between gap-2
@@ -71,7 +71,7 @@ export default async function PostList() {
       <main className="flex flex-col items-center justify-between p-5 md:px-24 md:py-12 md:pb-20">
         <ol className="flex flex-col w-full max-w-screen-md">
           {posts.map((post) => (
-            <li key={post.path}>
+            <li key={post.slug}>
               <PostItem post={post} />
             </li>
           ))}

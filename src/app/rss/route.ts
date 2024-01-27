@@ -47,7 +47,7 @@ async function feed() {
       title: post.title,
       description,
       url: isBlogPost(post)
-        ? `${process.env.NEXT_PUBLIC_URL}/blog/posts/${post.path}`
+        ? `${process.env.NEXT_PUBLIC_URL}/blog/posts/${post.slug}`
         : `${process.env.NEXT_PUBLIC_URL}/experiments/${post.slug}`,
       date: post.creationDate,
     });

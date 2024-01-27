@@ -2,8 +2,6 @@ import {
   CommandDialog,
   CommandInput,
   CommandList,
-  CommandEmpty,
-  CommandItem,
   CommandGroup,
   CommandSeparator,
 } from "../../../components/ui/command";
@@ -12,72 +10,104 @@ import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { CommandPalletteLink } from "./CommandPalletteItems";
 import resume from "../../resume.json";
-import {
-  Post,
-  getBlogPostList,
-  mdxProcessor,
-  renderPhrase,
-} from "../../blog/utils";
-import { Heading, Paragraph } from "mdast";
+import { getBlogPostList } from "../../blog/utils";
 import { Code } from "../../../components/ui/typography";
+import { search } from "./search";
+
+const separator = <div className="-mx-1 h-px bg-mauve-7 dark:bg-mauvedark-7" />;
+
+function base64encode(str: string) {
+  let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) =>
+    String.fromCharCode(parseInt($1, 16))
+  );
+  return btoa(encode);
+}
 
 async function SearchResults({
   query: queryParam,
-  blogPosts,
 }: {
   query: string | undefined;
-  blogPosts: Post[];
 }) {
+  await new Promise((resolve) => setTimeout(resolve, 0));
   const query = (queryParam || "").trim().toLowerCase();
-
-  const searches = blogPosts.map((blogPost) => {
-    return {
-      ...blogPost,
-      source: mdxProcessor
-        .parse(blogPost.source)
-        .children.filter(
-          (item): item is Paragraph | Heading =>
-            item.type === "paragraph" || item.type === "heading"
-        )
-        .map((child) => {
-          return child.children.map(renderPhrase).join("");
-        }),
-    };
-  });
-
-  const sourceMatches: [(typeof searches)[0], string][] = [];
-
-  for (const post of searches) {
-    for (const source of post.source) {
-      sourceMatches.push([post, source] as const);
-    }
-  }
-
+  const results = await search(query);
   return (
-    <CommandGroup heading="Search">
-      {sourceMatches.map(([post, source], index) => (
-        <CommandPalletteLink
-          key={`${post.path}-${index}`}
-          href={`/blog/posts/${post.path}`}
-          value={source.toLowerCase().indexOf(query) > -1 ? source : ""}
-        >
-          <div className="flex flex-col gap-2">
-            <div className="">{post.title}</div>
-            <div className="text-mauve-11 dark:text-mauvedark-11">
-              {source
-                .split(new RegExp(`(${query})`, "i"))
-                .map((item, itemIndex) => {
-                  if (item.toLowerCase() === query) {
-                    return <Code key={`${item}-${itemIndex}`}>{item}</Code>;
+    <>
+      {separator}
+      <div className="px-2.5 py-2">
+        <div className="text-mauve-12 dark:text-mauvedark-12 px-2">
+          Search Results
+        </div>
+      </div>
+      {results.map((result) => {
+        if (!result.matches) {
+          return null;
+        }
+
+        return result.matches.map(({ value, ...match }, index) => {
+          if (
+            !value ||
+            // We don't need to show title matches for blogs posts since those are
+            // already in the blog section
+            (match.key === "title" && "source" in result.item)
+          ) {
+            return null;
+          }
+
+          return (
+            <>
+              <CommandGroup
+                key={result.item.slug}
+                heading={result.item.title}
+                value={query + base64encode(value || "").slice(0, 16)}
+              >
+                {match.indices.map(([start, end]) => {
+                  if (start === end) {
+                    return null;
                   }
 
-                  return <span key={`${item}-${itemIndex}`}>{item}</span>;
+                  const startOfPreview = Math.max(0, start - 32);
+                  const endOfPreview = Math.min(value.length, end + 32);
+                  const text = value.slice(startOfPreview, endOfPreview);
+
+                  return (
+                    <CommandPalletteLink
+                      href={`/blog/posts/${result.item.slug}`}
+                      key={`${start}-${end}`}
+                      value={
+                        query +
+                        base64encode(value || "").slice(0, 16) +
+                        start +
+                        end
+                      }
+                    >
+                      <span>
+                        {startOfPreview > 0 && "..."}
+                        {text
+                          .split(new RegExp(`(${query})`, "i"))
+                          .map((item, itemIndex) => {
+                            if (item.toLowerCase() === query) {
+                              return (
+                                <Code key={`${item}-${itemIndex}`}>{item}</Code>
+                              );
+                            }
+
+                            return (
+                              <span key={`${item}-${itemIndex}`}>{item}</span>
+                            );
+                          })}
+                        {endOfPreview < value.length && "..."}
+                      </span>
+                    </CommandPalletteLink>
+                  );
                 })}
-            </div>
-          </div>
-        </CommandPalletteLink>
-      ))}
-    </CommandGroup>
+              </CommandGroup>
+              {result.matches && index < result.matches.length - 1 && separator}
+            </>
+          );
+        });
+      })}
+    </>
   );
 }
 
@@ -108,8 +138,8 @@ async function BlogSection({
       <CommandGroup heading="Blog Posts">
         {blogPosts.map((post) => (
           <CommandPalletteLink
-            key={post.path}
-            href={`/blog/posts/${post.path}`}
+            key={post.slug}
+            href={`/blog/posts/${post.slug}`}
           >
             {post.title}
           </CommandPalletteLink>
@@ -118,7 +148,7 @@ async function BlogSection({
 
       {query && (
         <Suspense key={query} fallback={loading}>
-          <SearchResults query={query} blogPosts={blogPosts} />
+          <SearchResults query={query} />
         </Suspense>
       )}
     </>

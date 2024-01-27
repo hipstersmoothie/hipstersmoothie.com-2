@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     ...blogPosts.map((p) => ({
-      url: `https://hipstersmoothie.com/blog/${p.path}`,
+      url: `https://hipstersmoothie.com/blog/${p.slug}`,
       lastModified: new Date(p.creationDate),
       changeFrequency: "monthly" as const,
       priority: 0.5,
