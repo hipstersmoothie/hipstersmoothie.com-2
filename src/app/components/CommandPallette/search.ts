@@ -5,6 +5,9 @@ import emojiRegex from "emoji-regex";
 import { getBlogPostList, mdxProcessor, renderPhrase } from "../../blog/utils";
 import { getExperimentList } from "../../experiments/utils";
 
+import prodSearchIndex from "./production-search-index.json";
+import prodData from "./production-search-data.json";
+
 const regex = emojiRegex();
 
 const fuseOptions: IFuseOptions<any> = {
@@ -44,10 +47,7 @@ export async function getSearchData() {
 async function initializeIndex() {
   // For speed on prod use the pre-built index
   if (process.env.NODE_ENV === "production") {
-    const { default: index } = await import("./production-search-index.json");
-    const { default: data } = await import("./production-search-data.json");
-
-    return new Fuse(data, fuseOptions, index as any as FuseIndex<any>);
+    return new Fuse(prodData, fuseOptions, Fuse.parseIndex(prodSearchIndex));
   }
 
   const data = await getSearchData();
