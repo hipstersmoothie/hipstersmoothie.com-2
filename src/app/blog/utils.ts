@@ -19,6 +19,7 @@ interface GitLoaderOutput {
 }
 
 export const mdxProcessor = remark()
+  // @ts-expect-error
   .use(readingTime, {})
   .use(remarkFrontmatter)
   .use(remarkGfm)

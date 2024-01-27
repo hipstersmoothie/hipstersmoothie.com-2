@@ -41,21 +41,21 @@ alias gcb="git checkout master && git pull && git branch --merged master | egrep
 
 The `gp` alias requires you to set a value in your git configuration
 
-```sh
+```yaml title="~/.gitconfig"
 [push]
   default = current
 ```
 
 The `gaf` alias requires you to set a value in your git configuration. This will also make the `git amend` command available. This command will amend the last commit with any staged changes.
 
-```sh
+```yaml title="~/.gitconfig"
 [alias]
   amend = commit --no-edit --no-verify --amend
 ```
 
 And while you're there you might as well use all my color settings too. Git output should be pretty too!
 
-```sh
+```yaml title="~/.gitconfig"
 [color]
   ui = true
   branch = auto

@@ -64,15 +64,6 @@ function handleHTML(htmlRaw, info) {
     const content = html.match(/<p[^\>]*>(.*)<\/p>&mdash/)[1];
     const date = html.match(/<a.*>(.*)<\/a>/)[1];
 
-    console.log({
-      html: html.replace(
-        /<blockquote/,
-        `<blockquote data-tweet-url="${url}" data-name="${name}" data-username="${username}" data-content="${quoteattr(
-          content
-        )}" data-date="${date}"`
-      ),
-      content,
-    });
     return html.replace(
       /<blockquote/,
       `<blockquote data-tweet-url="${url}" data-name="${name}" data-username="${username}" data-content="${quoteattr(

@@ -14,7 +14,7 @@ This is really cool because it means you can use the file system, any node packa
 An even cooler property of RSCs is the you can next server components _inside of client components_. 
 So potentially you could have a react tree that looks something like this:
 
-```jsx
+```jsx title="app.tsx"
 function App() {
   return (
     <ServerComponent1>
@@ -31,7 +31,7 @@ This bundles contains the output of the "async component".
 
 Say you have a `Badge` component that displays the latest commit has of the repo.
 
-```jsx
+```jsx title="Badge.tsx"
 async function Badge() {
   const hash = await $`git rev-parse HEAD`;
   return <span>{hash}</span>;
@@ -47,9 +47,7 @@ You might think that's enough to reason about RSCs, but you're wrong!
 
 In the above app what if we instead had this:
 
-`client-component.ts`:
-
-```tsx
+```tsx title="client.component.tsx"
 'use client';
 
 export function ClientComponent() {
@@ -57,9 +55,7 @@ export function ClientComponent() {
 }
 ```
 
-`app.tsx`:
-
-```tsx
+```tsx title="app.tsx"
 import { ClientComponent } from './client-component';
 
 function App() {
@@ -96,7 +92,7 @@ Try hovering the following link to see it in action.
 
 Here is how the `PostPreview` component works:
 
-```tsx
+```tsx title="PostPreview.tsx"
 async function PostPreview({ slug }: { slug: string }) {
   // Dynamically import the the MDX
   const { default: PostComponent } = await import(
@@ -114,7 +110,7 @@ async function PostPreview({ slug }: { slug: string }) {
 
 And here is how I use it:
 
-```tsx
+```tsx title="Link.tsx"
 export function Link(props: React.ComponentPropsWithoutRef<"a">) {
   const isBackLink = props.href?.startsWith("/blog/posts/");
 

@@ -9,6 +9,6 @@ export const size = {
 export default async function Image() {
   return await getPostOgImage({
     size,
-    slug: "including-static-files-with-rs-cs",
+    slug: "including-static-files-with-rscs",
   });
 }
