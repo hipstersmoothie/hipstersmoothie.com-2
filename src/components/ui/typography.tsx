@@ -217,6 +217,7 @@ export const FigCaption = ({
     return (
       <WidthContainer
         className="
+          mt-7
           [&_+_.code-block_>_pre]:rounded-t-none
           [&_+_.code-block_>_pre]:border-t-0
           [&_+_.code-block_>_pre]:mt-0
@@ -306,7 +307,7 @@ export const Pre = (props: React.ComponentProps<"pre">) => (
     <pre
       {...props}
       className="
-        my-6 rounded border
+        my-7 rounded border
         overflow-hidden
         border-mauve-7 dark:border-mauvedark-7
       "
@@ -340,8 +341,8 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
     <h2
       {...props}
       className="
-        text-2xl font-medium
-        mt-10 mb-6 pb-3 
+        text-3xl font-semibold
+        mt-12 mb-6 pb-3 
         border-b border-mauve-7 dark:border-mauvedark-7
         in-preview:text-xl in-preview:mt-6 
       "
@@ -357,7 +358,7 @@ export const H3 = (props: React.ComponentProps<"h3">) => (
   <WidthContainer>
     <h3
       {...props}
-      className="text-xl mt-8 mb-4 font-semibold"
+      className="text-2xl mt-10 mb-4 font-medium"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -370,7 +371,7 @@ export const H4 = (props: React.ComponentProps<"h4">) => (
   <WidthContainer>
     <h4
       {...props}
-      className="text-lg my-4 font-bold"
+      className="text-xl mt-6 mb-4 font-medium"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -383,7 +384,7 @@ export const H5 = (props: React.ComponentProps<"h5">) => (
   <WidthContainer>
     <h5
       {...props}
-      className="my-4 font-bold"
+      className="my-4 font-medium"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -412,7 +413,7 @@ export const Table: React.FC = (props) => (
 );
 
 export const TH: React.FC = (props) => (
-  <th {...props} className="pb-4 px-3 text-left font-semibold" />
+  <th {...props} className="pb-4 px-3 text-left font-medium" />
 );
 
 export const TD: React.FC = (props) => (

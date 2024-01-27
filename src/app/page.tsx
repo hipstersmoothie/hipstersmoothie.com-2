@@ -60,7 +60,7 @@ function InfoBlock({
           rel="noopener noreferrer"
           className="flex-1"
         >
-          <h4 className="text-mauve-12 dark:text-mauvedark-12 text-lg font-semibold">
+          <h4 className="text-mauve-12 dark:text-mauvedark-12 text-lg font-medium">
             {title}
           </h4>
         </a>
@@ -68,7 +68,7 @@ function InfoBlock({
           {range}
         </div>
       </div>
-      <h5 className="font-mono text-mauve-11 dark:text-mauvedark-11">
+      <h5 className="font-mono text-mauve-11 dark:text-mauvedark-11 font-medium">
         {subtitle}
       </h5>
       {children && <p>{children}</p>}
@@ -112,11 +112,11 @@ function Project({
           "
         />
         <div className="px-4">
-          <h2 className="text-lg font-semibold text-mauve-12 dark:text-mauvedark-12">
+          <h2 className="text-lg font-medium text-mauve-12 dark:text-mauvedark-12">
             {title}
           </h2>
         </div>
-        {children && <p className="px-4">{children}</p>}
+        {children && <p className="px-4 font-light">{children}</p>}
       </div>
     </a>
   );
@@ -130,7 +130,7 @@ export default function Home() {
         <div className="w-full py-8 bg-mauve-4 dark:bg-mauvedark-3 md:mb-16">
           <div className="flex items-center justify-center gap-8 md:gap-10 max-w-prose mx-auto px-4">
             <div className="@container flex flex-col gap-2 md:gap-4 flex-[2.5]">
-              <h1 className="text-[12.7cqw] text-mauve-12 dark:text-mauvedark-12">
+              <h1 className="text-[11.8cqw] text-mauve-12 dark:text-mauvedark-12 font-semibold">
                 {resume.basics.name}
               </h1>
 

@@ -34,7 +34,7 @@ export async function PostHeader({
             <h1
               className={makeClass(
                 className,
-                "text-3xl md:text-5xl in-preview:text-xl",
+                "text-3xl md:text-5xl in-preview:text-xl font-medium",
                 "text-mauve-12 dark:text-mauvedark-12"
               )}
             >

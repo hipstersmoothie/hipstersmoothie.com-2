@@ -17,7 +17,7 @@ export function PageHeader({
     >
       <div className="max-w-screen-md mx-auto flex flex-col gap-4 md:gap-6">
         <h1
-          className={makeClass(className, "text-4xl md:text-6xl")}
+          className={makeClass(className, "text-4xl md:text-6xl font-medium")}
           {...props}
         />
 

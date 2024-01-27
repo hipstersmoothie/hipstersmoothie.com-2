@@ -50,7 +50,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
           />
         </div>
         <div className="px-4 py-3 flex flex-col gap-2">
-          <h2 className="text-xl font-semibold text-mauve-12 dark:text-mauvedark-12">
+          <h2 className="text-xl font-medium text-mauve-12 dark:text-mauvedark-12">
             {experiment.title}
           </h2>
           <p className="text-sm text-mauve-11 dark:text-mauvedark-11">
