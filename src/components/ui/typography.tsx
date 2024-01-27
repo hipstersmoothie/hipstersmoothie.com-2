@@ -9,9 +9,11 @@ import { twMerge } from "tailwind-merge";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 
+import { Avatar, AvatarImage } from "./avatar";
 import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 import { Tooltip } from "./tooltip";
+import { RelativeTime } from "./RelativeTime";
 
 function WidthContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -70,6 +72,69 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
   children,
   ...props
 }) => {
+  const isTweet = className?.includes("twitter-tweet");
+  let contents;
+
+  if (isTweet) {
+    const href = (props as any)["data-tweet-url"] as string;
+    const name = (props as any)["data-name"] as string;
+    const username = (props as any)["data-username"] as string;
+    const content = (props as any)["data-content"] as string;
+    const date = (props as any)["data-date"] as string;
+
+    contents = (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="
+          rounded-sm rounded-l-none 
+          border border-mauve-7 dark:border-mauvedark-7
+          flex flex-col gap-4 p-4
+        "
+      >
+        <div className="flex items-center gap-4">
+          <Avatar>
+            <AvatarImage src={`https://unavatar.io/twitter/${username}`} />
+          </Avatar>
+          <div>
+            <div className="">{name}</div>
+            <div className="text-sm text-mauve-11 dark:text-mauvedark-11">
+              {username}
+            </div>
+          </div>
+          <div className="flex-1" />
+          <div className="text-sm text-mauve-11 dark:text-mauvedark-11 self-start">
+            <RelativeTime date={new Date(date)} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 py-1.5">
+          <div className="text-xl">{content}</div>
+        </div>
+        {/* <div
+          className="
+            [&_p]:text-xl [&_p]:mt-1 [&_>_*]:px-0
+          "
+        >
+          {children}
+        </div> */}
+      </a>
+    );
+  } else {
+    contents = (
+      <div
+        className="
+        rounded-sm rounded-l-none 
+        bg-mauve-1 dark:bg-mauvedark-2 
+        border border-l-0 border-mauve-7 dark:border-mauvedark-7
+      "
+      >
+        <blockquote>{children}</blockquote>
+      </div>
+    );
+  }
+
   return (
     <WidthContainer>
       <figure
@@ -77,16 +142,16 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
         className={makeClass("my-6 grid", className)}
         style={{ gridTemplateColumns: "8px auto" }}
       >
-        <div className="rounded-sm rounded-r-none bg-crimson-9 dark:bg-crimsondark-9 " />
         <div
-          className="
-            rounded-sm rounded-l-none 
-            bg-mauve-1 dark:bg-mauvedark-2 
-            border border-l-0 border-mauve-7 dark:border-mauvedark-7
-          "
-        >
-          <blockquote>{children}</blockquote>
-        </div>
+          className={makeClass(
+            "rounded-sm rounded-r-none",
+            isTweet
+              ? "bg-blue-9 dark:bg-bluedark-9"
+              : "bg-crimson-9 dark:bg-crimsondark-9 "
+          )}
+        />
+
+        {contents}
       </figure>
     </WidthContainer>
   );
