@@ -89,6 +89,15 @@ code[data-theme*=" "] span {
   background-color: var(--shiki-light-bg);
 }
 
+[data-highlighted-line] {
+  position: relative;
+}
+
+[data-highlighted-line]:before {
+  content: "";
+  @apply absolute inset-0 bg-crimsona-4 !important;
+}
+
 .dark code[data-theme*=" "],
 .dark .bg-code,
 .dark code[data-theme*=" "] span {

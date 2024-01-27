@@ -5,8 +5,7 @@
 - Fix favicon
 - fix padding/spacing in og images
 - post tags
-- code block names, etc
-  - style bash blocks as little terminals
+- style bash blocks as little terminals
 
 ## Posts
 

@@ -17,6 +17,7 @@ import {
   Table,
   UnorderedList,
   H1,
+  FigCaption,
 } from "./src/components/ui/typography";
 import { PostHeader } from "./src/app/blog/components/PostHeader";
 import { Link } from "./src/components/ui/Link";
@@ -45,5 +46,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     table: Table,
     td: TD,
     th: TH,
+    figcaption: FigCaption,
   };
 }

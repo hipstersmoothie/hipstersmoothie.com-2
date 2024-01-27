@@ -18,7 +18,7 @@ For the sake of this article, we'll be using the App Router.
 
 Most docs and articles will tell you to do something along the lines of:
 
-```jsx
+```jsx title="app/post.tsx"
 import glob from "fast-glob";
 
 export default async function Page() {
@@ -72,7 +72,7 @@ Most people only use the `import` keyword to import a single file, but webpack h
 
 This API is called `require.context` and it's pretty powerful.
 
-```js
+```js title="app/lib/posts.js"
 const files = require.context(
   // Look in the ./posts directory
   "./posts", 
@@ -104,7 +104,7 @@ Instead we can can lean into another lesser known webpack feature called ["Inlin
 
 Modifying the above example we can use the `raw-loader` to get the raw file content.
 
-```js
+```js title="app/lib/posts.js"
 const files = require.context(
   "!!raw-loader!./posts", true, /\.js$/
 );
@@ -117,7 +117,7 @@ This is the exact same problem, when deployed the git data won't be available.
 
 To solve this we can replace the `raw-loader` with a custom loader that will inject the git data at build time and include the source.
 
-```js
+```js title="app/lib/my-custom-loader.js"
 const { execSync } = require("child_process");
 const { urlToRequest } = require("loader-utils");
 
@@ -138,7 +138,7 @@ module.exports = function gitLoader(source) {
 
 All we have to do is update the inline loader with a relative path to our custom loader.
 
-```js
+```js title="app/lib/posts.js"
 const files = require.context(
   "!!./my-custom-loader.js!./posts", true, /\.js$/
 );

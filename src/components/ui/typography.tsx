@@ -8,6 +8,7 @@ import * as HoverCard from "@radix-ui/react-hover-card";
 import { twMerge } from "tailwind-merge";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
+import { Slot } from "@radix-ui/react-slot";
 
 import { Avatar, AvatarImage } from "./avatar";
 import { Button } from "./button";
@@ -15,11 +16,26 @@ import { ScrollArea, ScrollBar } from "./scroll-area";
 import { Tooltip } from "./tooltip";
 import { RelativeTime } from "./RelativeTime";
 
-function WidthContainer({ children }: { children: React.ReactNode }) {
+function WidthContainer({
+  children,
+  className,
+  asChild = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  asChild?: boolean;
+}) {
+  const Component = asChild ? Slot : "div";
+
   return (
-    <div className="max-w-prose mx-auto px-4 text-mauve-12 dark:text-mauvedark-12 ">
+    <Component
+      className={makeClass(
+        className,
+        "max-w-prose mx-auto px-4 text-mauve-12 dark:text-mauvedark-12"
+      )}
+    >
       {children}
-    </div>
+    </Component>
   );
 }
 
@@ -180,65 +196,113 @@ export const UnorderedList = (props: ComponentProps<"ul">) => (
   </WidthContainer>
 );
 
-export const Code = (props: {
+const InlineCode = (props: React.ComponentProps<"code">) => (
+  <code
+    {...props}
+    className="
+        text-xs rounded p-1 py-0.5 inline-block translate-y-[-1px]
+        bg-crimsona-5 dark:bg-crimsondarka-4
+        text-crimsona-12 dark:text-crimsondarka-12
+      "
+  />
+);
+
+export const FigCaption = ({
+  children,
+  ...props
+}: React.ComponentProps<"figcaption">) => {
+  const isCodeBlockTitle = "data-rehype-pretty-code-title" in props;
+
+  if (isCodeBlockTitle) {
+    return (
+      <WidthContainer
+        className="
+          [&_+_.code-block_>_pre]:rounded-t-none
+          [&_+_.code-block_>_pre]:border-t-0
+          [&_+_.code-block_>_pre]:mt-0
+        "
+      >
+        <figcaption
+          {...props}
+          className="
+            bg-mauve-3 dark:bg-mauvedark-3 px-6 py-2 rounded-t-md
+            border border-mauve-7 dark:border-mauvedark-7
+          "
+        >
+          <div className="mono text-sm text-mauve-11 dark:text-mauvedark-11">
+            {children}
+          </div>
+        </figcaption>
+      </WidthContainer>
+    );
+  }
+
+  return (
+    <figcaption
+      {...props}
+      className="text-sm text-center italic text-mauve-11 dark:text-mauvedark-11"
+    >
+      {children}
+    </figcaption>
+  );
+};
+
+export const Code = ({
+  title,
+  ...props
+}: {
   children?: React.ReactNode;
   className?: string;
+  title?: string;
 }) => {
   const codeRef = useRef<HTMLPreElement>(null);
 
   if ((props as any)["data-language"]) {
     return (
-      <ScrollArea type="always" className="bg-code relative group">
-        <code
-          {...props}
-          ref={codeRef}
-          className={makeClass(
-            props.className,
-            "font-mono",
-            "rounded block",
-            "h-full w-full",
-            "py-5 px-6"
-          )}
-        >
-          {props.children}
-        </code>
-        <ScrollBar orientation="horizontal" />
+      <>
+        <ScrollArea type="always" className="bg-code relative group">
+          <code
+            {...props}
+            ref={codeRef}
+            className={makeClass(
+              props.className,
+              "font-mono",
+              "rounded block",
+              "h-full w-full",
+              "py-5 px-6"
+            )}
+          >
+            {props.children}
+          </code>
+          <ScrollBar orientation="horizontal" />
 
-        <Tooltip title="Copy" asChild={true}>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="
+          <Tooltip title="Copy" asChild={true}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="
               h-8 w-8 p-2 
               absolute top-2 right-2
               opacity-0 group-hover:opacity-100 transition-opacity duration-75
             "
-            onClick={() => {
-              navigator.clipboard.writeText(codeRef.current?.innerText ?? "");
-              toast.success("Copied to clipboard");
-            }}
-          >
-            <Copy />
-          </Button>
-        </Tooltip>
-      </ScrollArea>
+              onClick={() => {
+                navigator.clipboard.writeText(codeRef.current?.innerText ?? "");
+                toast.success("Copied to clipboard");
+              }}
+            >
+              <Copy />
+            </Button>
+          </Tooltip>
+        </ScrollArea>
+      </>
     );
   }
 
-  return (
-    <code
-      {...props}
-      className="
-        text-xs rounded p-1 py-0.5 inline-block translate-y-[-1px]
-        bg-crimsona-5 dark:bg-crimsondarka-4
-        text-crimsona-12 dark:text-crimsondarka-12
-      "
-    />
-  );
+  return <InlineCode {...props} />;
 };
 
 export const Pre = (props: React.ComponentProps<"pre">) => (
-  <WidthContainer>
+  <WidthContainer className="code-block">
     <pre
       {...props}
       className="
