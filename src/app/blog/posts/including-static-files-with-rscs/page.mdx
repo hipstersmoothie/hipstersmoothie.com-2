@@ -41,9 +41,9 @@ This works great and you'll be able to generate static pages really easily!
 
 ## What is Hard?
 
-Now lets say you want to build and Server Component that uses a static file.
-When this is deployed is isn't deployed, it's deployed as build output.
-This means none of the source files are going to be where you expect them to be.
+Now lets say you want to build and Server Component that uses a static file at runtime.
+When this is deployed the source files aren't deployed, it's deployed as build output.
+This means none of the source files are going to be where you expect them to be!
 
 In the above example we use `fast-glob` to find all the files in the `./posts` directory.
 That directory doesn't exist in the build output, so when you go to run the code on your website it will fail.
@@ -55,7 +55,7 @@ All the the docs and answers on StackOverflow will tell you to put your static f
 You could put them there but:
 
 - They'll actually be public and hosted on your website
-- If you're using `@next/mdx` you have to put the files in specific directories, non of which are `public`
+- If you're using `@next/mdx` you have to put the files in specific directories, none of which are `public`
 
 Given point 2 the `public` directory is out of the question.
 We would have to represent the files in the `public` directory in the `posts` directory.
@@ -91,15 +91,15 @@ const data = files.keys().map((key) => {
 });
 ```
 
-Now since we're using bundler APIs to include the files they will get includes in the bundle that `webpack` generates.
+Now since we're using bundler APIs to include the files they will get included in the bundle that `webpack` generates.
 
 #### Getting the Raw File Content
 
 In the above example we're importing a `.js` file.
 When we do imports like this all the loaders in our `webpack` config will be applied to the file.
-Sometimes you might want this like if you're actually importing some code you want transformed, but in our case we just want the raw file content.
+Sometimes you might want this, like if you're actually importing some code you want transformed, but in our case we just want the raw file content.
 
-We could configure webpack somehow to do something special for `.mdx` files in this case, but that would be a lot of work.
+We could configure webpack somehow to do something special for `.mdx` files in this case, but that would be a lot of work and prone to breaking things.
 Instead we can can lean into another lesser known webpack feature called ["Inline Loaders"](https://webpack.js.org/concepts/loaders/#inline).
 
 Modifying the above example we can use the `raw-loader` to get the raw file content.
@@ -117,7 +117,7 @@ This is the exact same problem, when deployed the git data won't be available.
 
 To solve this we can replace the `raw-loader` with a custom loader that will inject the git data at build time and include the source.
 
-```js title="app/lib/my-custom-loader.js"
+```js title="app/lib/my-custom-loader.js" /source/3#blue /creationDate/#blue
 const { execSync } = require("child_process");
 const { urlToRequest } = require("loader-utils");
 
@@ -138,10 +138,18 @@ module.exports = function gitLoader(source) {
 
 All we have to do is update the inline loader with a relative path to our custom loader.
 
-```js title="app/lib/posts.js"
+```js title="app/lib/posts.js" "my-custom-loader.js" /creationDate/#blue /source/#blue
 const files = require.context(
   "!!./my-custom-loader.js!./posts", true, /\.js$/
 );
+
+const data = files.keys().map((key) => {
+  // Dynamically import the file when you need it!
+  // NOTE: In this example we are using the default export
+  //       but you can use any export you want!
+  const { creationDate, source } = files(key).default;
+  // do some stuff
+});
 ```
 
 ## Conclusion

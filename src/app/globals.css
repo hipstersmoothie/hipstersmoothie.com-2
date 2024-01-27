@@ -89,13 +89,27 @@ code[data-theme*=" "] span {
   background-color: var(--shiki-light-bg);
 }
 
+[data-highlighted-chars],
 [data-highlighted-line] {
   position: relative;
 }
 
+[data-highlighted-chars] span {
+  @apply text-crimsona-12 dark:text-crimsondarka-12 !important;
+}
+
+[data-highlighted-chars]:before,
 [data-highlighted-line]:before {
   content: "";
-  @apply absolute inset-0 bg-crimsona-4 !important;
+  @apply rounded absolute -inset-1 bg-crimsona-4 dark:bg-crimsondarka-4 !important;
+}
+
+[data-highlighted-chars][data-chars-id="blue"] span {
+  @apply text-bluea-12 dark:text-bluedarka-12 !important;
+}
+
+[data-highlighted-chars][data-chars-id="blue"]:before {
+  @apply bg-bluea-4 dark:bg-bluedarka-4 !important;
 }
 
 .dark code[data-theme*=" "],
