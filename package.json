@@ -5,8 +5,9 @@
   "scripts": {
     "clean": "rm -rf .next && rm -rf public/optimized",
     "dev": "next dev",
-    "setup-git-for-ci": "git remote add origin https://github.com/hipstersmoothie/hipstersmoothie.com-2.git && git pull origin main --unshallow",
-    "build": "pnpm run setup-git-for-ci && pnpm exec playwright install chromium && node -r esbuild-register scripts/generate-optimized-images.ts && pnpm run sync-content && next build",
+    "setup-for-ci": "git remote add origin https://github.com/hipstersmoothie/hipstersmoothie.com-2.git && git pull origin main --unshallow && pnpm exec playwright install chromium",
+    "generate-assets": "node -r esbuild-register scripts/generate-optimized-images.ts",
+    "build": "pnpm run setup-for-ci && pnpm run generate-assets && pnpm run sync-content && next build",
     "sync-content": "mkdir -p public/posts && cpx \"src/app/blog/posts/**/page.mdx\" public/posts",
     "start": "next start",
     "lint": "next lint",

@@ -1,5 +1,3 @@
-import "server-only";
-
 import path from "path";
 import { matter } from "vfile-matter";
 import { VFile } from "vfile";

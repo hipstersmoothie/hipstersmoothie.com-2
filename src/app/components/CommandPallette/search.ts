@@ -1,4 +1,4 @@
-import Fuse, { IFuseOptions } from "fuse.js";
+import Fuse, { FuseIndex, IFuseOptions } from "fuse.js";
 import { Heading, Link, Paragraph, Strong } from "mdast";
 import emojiRegex from "emoji-regex";
 
@@ -7,23 +7,13 @@ import { getExperimentList } from "../../experiments/utils";
 
 const regex = emojiRegex();
 
-const options: IFuseOptions<any> = {
+const fuseOptions: IFuseOptions<any> = {
   includeMatches: true,
   useExtendedSearch: true,
   keys: ["title", "description", "source"],
 };
 
-async function initializeIndex() {
-  // For speed on prod use the pre-built index
-  if (process.env.NODE_ENV === "production") {
-    const { default: prodIndex } = await import(
-      "./production-search-index.json"
-    );
-    const { default: data } = await import("./production-search-data.json");
-
-    return new Fuse(data, options);
-  }
-
+export async function getSearchData() {
   const blogPosts = (await getBlogPostList({ includeSource: true })).map(
     (item) => {
       return {
@@ -48,7 +38,20 @@ async function initializeIndex() {
   );
   const experiments = await getExperimentList();
 
-  return new Fuse([...blogPosts, ...experiments], options);
+  return [...blogPosts, ...experiments];
+}
+
+async function initializeIndex() {
+  // For speed on prod use the pre-built index
+  if (process.env.NODE_ENV === "production") {
+    const { default: index } = await import("./production-search-index.json");
+    const { default: data } = await import("./production-search-data.json");
+
+    return new Fuse(data, fuseOptions, index as any as FuseIndex<any>);
+  }
+
+  const data = await getSearchData();
+  return new Fuse(data, fuseOptions);
 }
 
 export async function search(query: string) {
