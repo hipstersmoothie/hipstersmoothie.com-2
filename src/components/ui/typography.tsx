@@ -83,17 +83,19 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
     const date = (props as any)["data-date"] as string;
 
     contents = (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+      <div
         className="
           rounded-sm rounded-l-none 
           border border-mauve-7 dark:border-mauvedark-7
           flex flex-col gap-4 p-4
         "
       >
-        <div className="flex items-center gap-4">
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4"
+        >
           <Avatar>
             <AvatarImage src={`https://unavatar.io/twitter/${username}`} />
           </Avatar>
@@ -107,19 +109,21 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
           <div className="text-sm text-mauve-11 dark:text-mauvedark-11 self-start">
             <RelativeTime date={new Date(date)} />
           </div>
-        </div>
+        </a>
 
         <div className="flex flex-col gap-2 py-1.5">
-          <div className="text-xl">{content}</div>
+          <div
+            className="
+              text-xl
+              [&_a]:text-blue-11 [&_a]:visited:text-violet-11 
+              [&_a]:dark:text-bluedark-11 [&_a]:dark:visited:text-violetdark-11
+            "
+            dangerouslySetInnerHTML={{
+              __html: content,
+            }}
+          />
         </div>
-        {/* <div
-          className="
-            [&_p]:text-xl [&_p]:mt-1 [&_>_*]:px-0
-          "
-        >
-          {children}
-        </div> */}
-      </a>
+      </div>
     );
   } else {
     contents = (

@@ -20,6 +20,25 @@ import rehypeImgSize from "rehype-img-size";
 
 const dir = path.dirname(import.meta.url).replace("file://", "");
 
+function quoteattr(s, preserveCR) {
+  preserveCR = preserveCR ? "&#13;" : "\n";
+  return (
+    ("" + s) /* Forces the conversion to string. */
+      .replace(/&/g, "&amp;") /* This MUST be the 1st replacement. */
+      .replace(/'/g, "&apos;") /* The 4 other predefined entities, required. */
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      /*
+      You may add other replacements here for HTML only 
+      (but it's not necessary).
+      Or for XML, only if the named entities are defined in its DTD.
+      */
+      .replace(/\r\n/g, preserveCR) /* Must be before the next replacement. */
+      .replace(/[\r\n]/g, preserveCR)
+  );
+}
+
 function handleError({ error, url, transformer }) {
   if (
     transformer.name !== "@remark-embedder/transformer-oembed" ||
@@ -42,12 +61,23 @@ function handleHTML(htmlRaw, info) {
 
   if (url.includes("twitter.com") || url.includes("x.com")) {
     const [, name, username] = html.match(/&mdash; (.+) \((@.*)\)/);
-    const content = html.match(/<p.*>(.*)<\/p>/)[1];
+    const content = html.match(/<p[^\>]*>(.*)<\/p>&mdash/)[1];
     const date = html.match(/<a.*>(.*)<\/a>/)[1];
 
+    console.log({
+      html: html.replace(
+        /<blockquote/,
+        `<blockquote data-tweet-url="${url}" data-name="${name}" data-username="${username}" data-content="${quoteattr(
+          content
+        )}" data-date="${date}"`
+      ),
+      content,
+    });
     return html.replace(
       /<blockquote/,
-      `<blockquote data-tweet-url="${url}" data-name="${name}" data-username="${username}" data-content="${content}" data-date="${date}"`
+      `<blockquote data-tweet-url="${url}" data-name="${name}" data-username="${username}" data-content="${quoteattr(
+        content
+      )}" data-date="${date}"`
     );
   }
 
