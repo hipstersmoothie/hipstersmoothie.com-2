@@ -13,33 +13,41 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
   return (
     <Link
       href={`/experiments/${experiment.slug}`}
-      className={makeClass(
-        "flex group",
-        "scale-100 transition-transform hover:scale-[1.025]"
-      )}
+      className={makeClass("flex group")}
     >
       <div
         className="m-2 
-          flex flex-col rounded overflow-hidden
-          border border-mauve-7 hover:border-mauve-8 
-          dark:border-mauvedark-7 dark:hover:border-mauvedark-8 
-          bg-mauve-2 hover:bg-mauve-3 
-          dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
+          flex flex-col rounded 
           relative
         "
       >
         <div
-          className={makeClass(
-            "absolute inset-0 z-[-1] shadow-xl opacity-0 transition-opacity",
-            "group-hover:opacity-100"
-          )}
+          className="
+            absolute rounded inset-0 z-[-1] shadow-xl opacity-0 transition-opacity
+            group-hover:opacity-100
+          "
+        />
+        <div
+          className="
+            absolute inset-[-1px] z-[-1]
+            rounded overflow-hidden
+            border border-mauve-7 group-hover:border-mauve-8 
+            dark:border-mauvedark-7 dark:group-hover:border-mauvedark-8 
+            bg-mauve-2 group-hover:bg-mauve-3 
+            dark:bg-mauvedark-2 dark:group-hover:bg-mauvedark-3
+            scale-100 transition-transform group-hover:scale-[1.025]
+          "
         />
         <div
           className="
             aspect-video
-          bg-mauvea-3 dark:bg-mauvedarka-3
-            border-b border-mauve-6 dark:border-mauvedark-6
             box-border
+            w-[calc(100%+2.5%)] -mt-[1.25%]
+            transition-[clip-path]
+            [clip-path:inset(2.25%_1.25%_0_round_4px_4px_0_0)]
+            group-hover:[clip-path:inset(0_0_round_4px_4px_0_0)]
+            flex items-center flex-col
+            -translate-x-[1.1%]
           "
         >
           <ExperimentPreviewImage
@@ -47,6 +55,7 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             width={PREVIEW_WIDTH}
             height={PREVIEW_HEIGHT}
             alt="Preview of the experiment"
+            className="rounded-t"
           />
         </div>
         <div className="px-4 py-3 flex flex-col gap-2">
