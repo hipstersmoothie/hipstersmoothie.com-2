@@ -90,27 +90,36 @@ function Project({
       href={href}
       className="
         flex group 
-        scale-100 transition-transform hover:scale-[1.025]
-        active:animate-press
       "
     >
       <div
         className="
           py-2 w-full
-          flex flex-col gap-2 rounded overflow-hidden
-          border border-mauve-7 hover:border-mauve-8 
-          dark:border-mauvedark-7 dark:hover:border-mauvedark-8 
-          bg-mauve-2 hover:bg-mauve-3 
-          dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
+          flex flex-col gap-2
           relative
         "
       >
         <div
           className="
-            absolute inset-0 z-[-1] shadow-xl opacity-0 transition-opacity
-            group-hover:opacity-100
-          "
+            rounded overflow-hidden
+            absolute inset-0 z-[-1] shadow-xl
+            opacity-0 transition-opacity group-hover:opacity-100
+            group-active:animate-press
+        "
         />
+        <div
+          className="
+            rounded overflow-hidden
+            border border-mauve-7 group-hover:border-mauve-8 
+            dark:border-mauvedark-7 dark:group-hover:border-mauvedark-8 
+            bg-mauve-2 hover:bg-mauve-3 
+            dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
+            absolute inset-0 z-[-1]
+            scale-100 transition-transform group-hover:scale-[1.025]
+            group-active:animate-press
+        "
+        />
+
         <div className="px-4">
           <h2 className="text-lg font-medium text-mauve-12 dark:text-mauvedark-12">
             {title}

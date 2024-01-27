@@ -102,13 +102,13 @@ const config: Config = {
           to: { height: "0" },
         },
         press: {
-          "0%": { transform: "scale(1)" },
-          "50%": { transform: "scale(0.95)" },
-          "100%": { transform: "scale(1)" },
+          "0%": { transform: "scale(1.025)" },
+          "50%": { transform: "scale(1)" },
+          "100%": { transform: "scale(1.025)" },
         },
       },
       animation: {
-        press: "press 500ms ease-out",
+        press: "press 300ms linear",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
