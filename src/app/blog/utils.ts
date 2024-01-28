@@ -9,15 +9,7 @@ import remarkWikiLink from "remark-wiki-link";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
-import remarkFlexibleMarkers from "remark-flexible-markers";
-import fauxRemarkEmbedder from "@remark-embedder/core";
-import fauxOembedTransformer from "@remark-embedder/transformer-oembed";
 import { PhrasingContent } from "mdast";
-
-const remarkEmbedder = (fauxRemarkEmbedder as any)
-  .default as typeof fauxRemarkEmbedder;
-const oembedTransformer = (fauxOembedTransformer as any)
-  .default as typeof fauxOembedTransformer;
 
 interface GitLoaderOutput {
   source: string;
@@ -27,7 +19,8 @@ interface GitLoaderOutput {
 }
 
 export const mdxProcessor = remark()
-  .use(remarkFlexibleMarkers)
+  // @ts-expect-error
+  .use(readingTime, {})
   .use(remarkFrontmatter)
   .use(remarkGfm)
   .use(remarkEmoji)
@@ -35,20 +28,6 @@ export const mdxProcessor = remark()
     aliasDivider: "||",
     pageResolver: (name: string) => [name.replace(/ /g, "-").toLowerCase()],
     hrefTemplate: (permalink: string) => `/blog/posts/${permalink}`,
-  })
-  .use(readingTime, {})
-  // @ts-expect-error
-  .use(remarkEmbedder, {
-    transformers: [
-      [
-        oembedTransformer,
-        {
-          theme: "dark",
-          dnt: true,
-          omit_script: true,
-        },
-      ],
-    ],
   });
 
 interface FrontMatter {

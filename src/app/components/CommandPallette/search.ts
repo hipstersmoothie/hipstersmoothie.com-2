@@ -1,8 +1,8 @@
-import Fuse, { IFuseOptions } from "fuse.js";
+import Fuse, { FuseIndex, IFuseOptions } from "fuse.js";
+import { Heading, Link, Paragraph, Strong } from "mdast";
 import emojiRegex from "emoji-regex";
-import strip from "strip-markdown";
 
-import { getBlogPostList, mdxProcessor } from "../../blog/utils";
+import { getBlogPostList, mdxProcessor, renderPhrase } from "../../blog/utils";
 import { getExperimentList } from "../../experiments/utils";
 
 import prodSearchIndex from "./production-search-index.json";
@@ -22,9 +22,20 @@ export async function getSearchData() {
       return {
         ...item,
         source: mdxProcessor
-          .use(strip)
-          .process(item.source)
-          .then((result) => String(result).replaceAll(regex, "")),
+          .parse(item.source)
+          .children.filter(
+            (item): item is Paragraph | Heading | Link | Strong =>
+              item.type === "paragraph" ||
+              item.type === "heading" ||
+              item.type === "link" ||
+              item.type === "strong"
+          )
+          .map((child) => {
+            return child.children.map(renderPhrase).join("");
+          })
+          .flat()
+          .join("\n")
+          .replaceAll(regex, ""),
       };
     }
   );
