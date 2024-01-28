@@ -4,7 +4,6 @@
 
 - Fix favicon
 - fix padding/spacing in og images
-- tweak mobile layout
 
 ## Posts
 

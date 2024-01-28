@@ -32,7 +32,10 @@ export function NavigationHeader() {
       <nav className="flex items-center gap-4 justify-between h-12 w-full max-w-screen-md mx-auto">
         <div className="flex items-center gap-2 flex-1">
           <Button variant="ghost" size="sm" asChild={true}>
-            <Link href="/">Andrew Lisowski</Link>
+            <Link href="/">
+              <span className="md:hidden">AL</span>
+              <span className="hidden md:inline">Andrew Lisowski</span>
+            </Link>
           </Button>
           <Link
             href="/command"

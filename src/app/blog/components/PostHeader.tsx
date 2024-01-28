@@ -1,4 +1,6 @@
 import makeClass from "clsx";
+import Link from "next/link";
+
 import { Time } from "../../../components/ui/Time";
 import { getBlogPost } from "../utils";
 
@@ -34,16 +36,18 @@ export async function PostHeader({
             {post.frontMatter.tags && (
               <ul className="flex gap-2">
                 {post.frontMatter.tags.map((tag) => (
-                  <li
-                    key={tag}
-                    className="
-                      text-sm
-                      rounded-lg px-2 py-1
-                      bg-crimsona-4 dark:bg-crimsondarka-4
-                      text-crimsona-12 dark:text-crimsondarka-12
-                    "
-                  >
-                    {tag}
+                  <li key={tag}>
+                    <Link
+                      href={`/command?q=${encodeURIComponent(`#${tag}`)}`}
+                      className="
+                        text-sm
+                        rounded-lg px-2 py-1
+                        bg-crimsona-4 dark:bg-crimsondarka-4
+                        text-crimsona-12 dark:text-crimsondarka-12
+                      "
+                    >
+                      {tag}
+                    </Link>
                   </li>
                 ))}
               </ul>

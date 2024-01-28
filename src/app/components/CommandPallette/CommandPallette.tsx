@@ -29,7 +29,114 @@ async function SearchResults({
 }) {
   await new Promise((resolve) => setTimeout(resolve, 0));
   const query = (queryParam || "").trim().toLowerCase();
-  const results = await search(query);
+  let results;
+
+  if (query.startsWith("#")) {
+    const posts = await getBlogPostList();
+    results = posts.map((post) => {
+      if (!post.frontMatter.tags) {
+        return null;
+      }
+
+      const tags = post.frontMatter.tags.map((tag) => tag.toLowerCase());
+
+      if (!tags.includes(query.slice(1))) {
+        return null;
+      }
+
+      return (
+        <CommandPalletteLink
+          key={post.slug}
+          href={`/blog/posts/${post.slug}`}
+          value={query + post.slug}
+        >
+          {post.title}
+        </CommandPalletteLink>
+      );
+    });
+    results = results.filter((result) => result !== null);
+
+    if (results.length === 0) {
+      results = null;
+    } else {
+      results = (
+        <CommandGroup heading="Blog Posts">
+          {results.map((result) => result)}
+        </CommandGroup>
+      );
+    }
+  } else {
+    const data = await search(query);
+    results = data.map((result) => {
+      if (!result.matches) {
+        return null;
+      }
+
+      return result.matches.map(({ value, ...match }, index) => {
+        if (
+          !value ||
+          // We don't need to show title matches for blogs posts since those are
+          // already in the blog section
+          (match.key === "title" && "source" in result.item)
+        ) {
+          return null;
+        }
+
+        return (
+          <>
+            <CommandGroup
+              key={result.item.slug}
+              heading={result.item.title}
+              value={query + base64encode(value || "").slice(0, 16)}
+            >
+              {match.indices.map(([start, end]) => {
+                if (start === end) {
+                  return null;
+                }
+
+                const startOfPreview = Math.max(0, start - 32);
+                const endOfPreview = Math.min(value.length, end + 32);
+                const text = value.slice(startOfPreview, endOfPreview);
+
+                return (
+                  <CommandPalletteLink
+                    href={`/blog/posts/${result.item.slug}`}
+                    key={`${start}-${end}`}
+                    value={
+                      query +
+                      base64encode(value || "").slice(0, 16) +
+                      start +
+                      end
+                    }
+                  >
+                    <span>
+                      {startOfPreview > 0 && "..."}
+                      {text
+                        .split(new RegExp(`(${query})`, "i"))
+                        .map((item, itemIndex) => {
+                          if (item.toLowerCase() === query) {
+                            return (
+                              <mark key={`${item}-${itemIndex}`}>{item}</mark>
+                            );
+                          }
+
+                          return (
+                            <span key={`${item}-${itemIndex}`}>{item}</span>
+                          );
+                        })}
+                      {endOfPreview < value.length && "..."}
+                    </span>
+                  </CommandPalletteLink>
+                );
+              })}
+            </CommandGroup>
+            {result.matches && index < result.matches.length - 1 && separator}
+          </>
+        );
+      });
+    });
+  }
+
   return (
     <>
       {separator}
@@ -38,74 +145,7 @@ async function SearchResults({
           Search Results
         </div>
       </div>
-      {results.map((result) => {
-        if (!result.matches) {
-          return null;
-        }
-
-        return result.matches.map(({ value, ...match }, index) => {
-          if (
-            !value ||
-            // We don't need to show title matches for blogs posts since those are
-            // already in the blog section
-            (match.key === "title" && "source" in result.item)
-          ) {
-            return null;
-          }
-
-          return (
-            <>
-              <CommandGroup
-                key={result.item.slug}
-                heading={result.item.title}
-                value={query + base64encode(value || "").slice(0, 16)}
-              >
-                {match.indices.map(([start, end]) => {
-                  if (start === end) {
-                    return null;
-                  }
-
-                  const startOfPreview = Math.max(0, start - 32);
-                  const endOfPreview = Math.min(value.length, end + 32);
-                  const text = value.slice(startOfPreview, endOfPreview);
-
-                  return (
-                    <CommandPalletteLink
-                      href={`/blog/posts/${result.item.slug}`}
-                      key={`${start}-${end}`}
-                      value={
-                        query +
-                        base64encode(value || "").slice(0, 16) +
-                        start +
-                        end
-                      }
-                    >
-                      <span>
-                        {startOfPreview > 0 && "..."}
-                        {text
-                          .split(new RegExp(`(${query})`, "i"))
-                          .map((item, itemIndex) => {
-                            if (item.toLowerCase() === query) {
-                              return (
-                                <mark key={`${item}-${itemIndex}`}>{item}</mark>
-                              );
-                            }
-
-                            return (
-                              <span key={`${item}-${itemIndex}`}>{item}</span>
-                            );
-                          })}
-                        {endOfPreview < value.length && "..."}
-                      </span>
-                    </CommandPalletteLink>
-                  );
-                })}
-              </CommandGroup>
-              {result.matches && index < result.matches.length - 1 && separator}
-            </>
-          );
-        });
-      })}
+      {results}
     </>
   );
 }

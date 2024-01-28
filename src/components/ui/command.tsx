@@ -84,10 +84,11 @@ const CommandDialog = ({ children, open, ...props }: CommandDialogProps) => {
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
->(({ className, ...props }, ref) => {
+>(({ className, value, ...props }, ref) => {
   const router = useRouter();
+  const [inputValue, setInputValue] = React.useState(value);
   const onUpdateSearch = React.useMemo(() => {
-    return debounce((value: string) => {
+    const updateUrl = debounce((value: string) => {
       // update the url with query param
       // if value is empty, remove the query param
       const url = new URL(window.location.href);
@@ -100,6 +101,11 @@ const CommandInput = React.forwardRef<
 
       router.replace(url.pathname + url.search);
     }, 100);
+
+    return (value: string) => {
+      setInputValue(value);
+      updateUrl(value);
+    };
   }, [router]);
 
   return (
@@ -123,6 +129,7 @@ const CommandInput = React.forwardRef<
           className
         )}
         {...props}
+        value={inputValue}
         onValueChange={onUpdateSearch}
       />
     </div>

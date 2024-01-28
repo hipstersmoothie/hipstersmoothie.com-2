@@ -14,7 +14,7 @@ function PostItem({ post }: { post: Post }) {
       href={`/blog/posts/${post.slug}`}
       className="
         group
-        flex justify-between gap-2
+        flex items-start justify-between gap-2
         min-h-11 py-2 px-4 -mx-4 relative z-0 
       "
     >
@@ -27,7 +27,7 @@ function PostItem({ post }: { post: Post }) {
       />
       <h2
         className="
-          text-lg md:text-xl font-medium
+          md:text-xl font-medium
           text-mauve-12 dark:text-mauvedark-12
         "
       >
@@ -37,6 +37,7 @@ function PostItem({ post }: { post: Post }) {
         className="
           flex-shrink-0 text-sm flex items-center
           text-mauve-11 dark:text-mauvedark-11
+          pt-0.5 md:pt-1
         "
       >
         <RelativeTime date={post.creationDate} />
