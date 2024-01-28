@@ -54,6 +54,7 @@ export const mdxProcessor = remark()
 interface FrontMatter {
   title?: string;
   creationDate: string;
+  tags?: string[];
 }
 
 interface GetBlogPostListOptions {
@@ -76,6 +77,12 @@ async function parseBlogPost(
   const fileDir = filepath.replace("/page.mdx", "");
   const postSlug = path.basename(fileDir);
   const creationDate = new Date(frontMatter.creationDate || creationDateStr);
+
+  if (typeof frontMatter.tags === "string") {
+    frontMatter.tags = (frontMatter.tags as string)
+      .split(",")
+      .map((tag) => tag.trim());
+  }
 
   return {
     title: frontMatter.title || capitalCase(postSlug),

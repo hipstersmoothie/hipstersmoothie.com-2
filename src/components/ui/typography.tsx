@@ -324,7 +324,6 @@ export const Pre = ({ children, ...props }: React.ComponentProps<"pre">) => {
   const language = (props as any)["data-language"] as string | undefined;
   const isShell = language === "sh";
 
-  console.log({ language, t: language !== "sh" });
   return (
     <WidthContainer className="code-block">
       <pre

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Search } from "lucide-react";
 
 import { Button } from "./ui/button";
 import dynamic from "next/dynamic";
@@ -28,8 +29,8 @@ function NavigationButton({ href, children }: { href: string; children: any }) {
 export function NavigationHeader() {
   return (
     <div className="px-2 md:px-20">
-      <nav className="flex items-center justify-between h-12 w-full max-w-screen-md mx-auto">
-        <div className="flex items-center gap-2">
+      <nav className="flex items-center gap-4 justify-between h-12 w-full max-w-screen-md mx-auto">
+        <div className="flex items-center gap-2 flex-1">
           <Button variant="ghost" size="sm" asChild={true}>
             <Link href="/">Andrew Lisowski</Link>
           </Button>
@@ -59,6 +60,16 @@ export function NavigationHeader() {
               </NavigationButton>
             </li>
           </ol>
+          <Button
+            asChild={true}
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+          >
+            <Link href="/command">
+              <Search className="h-4 -mt-0.5" />
+            </Link>
+          </Button>
           <SetThemeButton />
         </div>
       </nav>

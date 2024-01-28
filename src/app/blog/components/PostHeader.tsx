@@ -31,6 +31,23 @@ export async function PostHeader({
           "
         >
           <div className="max-w-prose px-4 mx-auto flex flex-col gap-4 md:gap-6">
+            {post.frontMatter.tags && (
+              <ul className="flex gap-2">
+                {post.frontMatter.tags.map((tag) => (
+                  <li
+                    key={tag}
+                    className="
+                      text-sm
+                      rounded-lg px-2 py-1
+                      bg-crimsona-4 dark:bg-crimsondarka-4
+                      text-crimsona-12 dark:text-crimsondarka-12
+                    "
+                  >
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            )}
             <h1
               className={makeClass(
                 className,
