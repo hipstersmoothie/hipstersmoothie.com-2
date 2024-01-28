@@ -16,7 +16,7 @@ brew install bat
 
 Make sure to alias `cat` in your `~/.zshrc`.
 
-```sh
+```bash title="~/.zshrc"
 alias cat="bat"
 ```
 
@@ -30,7 +30,7 @@ brew install exa
 
 Make sure to alias `cat` in your `~/.zshrc`.
 
-```sh
+```bash title="~/.zshrc"
 alias ls="exa"
 # Show lots of info, even with icons!
 alias lss="exa -alh --icons --git-ignore"
@@ -46,7 +46,7 @@ brew install git-delta
 
 Tell git to use `delta` for all diffs in your `~/.gitconfig`:
 
-```sh
+```yaml title="~/.gitconfig"
 [pager]
     diff = delta
     log = delta
@@ -88,7 +88,7 @@ brew install zoxide
 
 And add some config in your `~/.zshrc`.
 
-```sh
+```bash title="~/.zshrc"
 eval "$(zoxide init zsh)"
 ```
 

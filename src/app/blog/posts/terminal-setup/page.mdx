@@ -87,7 +87,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~
 
 Set the theme in `~/.zshrc`:
 
-```sh
+```bash title="~/.zshrc"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
@@ -101,7 +101,7 @@ In this section I explain the customization I did to my `~./.p10k.zsh`. If you u
 
 On the left side I added a custom icon on the first line, and a prompt character on the second line. The rest of the values are the defaults.
 
-```sh
+```bash title="~/.p10k.zsh"
 typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
   # =========================[ Line #1 ]=========================
   my_icon
@@ -140,7 +140,7 @@ These three segments are only show on previous commands.
 
 This is super useful when your are looking back on commands you've run. You know the context in which they were ran and that information isn't cluttered with all the other stuff in your prompt.
 
-```sh
+```bash title="~/.p10k.zsh"
 typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
   # =========================[ Line #1 ]=========================
   # ALL THE DEFAULTS DONT DELETE THEM. REMOVED FOR CLARITY
@@ -184,7 +184,7 @@ I started out not using aliases all that much, but as you get more comfortable w
 
 The following ones are simple and can fit most workflows:
 
-```sh
+```bash title="~/.zshrc"
 # Alias the vs-code "code" command to something shorter
 # You can use it to open anything in vscode "c ." will open the current directory
 alias c="code"

@@ -257,26 +257,44 @@ export const Code = ({
   title?: string;
 }) => {
   const codeRef = useRef<HTMLPreElement>(null);
+  const language = (props as any)["data-language"] as string | undefined;
 
-  if ((props as any)["data-language"]) {
+  if (language) {
+    let content;
+
+    if (language === "sh") {
+      content = (
+        <div
+          className="
+            px-6 py-4
+            w-full h-full
+          "
+        >
+          <span className="text-greendark-11">{"\u276f"}</span> {props.children}
+        </div>
+      );
+    } else {
+      content = (
+        <code
+          {...props}
+          ref={codeRef}
+          className={makeClass(
+            props.className,
+            "font-mono",
+            "rounded block",
+            "h-full w-full",
+            "py-5 px-6"
+          )}
+        >
+          {props.children}
+        </code>
+      );
+    }
     return (
       <>
-        <ScrollArea type="always" className="bg-code relative group">
-          <code
-            {...props}
-            ref={codeRef}
-            className={makeClass(
-              props.className,
-              "font-mono",
-              "rounded block",
-              "h-full w-full",
-              "py-5 px-6"
-            )}
-          >
-            {props.children}
-          </code>
+        <ScrollArea type="always" className="relative group">
+          {content}
           <ScrollBar orientation="horizontal" />
-
           <Tooltip title="Copy" asChild={true}>
             <Button
               variant="ghost"
@@ -302,18 +320,37 @@ export const Code = ({
   return <InlineCode {...props} />;
 };
 
-export const Pre = (props: React.ComponentProps<"pre">) => (
-  <WidthContainer className="code-block">
-    <pre
-      {...props}
-      className="
-        my-7 rounded border
-        overflow-hidden
-        border-mauve-7 dark:border-mauvedark-7
-      "
-    />
-  </WidthContainer>
-);
+export const Pre = ({ children, ...props }: React.ComponentProps<"pre">) => {
+  const language = (props as any)["data-language"] as string | undefined;
+  const isShell = language === "sh";
+
+  console.log({ language, t: language !== "sh" });
+  return (
+    <WidthContainer className="code-block">
+      <pre
+        {...props}
+        className={makeClass(
+          "my-7",
+          "overflow-hidden",
+          isShell
+            ? "shadow-xl bg-mauvedark-1 rounded-xl text-mauvedark-12 border border-mauvedark-7"
+            : "border rounded border-mauve-7 dark:border-mauvedark-7 bg-code"
+        )}
+      >
+        {isShell && (
+          <div className="px-6 pt-4">
+            <div className="flex gap-2.5">
+              <div className="h-3.5 w-3.5 bg-red-10 rounded-full" />
+              <div className="h-3.5 w-3.5 bg-amber-10 rounded-full" />
+              <div className="h-3.5 w-3.5 bg-greendark-10 rounded-full" />
+            </div>
+          </div>
+        )}
+        {children}
+      </pre>
+    </WidthContainer>
+  );
+};
 
 export const H1 = (props: React.ComponentProps<"h1">) => (
   <WidthContainer>
