@@ -44,8 +44,8 @@ async function ExperimentCard({ experiment }: { experiment: Experiment }) {
             box-border
             w-[calc(100%+2.5%)] -mt-[1.25%]
             transition-[clip-path]
-            [clip-path:inset(2.25%_1.25%_0_round_40px_40px_0px_0)]
-            group-hover:[clip-path:inset(0_0_round_40px_40px_0px_0)]
+            [clip-path:inset(2.25%_1.25%_0_round_4px_4px_0px_0)]
+            group-hover:[clip-path:inset(0_0_round_4px_4px_0px_0)]
             flex items-center flex-col
             -translate-x-[1.1%]
           "
