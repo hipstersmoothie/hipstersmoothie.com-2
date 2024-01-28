@@ -230,7 +230,7 @@ export const FigCaption = ({
             border border-mauve-7 dark:border-mauvedark-7
           "
         >
-          <div className="mono text-sm text-mauve-11 dark:text-mauvedark-11">
+          <div className="mono text-sm text-mauve-11 dark:text-mauvedark-12">
             {children}
           </div>
         </figcaption>

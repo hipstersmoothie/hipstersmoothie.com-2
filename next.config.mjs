@@ -126,7 +126,7 @@ const withMDX = nextMdx({
         rehypePrettyCode,
         {
           theme: {
-            dark: "github-dark",
+            dark: "dark-plus",
             light: "github-light",
           },
         },
