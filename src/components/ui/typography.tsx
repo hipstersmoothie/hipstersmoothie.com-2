@@ -53,7 +53,7 @@ export const MdxImage = ({
   ...props
 }: React.ComponentProps<"img">) => (
   <WidthContainer>
-    <figure className="my-10 flex flex-col gap-2">
+    <figure className="my-6 md:my-10 flex flex-col gap-2">
       <div className="w-full flex-1 min-h-0 flex justify-center">
         {props.src && props.src.startsWith("http") ? (
           // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
@@ -70,7 +70,7 @@ export const MdxImage = ({
         )}
       </div>
       {props.alt && (
-        <figcaption className="text-sm font-medium my-2 text-center italic text-mauve-11 dark:text-mauvedark-11">
+        <figcaption className="text-sm font-medium mt-2 text-center italic text-mauve-11 dark:text-mauvedark-11">
           {props.alt}
         </figcaption>
       )}
@@ -471,8 +471,9 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
     <h2
       {...props}
       className="
-        text-3xl font-semibold
-        mt-12 mb-6 pb-3 
+        text-xl md:text-3xl font-medium md:font-medium
+        [&_.inline-code]:text-lg [&_.inline-code]:md:text-2xl
+        mt-10 md:mt-12 mb-6 pb-3 
         border-b border-mauve-7 dark:border-mauvedark-7
         in-preview:text-xl in-preview:mt-6 
       "
@@ -488,7 +489,11 @@ export const H3 = (props: React.ComponentProps<"h3">) => (
   <WidthContainer>
     <h3
       {...props}
-      className="text-2xl mt-10 mb-4 font-medium"
+      className="
+        text-lg md:text-2xl 
+        [&_.inline-code]:text-base [&_.inline-code]:md:text-xl
+        mt-6 md:mt-10 mb-4 font-medium
+      "
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
