@@ -1,6 +1,7 @@
 import nextMdx from "@next/mdx";
 import path from "path";
 
+import remarkFlexibleMarkers from "remark-flexible-markers";
 import remarkUnwrapImages from "remark-unwrap-images";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
@@ -78,6 +79,7 @@ function handleHTML(htmlRaw, info) {
 const withMDX = nextMdx({
   options: {
     remarkPlugins: [
+      remarkFlexibleMarkers,
       remarkFrontmatter,
       remarkMdxFrontmatter,
       remarkUnwrapImages,

@@ -119,6 +119,9 @@ dependencies:
   remark-emoji:
     specifier: ^4.0.1
     version: 4.0.1
+  remark-flexible-markers:
+    specifier: ^1.0.4
+    version: 1.0.4
   remark-frontmatter:
     specifier: ^5.0.0
     version: 5.0.0
@@ -13717,6 +13720,15 @@ packages:
       unist-util-visit: 2.0.3
     dev: true
 
+  /remark-flexible-markers@1.0.4:
+    resolution: {integrity: sha512-g+zyQ/RbJIqE04RFP4qS6UsFrUq6OxW7eOyRyDrxCUcHuNPu1eYCz7wTDVKc23Y4EG3BrUclL8FiXKwZ9ei5AQ==}
+    dependencies:
+      '@types/mdast': 4.0.3
+      textr: 0.3.0
+      unist-builder: 4.0.0
+      unist-util-visit: 5.0.0
+    dev: false
+
   /remark-frontmatter@5.0.0:
     resolution: {integrity: sha512-XTFYvNASMe5iPN0719nPrdItC9aU0ssC4v14mH1BCi1u0n1gAocqcujWUrByftZTbLhRtiKRyjYTSIOcr69UVQ==}
     dependencies:
@@ -14897,6 +14909,10 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
+  /textr@0.3.0:
+    resolution: {integrity: sha512-yQrF3w9ThyNvyJjkpFTwBpsVxRQ4870xHg2fue1xeK1J1EZIx5cV7XPW6Fwi/XNC0du/3t9CNWZvlHUfCxPpPg==}
+    dev: false
+
   /thenify-all@1.6.0:
     resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
     engines: {node: '>=0.8'}
@@ -15291,6 +15307,12 @@ packages:
     dependencies:
       crypto-random-string: 2.0.0
     dev: true
+
+  /unist-builder@4.0.0:
+    resolution: {integrity: sha512-wmRFnH+BLpZnTKpc5L7O67Kac89s9HMrtELpnNaE6TAobq5DTZZs5YaTQfAZBA9bFPECx2uVAPO31c+GVug8mg==}
+    dependencies:
+      '@types/unist': 3.0.2
+    dev: false
 
   /unist-util-is@4.1.0:
     resolution: {integrity: sha512-ZOQSsnce92GrxSqlnEEseX0gi7GH9zTJZ0p9dtu87WRb/37mMPO2Ilx1s/t9vBHrFhbgweUwb+t7cIn5dxPhZg==}

@@ -122,3 +122,7 @@ code[data-theme*=" "] span {
 .in-preview .hide-in-preview {
   display: none;
 }
+
+mark {
+  @apply bg-ambera-9 dark:bg-amberdarka-10;
+}

@@ -11,7 +11,6 @@ import { Loader2 } from "lucide-react";
 import { CommandPalletteLink } from "./CommandPalletteItems";
 import resume from "../../resume.json";
 import { getBlogPostList } from "../../blog/utils";
-import { Code } from "../../../components/ui/typography";
 import { search } from "./search";
 
 const separator = <div className="-mx-1 h-px bg-mauve-7 dark:bg-mauvedark-7" />;
@@ -88,7 +87,7 @@ async function SearchResults({
                           .map((item, itemIndex) => {
                             if (item.toLowerCase() === query) {
                               return (
-                                <Code key={`${item}-${itemIndex}`}>{item}</Code>
+                                <mark key={`${item}-${itemIndex}`}>{item}</mark>
                               );
                             }
 
