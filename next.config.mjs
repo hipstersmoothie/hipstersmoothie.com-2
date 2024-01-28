@@ -10,6 +10,7 @@ import remarkWikiLink from "remark-wiki-link";
 import remarkEmoji from "remark-emoji";
 import fauxRemarkEmbedder from "@remark-embedder/core";
 import fauxOembedTransformer from "@remark-embedder/transformer-oembed";
+import remarkCustomBlockQuotes from "remark-custom-blockquotes";
 
 const remarkEmbedder = fauxRemarkEmbedder.default;
 const oembedTransformer = fauxOembedTransformer.default;
@@ -79,6 +80,16 @@ function handleHTML(htmlRaw, info) {
 const withMDX = nextMdx({
   options: {
     remarkPlugins: [
+      [
+        remarkCustomBlockQuotes,
+        {
+          mapping: {
+            "i>": "info",
+            "!>": "warning",
+            "S>": "success",
+          },
+        },
+      ],
       remarkFlexibleMarkers,
       remarkFrontmatter,
       remarkMdxFrontmatter,

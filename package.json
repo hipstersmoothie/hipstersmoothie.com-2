@@ -54,6 +54,7 @@
     "rehype-autolink-headings": "^7.1.0",
     "rehype-img-size": "^1.0.1",
     "rehype-slug": "^6.0.0",
+    "remark-custom-blockquotes": "^1.0.1",
     "remark-emoji": "^4.0.1",
     "remark-flexible-markers": "^1.0.4",
     "remark-frontmatter": "^5.0.0",

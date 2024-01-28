@@ -84,7 +84,7 @@ To solve this problem `lerna` can publish a project in two modes:
 
 In either mode `lerna` will figure out what packages have changed, even taking into dependencies between packages, then update the `package.json`s as needed.
 
-> Tip: in `fixed` mode you can use the `--force-publish` flag to always publish each package on any change. This makes it simple to debug versions since they should all be the same!
+i> In `fixed` mode you can use the `--force-publish` flag to always publish each package on any change. This makes it simple to debug versions since they should all be the same!
 
 The amount of time that these commands have saved me is immense! This is the `publish` workflow to beat for monorepo tooling.
 
@@ -248,7 +248,7 @@ Once a PR is merged with a changeset file the CI can apply the version bumps des
 
 > Generate releases based on semantic version labels on pull requests.
 
-> Disclaimer: I'm the main author and maintainer of this project
+i> I'm the main author and maintainer of this project
 
 **Capabilities:** `publisher`
 

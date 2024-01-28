@@ -6,7 +6,7 @@ import Image, { ImageProps } from "next/image";
 import NextLink from "next/link";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import { twMerge } from "tailwind-merge";
-import { Copy } from "lucide-react";
+import { Copy, Info, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { Slot } from "@radix-ui/react-slot";
 
@@ -88,16 +88,17 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
   children,
   ...props
 }) => {
-  const isTweet = className?.includes("twitter-tweet");
+  let borderClass;
   let contents;
 
-  if (isTweet) {
+  if (className?.includes("twitter-tweet")) {
     const href = (props as any)["data-tweet-url"] as string;
     const name = (props as any)["data-name"] as string;
     const username = (props as any)["data-username"] as string;
     const content = (props as any)["data-content"] as string;
     const date = (props as any)["data-date"] as string;
 
+    borderClass = "bg-blue-9 dark:bg-bluedark-9";
     contents = (
       <div
         className="
@@ -141,7 +142,107 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
         </div>
       </div>
     );
+  } else if (className?.includes("info")) {
+    return (
+      <WidthContainer className="my-6">
+        <div
+          className="
+          rounded
+          border border-blue-7 dark:border-bluedarka-7
+          flex flex-col
+          bg-blue-3 dark:bg-bluedarka-3
+          text-blue-12 dark:text-bluedarka-12
+        "
+        >
+          <div
+            className="
+              flex items-center gap-1 px-3 py-2
+              border-b border-blue-7 dark:border-bluedarka-7
+            "
+          >
+            <Info className="h-4" />
+            <div className="text-sm">Info</div>
+          </div>
+          <div
+            className="
+              px-4 py-4
+              [&_.inline-code]:bg-blue-6 [&_.inline-code]:dark:bg-bluedark-9
+              [&_.inline-code]:text-blue-12 [&_.inline-code]:dark:text-bluedark-1
+            "
+          >
+            {children}
+          </div>
+        </div>
+      </WidthContainer>
+    );
+  } else if (className?.includes("warning")) {
+    return (
+      <WidthContainer className="my-6">
+        <div
+          className="
+          rounded
+          border border-yellow-7 dark:border-yellowdarka-7
+          flex flex-col
+          bg-yellow-3 dark:bg-yellowdarka-3
+          text-yellow-12 dark:text-yellowdarka-12
+        "
+        >
+          <div
+            className="
+              flex items-center gap-1 px-3 py-2
+              border-b border-yellow-7 dark:border-yellowdarka-7
+            "
+          >
+            <AlertTriangle className="h-4" />
+            <div className="text-sm">Warning</div>
+          </div>
+          <div
+            className="
+              px-4 py-4
+              [&_.inline-code]:bg-yellow-6 [&_.inline-code]:dark:bg-yellowdark-9
+              [&_.inline-code]:text-yellow-12 [&_.inline-code]:dark:text-yellowdark-1
+            "
+          >
+            {children}
+          </div>
+        </div>
+      </WidthContainer>
+    );
+  } else if (className?.includes("success")) {
+    return (
+      <WidthContainer className="my-6">
+        <div
+          className="
+          rounded
+          border border-green-7 dark:border-greendarka-7
+          flex flex-col
+          bg-green-3 dark:bg-greendarka-3
+          text-green-12 dark:text-greendarka-12
+        "
+        >
+          <div
+            className="
+              flex items-center gap-1 px-3 py-2
+              border-b border-green-7 dark:border-greendarka-7
+            "
+          >
+            <AlertTriangle className="h-4" />
+            <div className="text-sm">Warning</div>
+          </div>
+          <div
+            className="
+              px-4 py-4
+              [&_.inline-code]:bg-green-6 [&_.inline-code]:dark:bg-greendark-9
+              [&_.inline-code]:text-green-12 [&_.inline-code]:dark:text-greendark-1
+            "
+          >
+            {children}
+          </div>
+        </div>
+      </WidthContainer>
+    );
   } else {
+    borderClass = "bg-crimson-9 dark:bg-crimsondark-9";
     contents = (
       <div
         className="
@@ -162,15 +263,7 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
         className={makeClass("my-6 grid", className)}
         style={{ gridTemplateColumns: "8px auto" }}
       >
-        <div
-          className={makeClass(
-            "rounded-sm rounded-r-none",
-            isTweet
-              ? "bg-blue-9 dark:bg-bluedark-9"
-              : "bg-crimson-9 dark:bg-crimsondark-9 "
-          )}
-        />
-
+        <div className={makeClass("rounded-sm rounded-r-none", borderClass)} />
         {contents}
       </figure>
     </WidthContainer>
@@ -200,6 +293,7 @@ const InlineCode = (props: React.ComponentProps<"code">) => (
   <code
     {...props}
     className="
+        inline-code
         text-xs rounded p-1 py-0.5 inline-block translate-y-[-1px]
         bg-crimsona-5 dark:bg-crimsondarka-4
         text-crimsona-12 dark:text-crimsondarka-12
