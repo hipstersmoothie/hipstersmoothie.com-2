@@ -66,11 +66,11 @@ export function NavigationHeader() {
           <Button
             asChild={true}
             variant="ghost"
-            size="icon"
-            className="md:hidden"
+            size="sm"
+            className="md:hidden h-9 w-9 p-2.5"
           >
             <Link href="/command">
-              <Search className="h-4 -mt-0.5" />
+              <Search />
             </Link>
           </Button>
           <SetThemeButton />
