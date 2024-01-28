@@ -646,3 +646,7 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
     </HoverCard.Root>
   );
 }
+
+export const Strong = (props: React.ComponentProps<"strong">) => (
+  <strong {...props} className="font-semibold" />
+);

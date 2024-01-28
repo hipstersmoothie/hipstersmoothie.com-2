@@ -80,6 +80,8 @@
 
 body {
   @apply font-sans;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
 }
 
 code[data-theme*=" "],

@@ -18,6 +18,7 @@ import {
   UnorderedList,
   H1,
   FigCaption,
+  Strong,
 } from "./src/components/ui/typography";
 import { PostHeader } from "./src/app/blog/components/PostHeader";
 import { Link } from "./src/components/ui/Link";
@@ -47,5 +48,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     td: TD,
     th: TH,
     figcaption: FigCaption,
+    strong: Strong,
   };
 }

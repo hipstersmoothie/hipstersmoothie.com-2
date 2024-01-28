@@ -39,7 +39,7 @@ Now you need to configure a few things in your `mysql` server to make it availab
 
 Run the following commands while connected:
 
-```sh
+```sql title="mysql"
 SET @@GLOBAL.ENFORCE_GTID_CONSISTENCY = WARN;
 SET @@GLOBAL.ENFORCE_GTID_CONSISTENCY = ON;
 SET @@GLOBAL.GTID_MODE = OFF_PERMISSIVE;
@@ -49,7 +49,7 @@ SHOW STATUS LIKE 'ONGOING_ANONYMOUS_TRANSACTION_COUNT';
 
 When the last command displays a `0` in the output run this command
 
-```sh
+```sql title="mysql"
 SET @@GLOBAL.GTID_MODE = ON;
 ```
 
