@@ -3,7 +3,6 @@
 ## Site
 
 - Fix favicon
-- fix padding/spacing in og images
 
 ## Posts
 

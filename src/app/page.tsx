@@ -6,9 +6,9 @@ import {
   ExternalLink,
   Rss,
   Mic,
-  Globe,
   MapPin,
 } from "lucide-react";
+import Image from "next/image";
 
 import { NavigationHeader } from "../components/NavigationHeader";
 import { Button } from "../components/ui/button";
@@ -182,9 +182,10 @@ export default function Home() {
               </div>
             </div>
             <div className="px-2 flex-1">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={resume.basics.image}
+              <Image
+                width={400}
+                height={400}
+                src="/profile.jpeg"
                 className="
                   rounded-full aspect-square flex-1 
                   border-2 border-mauve-6 dark:border-mauvedark-6
