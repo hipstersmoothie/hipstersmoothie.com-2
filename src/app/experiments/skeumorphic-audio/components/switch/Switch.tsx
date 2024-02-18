@@ -11,7 +11,7 @@ export const Switch = () => (
         <div
           className="
             h-3 flex-1
-            mt-1.5
+            mt-1
             border-t-2 border-r-2 rounded-tr border-[#CFDDEA]
             mb-0.5
           "
@@ -24,7 +24,7 @@ export const Switch = () => (
         <div
           className="
             h-3 flex-1
-            mt-1.5
+            mt-1
             border-t-2 border-l-2 rounded-tl border-[#CFDDEA]
             mb-0.5
           "
