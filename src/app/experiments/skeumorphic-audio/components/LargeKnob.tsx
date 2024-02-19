@@ -74,34 +74,27 @@ export function LargeKnob({
           style={{
             backgroundSize: 20,
             backgroundImage:
-              "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ0AAACcCAYAAABleqlzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATkSURBVHgB7dq7SlxbGMDxfRmTEy8kKQJJCCERbLTUUsQHsNVX8DW01hfwCQTt9AG8YKmlVlYiipdGD17wMvusJY5Ejo4Bh71D+H1gnJDPn81iO678k6Io0qWlpVr43PbMR210dDS3Y6cVO0mYdG5uLu/u7n7b39+fJ0/M8fFxcnl5eZPnefrly5cnd46OjorNzc2brq6ujMNp5qRp+m8aTl8evvjdp0+f0uQVs7W1VQQj4XCazcOhC6/fxb8nr5h46uM353CaTTx0tfn5+WRwcLD+3CM0Ph5vb2/rWZalTU5zsbOzU7+5uUk4nJecPLynS9bW1rKPHz/m7e3t//uik5OT24WFheuzs7PiuZ39/f368vLy9cXFRcLhNHOmpqau7v7h/jfYfw4PDzvD6674ER6bXXt7e+3r6+ttL+3MzMy0cTi/48TXWfwj/JwtVlZWrra3t28bJzQsFYuLi9cDAwPXL+2Mj49fczi/48TX2f1COjIykv/48ePhZ3dYSsPjsBavVOzYadVOfJ3Hv2xsbNS+ffv25vPnzw9vBuPP576+vuz9+/fp7u5uEe7ycjt2XrszPT193ZLL4TBFeEP56stGzt/vtPRyON7XxM8cTrOJhy5LjCl5sng5HC736s8txMfjwcFBvXGin5r4b/eXhBzOi05LLodPT09bctnI+fudh8vhiYmJLF7chfd3HfFS7/6Cr/OpC8C407gAjJeBcSd8/ZuwknI4Lznx9d1vHOG0Jufn50U4jemHDx+yxin+9QJwcnIy+fnzZ3yMZh0dHVnYT+KjdXZ29iZ807hTcDgvOWG3SBtPut7e3lq4Oql9//49u68GivB+L36zq7GxsdvGfd7Xr1/barXa3U74WV2srq42durBSTmcZk78H4q7y+HwSGwbGhpq6+npycNpjgfx7uO5C8DGTmdn56879eHh4RqH08xp2eWwMpajHOb8sY5ymFO6oxzmKIc5ymFlLEc5zFEO27GjHLajHOZwlMOc6h3lsKlklMOc0h3lMEc5zFEOK2M5ymGOclgZy1EOc5TDHM6jUQ5zSneUwxzlMEc5rIzlKIc5ymE7dpTDdpTDHI5ymFO9oxw2lYxymFO6oxzmKIc5ymFlLEc5zFEOK2M5ymGOcpjDeTTKYU7pjnKYoxzmKIeVsRzlMEc5bMeOctiOcpjDUQ5zqneUw6aSUQ5zSneUwxzlMEc5rIzlKIc5ymFlLEc5zFEOcziPRjnMKd1RDnOUwxzlsDKWoxzmKIft2FEO21EOczjKYU71jnLYVDLKYU7pjnKYoxzmKIeVsRzlMEc5rIzlKIc5ymEO59EohzmlO8phjnKYoxxWxnKUwxzlsB07ymE7ymEORznMqd5RDptKRjnMKd1RDnNKdZTDHOUwRzmsjOUohznK4YdRxnKUw5w/1lEOc0p3lMMc5TBHOayM5SiHOcphO3aUw3aUwxyOcphTvaMcNpWMcphTuqMc5iiHOcphZSxHOcxRDitjOcphjnKYw3k0ymFO6Y5ymKMc5iiHlbEc5TBHOWzHjnLYjnKYw1EOc6p3lMOmklEOc0p3lMMc5TBHOayM5SiHOcphZSxHOcxRDnM4j0Y5zCndUQ5zlMMc5bAylqMc5iiH7dhRDttRDnM4z14OZ+Ekvg2n8FX3NfE0x88cTrMJh+78P08XHGl34Gf9AAAAAElFTkSuQmCC')",
+              "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfSURBVHgB7dXBCYBAEATBwfxz1o8m0B85qIJ9bALT23a/9/H/+F8DOIoN1xCAyoZrCEBlwzUEoLLhGgJQ2XANAahsuIYAVDZcQwAqG64hAJUN1xCAyoZrCEBlwzUEoLLhGgJQ2XANAahsuIYAVDZcQwAqG64hAJUN1xCAyoZrCEBlwzUEoLLhGgJQ2XANAahsuIYAVDZcQwAqG64hAMUD4bDdjRUpvZAAAAAASUVORK5CYII=')",
             clipPath: `path('${clipPath}')`,
           }}
         />
       </div>
       {ticks.map((_, i) => {
-        if (i / ticks.length > fraction) {
-          return null;
-        }
-
         const indexFromEnd = visible - i;
         const range = 20;
-
-        if (indexFromEnd > range) {
-          return null;
-        }
-
         const intensity = (range - indexFromEnd) / range;
         const color = i / ticks.length > 0.8 ? "#FB4767" : "#F7FC90";
 
         return (
           <div
             key={i}
-            className="absolute w-2 h-0.5 rounded"
+            className="absolute w-2 h-0.5 rounded transition-opacity duration-[20ms]"
             data-from-end={indexFromEnd}
             style={{
+              opacity:
+                i / ticks.length > fraction || indexFromEnd > range ? 0 : 1,
               boxShadow: `0px 0px ${5 * intensity}px ${
-                2 * intensity
+                3 * intensity
               }px ${color}`,
               left: "50%",
               top: "50%",
@@ -114,17 +107,14 @@ export function LargeKnob({
         );
       })}
       {ticks.map((_, i) => {
-        if (i / ticks.length > fraction) {
-          return null;
-        }
-
         return (
           <div
             key={i}
-            className="absolute w-2 h-0.5 rounded"
+            className="absolute w-2 h-0.5 rounded transition-opacity duration-200"
             data-from-end={visible - i}
             style={{
               background: "linear-gradient(0,#FAFA9A,#FBFB89,#FCC735)",
+              opacity: i / ticks.length > fraction ? 0 : 1,
               backgroundSize: "100% 1000%",
               backgroundPosition: `center ${(i / ticks.length) * 100}%`,
               backgroundRepeat: "no-repeat",
