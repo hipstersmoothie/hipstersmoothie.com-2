@@ -5,6 +5,7 @@ import makeClass from "clsx";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 
 import { useMove } from "react-aria";
+import { on } from "events";
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -28,6 +29,7 @@ interface KnobProps {
   value?: number;
   min: number;
   max: number;
+
   onValueChange?: (value: number) => void;
 }
 
@@ -40,8 +42,8 @@ export function LargeKnob({
   onValueChange: onValueChangeProp,
 }: KnobProps): React.ReactElement {
   const [value, onValueChange] = useControllableState({
-    prop: valueProp as number,
-    defaultProp: defaultValue,
+    prop: valueProp,
+    defaultProp: defaultValue ?? 0,
     onChange: onValueChangeProp,
   });
   const prevValue = React.useRef(value);
@@ -56,23 +58,27 @@ export function LargeKnob({
   const fraction = ((value || 0) - min) / (max - min);
 
   const { moveProps } = useMove({
-    onMove: ({ deltaX }) => {
-      const newFraction = clamp(fraction + deltaX / 100, 0, 1);
+    onMove: (e) => {
+      let delta = e.deltaX;
+
+      if (e.pointerType === "keyboard") {
+        delta = (e.deltaX + e.deltaY) * (e.shiftKey ? 10 : 1);
+      }
+
+      const fraction = ((value || 0) - min) / (max - min);
+      const newFraction = clamp(fraction + delta / max, 0, 1);
       const newValue = newFraction * (max - min) + min;
+
       onValueChange(clamp(newValue, min, max));
-    },
-    onMoveEnd: () => {
-      onValueChange(value);
     },
   });
 
   const angle = DEFAULT_ANGLE_OFFSET + DEFAULT_ANGLE_RANGE * fraction;
   const ticks = new Array(90).fill(0);
   const visible = Math.floor(fraction * ticks.length);
-  const isInRedZone = fraction > 0.8;
 
   return (
-    <div className="relative p-10 z-0">
+    <div className="relative p-10 z-0 rounded-full">
       <div
         className="absolute inset-0 z-[-1]"
         style={{
@@ -121,8 +127,6 @@ export function LargeKnob({
         const range = 20;
         const intensity = Math.min(1.5, (range - indexFromEnd) / range);
         const color = i / ticks.length > 0.8 ? "#FB4767" : "#F7FC90";
-
-        console.log({ isGoingUp });
 
         return (
           <div
@@ -173,7 +177,7 @@ export function LargeKnob({
       <button
         {...moveProps}
         role="slider"
-        className="rounded-full"
+        className="rounded-full focus:outline-none group"
         aria-valuenow={value}
         aria-valuemin={min}
         aria-valuemax={max}
@@ -182,7 +186,14 @@ export function LargeKnob({
             "0px 20px 30px 0px rgba(0, 0, 0, 0.1), 0px 20px 25px 0px #A1B5CE4f",
         }}
       >
-        <div className="w-fit p-2 rounded-full bg-[linear-gradient(0,#E3EEFA_80%,#EBF2FA)] flex items-center justify-center">
+        <div
+          className="
+            w-fit p-2 rounded-full 
+            bg-[linear-gradient(0,#E3EEFA_80%,#EBF2FA)] 
+            flex items-center justify-center 
+            group-focus:ring-4
+          "
+        >
           <div
             className="h-[120px] w-[120px] rounded-full flex items-center justify-center"
             style={{
