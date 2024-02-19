@@ -45,11 +45,14 @@ export function LargeKnob({
     onChange: onValueChangeProp,
   });
   const prevValue = React.useRef(value);
+  const wasGoingUp = React.useRef(false);
   const isGoingUp =
     typeof value === "number" &&
     typeof prevValue.current === "number" &&
-    value > prevValue.current;
+    (value > prevValue.current ||
+      (value === prevValue.current && wasGoingUp.current));
   prevValue.current = value;
+  wasGoingUp.current = isGoingUp;
   const fraction = ((value || 0) - min) / (max - min);
 
   const { moveProps } = useMove({
@@ -95,7 +98,7 @@ export function LargeKnob({
             key={i}
             className={makeClass(
               "absolute w-2 h-0.5 rounded",
-              isGoingUp && "transition-opacity duration-[20ms]"
+              isGoingUp && "transition-opacity duration-[16ms]"
             )}
             data-from-end={indexFromEnd}
             style={{
@@ -118,12 +121,14 @@ export function LargeKnob({
         const intensity = Math.min(1.5, (range - indexFromEnd) / range);
         const color = i / ticks.length > 0.8 ? "#FB4767" : "#F7FC90";
 
+        console.log({ isGoingUp });
+
         return (
           <div
             key={i}
             className={makeClass(
               "absolute w-2 h-0.5 rounded",
-              isGoingUp && "transition-opacity duration-[20ms]"
+              isGoingUp && "transition-opacity duration-[16ms]"
             )}
             data-from-end={indexFromEnd}
             style={{
