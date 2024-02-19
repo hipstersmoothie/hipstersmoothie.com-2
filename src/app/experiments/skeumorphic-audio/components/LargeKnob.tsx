@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import makeClass from "clsx";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 
 import { useMove } from "react-aria";
@@ -43,6 +44,12 @@ export function LargeKnob({
     defaultProp: defaultValue,
     onChange: onValueChangeProp,
   });
+  const prevValue = React.useRef(value);
+  const isGoingUp =
+    typeof value === "number" &&
+    typeof prevValue.current === "number" &&
+    value > prevValue.current;
+  prevValue.current = value;
   const fraction = ((value || 0) - min) / (max - min);
 
   const { moveProps } = useMove({
@@ -82,19 +89,48 @@ export function LargeKnob({
       {ticks.map((_, i) => {
         const indexFromEnd = visible - i;
         const range = 20;
-        const intensity = (range - indexFromEnd) / range;
+
+        return (
+          <div
+            key={i}
+            className={makeClass(
+              "absolute w-2 h-0.5 rounded",
+              isGoingUp && "transition-opacity duration-[20ms]"
+            )}
+            data-from-end={indexFromEnd}
+            style={{
+              opacity:
+                i / ticks.length > fraction || indexFromEnd > range ? 0 : 1,
+              boxShadow: "0px 0px 20px 8px rgba(255, 255, 255, 0.1)",
+              left: "50%",
+              top: "50%",
+              transformOrigin: "center",
+              transform: `translate(-50%, -50%) rotate(${
+                (i / ticks.length) * 272 - 48
+              }deg) translateX(-85px)`,
+            }}
+          />
+        );
+      })}
+      {ticks.map((_, i) => {
+        const indexFromEnd = visible - i;
+        const range = 20;
+        const intensity = Math.min(1.5, (range - indexFromEnd) / range);
         const color = i / ticks.length > 0.8 ? "#FB4767" : "#F7FC90";
 
         return (
           <div
             key={i}
-            className="absolute w-2 h-0.5 rounded transition-opacity duration-[20ms]"
+            className={makeClass(
+              "absolute w-2 h-0.5 rounded",
+              isGoingUp && "transition-opacity duration-[20ms]"
+            )}
             data-from-end={indexFromEnd}
             style={{
               opacity:
                 i / ticks.length > fraction || indexFromEnd > range ? 0 : 1,
               boxShadow: `0px 0px ${5 * intensity}px ${
-                3 * intensity
+                (i / ticks.length > 0.8 ? 4.5 : 3) * intensity
               }px ${color}`,
               left: "50%",
               top: "50%",
