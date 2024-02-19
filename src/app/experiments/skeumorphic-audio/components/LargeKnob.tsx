@@ -201,7 +201,11 @@ export function LargeKnob({
                 className="absolute -inset-2 rounded-full"
                 style={{
                   boxShadow: `inset 4px -2px 14px -8px ${
-                    isInRedZone ? "#FB47675f" : "#F7FC90"
+                    fraction > 0.9
+                      ? "#FB47678f"
+                      : fraction > 0.8
+                      ? "#F9A27C9f"
+                      : "#F8DE89"
                   }`,
                 }}
               />
