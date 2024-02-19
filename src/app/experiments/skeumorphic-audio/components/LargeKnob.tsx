@@ -69,6 +69,7 @@ export function LargeKnob({
   const angle = DEFAULT_ANGLE_OFFSET + DEFAULT_ANGLE_RANGE * fraction;
   const ticks = new Array(90).fill(0);
   const visible = Math.floor(fraction * ticks.length);
+  const isInRedZone = fraction > 0.8;
 
   return (
     <div className="relative p-10 z-0">
@@ -190,12 +191,20 @@ export function LargeKnob({
             }}
           >
             <div
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full relative"
               style={{
                 transformOrigin: "center",
                 transform: `rotate(${angle}deg)`,
               }}
             >
+              <div
+                className="absolute -inset-2 rounded-full"
+                style={{
+                  boxShadow: `inset 4px -2px 14px -8px ${
+                    isInRedZone ? "#FB47675f" : "#F7FC90"
+                  }`,
+                }}
+              />
               <div
                 className="h-3 w-3 bg-[#B9CFE7] rounded-full absolute top-1/2 left-1.5"
                 style={{
