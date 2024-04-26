@@ -6,7 +6,7 @@ import sharp from "sharp";
 import Fuse from "fuse.js";
 import glob from "fast-glob";
 
-const queue = new PQueue({ concurrency: 10 });
+const queue = new PQueue({ concurrency: 1 });
 
 async function generateThumbs() {
   const experiments = await glob("**/page.tsx", {

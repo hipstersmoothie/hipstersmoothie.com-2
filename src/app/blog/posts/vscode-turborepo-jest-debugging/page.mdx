@@ -1,0 +1,83 @@
+---
+creationDate: 2024-04-26T16:38:24.164Z
+---
+
+<PostHeader slug="vscode-turborepo-jest-debugging" />
+
+Turborepo is a great tool for managing monorepos, but it's a lot of configuration.
+
+One common workflow for debugging tests is to use the VSCode debugger to attach to the test runner.
+All available documentation online assumes that `jest` is installed at the root of the project.
+This goes against the default recommendations of `turborepo` which suggests to install and configure `jest` in each package.
+
+The following is what they all recommend.
+Here we use the `jest` package in the root of the project.
+VSCode provides a way to match the root of the vscode project, but no way to match the current monorepo package.
+This is a problem because we could be on different versions of `jest` in different packages and have wildly different configurations.
+
+```json title="./vscode/launch.json" {8}
+{
+    "configurations": [
+        {
+            "name": "Debug Current Test File",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            "args": ["--runInBand", "--testPathPattern", "${relativeFile}"],
+            "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "autoAttachChildProcesses": true,
+            "protocol": "inspector",
+            "showAsyncStacks": true,
+        },
+    ]
+}
+```
+
+To fix this we can write our own `program` that will find the closes package dir and instead run tests from there.
+
+```js
+const fs = require('fs');
+const path = require('path');
+
+const [, , ...args] = process.argv;
+const file = args[2];
+
+function findClosestPackageDir(file) {
+    const dir = path.dirname(file);
+    const packageJson = path.join(dir, 'package.json');
+
+    if (fs.existsSync(packageJson)) {
+        return dir;
+    }
+
+    return findClosestPackageDir(dir);
+}
+
+const packageDir = findClosestPackageDir(file);
+
+process.chdir(packageDir);
+
+require('child_process').spawnSync('pnpm', ['jest', ...args], {
+    stdio: 'inherit',
+});
+```
+
+Now all we need to do is update the `program` in the `launch.json` file.
+
+```json title="./vscode/launch.json" {5}
+{
+    "configurations": [
+        {
+            // ...
+            "program": "${workspaceFolder}/scripts/debug-test.js",
+        },
+    ]
+}
+```
+
+Now when we try to debug a test it will run from the closest package dir, using the `jest` executable for the package as well as it's unique configuration.
+
+<BackLinks slug="vscode-turborepo-jest-debugging" />
