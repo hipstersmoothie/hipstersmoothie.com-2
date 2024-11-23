@@ -18,10 +18,10 @@
         "label": "Github"
       },
       {
-        "username": "hipstersmoothie",
-        "url": "https://twitter.com/hipstersmoothie",
-        "network": "twitter",
-        "label": "Twitter"
+        "username": "hipstersmoothie.com",
+        "url": "https://bsky.app/profile/hipstersmoothie.com",
+        "network": "bluesky",
+        "label": "Bluesky"
       }
     ]
   },

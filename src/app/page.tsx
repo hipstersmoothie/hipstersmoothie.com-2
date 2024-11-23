@@ -17,6 +17,7 @@ import { Code, H3, Paragraph } from "../components/ui/typography";
 import { Footer } from "../components/Footer";
 import resume from "./resume.json";
 import { getYear } from "date-fns/getYear";
+import BlueSkyLogo from "./components/CommandPallette/BlueSkyLogo";
 
 function HeroButton({
   href,
@@ -155,9 +156,10 @@ export default function Home() {
                     tooltip={profile.label}
                   >
                     {(profile.network === "github" && <Github />) ||
-                      (profile.network === "twitter" && <Twitter />) || (
-                        <ExternalLink />
-                      )}
+                      (profile.network === "twitter" && <Twitter />) ||
+                      (profile.network === "bluesky" && (
+                        <BlueSkyLogo color="currentColor" />
+                      )) || <ExternalLink />}
                   </HeroButton>
                 ))}
                 <HeroButton

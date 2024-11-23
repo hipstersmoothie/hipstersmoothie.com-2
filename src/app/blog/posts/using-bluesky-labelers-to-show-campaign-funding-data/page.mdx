@@ -1,0 +1,62 @@
+---
+creationDate: 2024-11-23T04:31:52.512Z
+---
+
+import { Post } from 'bsky-react-post'
+import 'bsky-react-post/theme.css'
+
+<PostHeader slug="using-bluesky-labelers-to-show-campaign-funding-data" />
+
+So lately I've been making a lot of things for [Bluesky](https://bsky.app).
+Like everyone has said a thousand times already, it just reminds me of the early days of Twitter.
+Being on an open platform is inspiring and sparks creativity within the community.
+
+So far I've made a few things:
+
+- [A migration guide](https://bluesky-migrate.com)
+- [A custom feed to see the top links on the site](https://bsky.app/profile/did:plc:m2sjv3wncvsasdapla35hzwj/feed/trending-links)
+- [A directory to search for "labelers"](https://www.bluesky-labelers.io/)
+- [A labeler to show what Github repos you've contributed to](https://bsky.app/profile/did:plc:xpxsa5aviwecd7cv6bzbmr5n)
+
+You might be asking yourself, "What is a labeler?"
+
+To me it's one of the most interesting parts of Bluesky.
+Simply put, a labeler is a tool that lets you [label](https://docs.bsky.app/docs/advanced-guides/moderation) content or users on Bluesky. 
+It's a part of their [stackable moderation approach](https://bsky.social/about/blog/03-12-2024-stackable-moderation).
+
+With labels you can do things like:
+
+- Label posts that are hateful, ai generated, and many other things
+- Label accounts that have been flagged by certain communities
+- Label yourself to show you are part of a certain community
+
+This in combination with custom feeds and blocks lists start to form a toolset that lets anyone carve out their own space on Bluesky.
+One of the most interesting current examples of this is [Blacksky](https://www.blackskyweb.xyz).
+With the tools at their disposal they can create their own community that both connects them to each other and protects them from hate.
+
+Stepping back though we've all seen this joke on thie internet:
+
+![A bunch of politicians wearing nascar jumpsuits with company logos on them](/blog/nascar.jpg)
+
+...what if we could make that an actual thing? 
+With labelers we can!
+
+In the US campaign finance law means it all has to be public (mostly), so in theory we could use that data to list the entities that fund our politicians.
+
+So that's what I did.
+
+<div className='flex justify-center my-10'>
+  <Post handle="hipstersmoothie.com" id="3lbl2lgnq7c2f" />
+</div>
+
+My labeler uses data from [Open Secrets](https://www.opensecrets.org) to add labels to politicians on Bluesky.
+While the data isn't perfect, you have to understand the "companies" are for donation by individuals and not the companies themselves, I do believe that more transparency is better.
+The data might not be perfect now but it's a start.
+
+Democracy dies in darkness, so let's shine a light.
+
+This is just the start for what's possible on Bluesky.
+Everyday I'm more excited for what a more open social web looks like.
+I hope you're there to be a part of the conversation.
+
+<BackLinks slug="using-bluesky-labelers-to-show-campaign-funding-data" />
