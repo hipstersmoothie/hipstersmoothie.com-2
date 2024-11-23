@@ -168,7 +168,7 @@ export default function Home() {
                 >
                   <Mail />
                 </HeroButton>
-                <HeroButton href="/rss" tooltip="RSS Feed">
+                <HeroButton href="/rss.xml" tooltip="RSS Feed">
                   <Rss />
                 </HeroButton>
                 <div className="flex-1" />

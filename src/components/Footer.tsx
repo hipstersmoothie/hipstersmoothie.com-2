@@ -41,7 +41,7 @@ export function Footer() {
           </li>
         ))}
 
-        <FooterLink href="/rss">RSS</FooterLink>
+        <FooterLink href="/rss.xml">RSS</FooterLink>
       </ul>
       <span className="text-mauve-11 dark:text-mauvedark-11">
         © {new Date().getFullYear()} Andrew Lisowski
