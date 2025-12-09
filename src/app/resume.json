@@ -7,7 +7,7 @@
     "website": "https://hipstersmoothie.com",
     "email": "lisowski54@gmail.com",
     "location": {
-      "city": "San Jose, CA",
+      "city": "Daly City, CA",
       "countryCode": "US"
     },
     "profiles": [
@@ -56,19 +56,28 @@
   ],
   "work": [
     {
+      "summary": "Accelerated design system delivery by 12+ weeks, compressing 3-4 quarter roadmap into single quarter. Pioneered AI-enabled documentation infrastructure. Automatee release pipelines to reduce cycle time from hours to minutes. Overhauled icon system. Which all transformed design system NPS from 20% to 80%, all while mentoring engineers across multiple teams in performance optimization, accessibility, and system design.",
+      "website": "https://snowflake.com/",
+      "name": "Snowflake",
+      "location": "Remote",
+      "position": "Senior Software Engineer (L3)",
+      "startDate": "2025-1-27"
+    },
+    {
       "summary": "Implemented a new design system and component library to completely redesign the app, modernized the codebase into a proper monorepo, helped bring the electron app to the web, and implemented an E2E testing framework on top of playwright.",
       "website": "https://descript.com/",
       "name": "Descript",
       "location": "Remote",
-      "position": "Senior Full Stack Developer",
-      "startDate": "2021-03-1"
+      "position": "Senior Software Engineer (L3, L4)",
+      "startDate": "2021-03-1",
+      "endDate": "2025-1-10"
     },
     {
       "summary": "Interned on 3 different product teams, getting hired on full time in 2016 to work on a client rendering library and a design system. That eventually led to my team being leaders in the design systems and front end tooling space at the company, eventually leading to me becoming the \"Open Source Leader\" for the San Diego office.",
       "website": "https://intuit.com/",
       "name": "Intuit - TurboTax",
       "location": "San Diego, CA",
-      "position": "Intern => Senior Front End Developer",
+      "position": "Intern => Senior Software Engineer",
       "startDate": "2013-6-1",
       "endDate": "2021-3-1"
     }

@@ -244,6 +244,10 @@ export default function Home() {
         <H3>Projects</H3>
 
         <div className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2 max-w-prose mx-auto">
+          <Project href="https://graze.social" title="Graze">
+            The biggest feed generator for Bluesky with a Scratch-like
+            programming language.
+          </Project>
           <Project href="https://devtools.fm" title="DevtoolsFM">
             A podcast about developer tools and the people who make them.
           </Project>
@@ -269,13 +273,6 @@ export default function Home() {
             title="react-docgen-typescript-plugin"
           >
             A webpack plugin to inject react typescript docgen information
-          </Project>
-          <Project
-            href="https://github.com/hipstersmoothie/storybook-dark-mode"
-            title="storybook-dark-mode"
-          >
-            A storybook addon that lets your users toggle between dark and light
-            mode.
           </Project>
           <Project
             href="https://github.com/hipstersmoothie?tab=repositories"
