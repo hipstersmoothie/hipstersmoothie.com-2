@@ -21,25 +21,23 @@ Make sure to alias `cat` in your `~/.zshrc`.
 alias cat="bat"
 ```
 
-## `ls` => `exa`
+## `ls` => `eza`
 
-[A modern version of ‘ls’.](https://github.com/ogham/exa). Pretty colors!
+[A modern version of ‘ls’.](https://github.com/eza-community/eza). Pretty colors!
 
 ```sh
-brew install exa
+brew install eza
 ```
 
 Make sure to alias `cat` in your `~/.zshrc`.
 
 ```bash title="~/.zshrc"
 alias ls="exa"
-# Show lots of info, even with icons!
-alias lss="exa -alh --icons --git-ignore"
 ```
 
 ## `git diff` => `delta`
 
-[Strives to make your diffs human readable instead of machine readable.](https://github.com/so-fancy/diff-so-fancy).
+[Strives to make your diffs human readable instead of machine readable.](https://github.com/dandavison/delta).
 
 ```sh
 brew install git-delta
@@ -83,7 +81,6 @@ $(brew --prefix)/opt/fzf/install
 [Easily jump to directories](https://github.com/ajeetdsouza/zoxide). Just supply a part of the path and it will change the directory to the last matching path. I still use `cd` but I use `z` to jump between projects.
 
 ```sh
-brew tap ajeetdsouza/zoxide
 brew install zoxide
 ```
 

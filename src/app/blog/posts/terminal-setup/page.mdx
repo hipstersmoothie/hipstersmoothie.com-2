@@ -15,46 +15,22 @@ Over the years I've played around with a bunch of different terminal setups and 
 
 ## Terminal App
 
-The default terminal for OSX is okay but I always install [iterm](https://www.iterm2.com/) for all it's great features.
+The hottest terminal on the block for OSX is [ghostty](https://ghostty.org/) its fast AND pretty.
 
-### iTerm settings
+### Ghostty settings
 
-#### Beautiful Font
+Here is my in progress config, first install [these fonts](https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#meslo-nerd-font-patched-for-powerlevel10k)
 
-The default rendering just kind of feels "off". To make it buttery smooth go to `Preferences => Profiles => Text` and check `Enable subpixel anti-aliasing`. This is a huge quality of life improvement.
+```
+theme = carbonfox
 
-The them I use recommends to install these fonts and I wholeheartedly agree.
+window-padding-x = 16
+window-padding-y = 8
 
-- [MesloLGS NF Regular.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
-- [MesloLGS NF Bold.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
-- [MesloLGS NF Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
-- [MesloLGS NF Bold Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
-
-Then go to `Preferences => Profiles => Text` and change the font to `MesloLGS NF`. I also up the default font size to 16 instead of 12. You will need to restart iTerm for it to save you font selection to the default profile.
-
-#### Minimal Theme
-
-Go to `Preferences => Appearance => General` and change `Theme` to `Minimal`. This is what makes the terminal's toolbar black and uniform with the rest of the app.
-
-#### Unfocused Pane Dimming
-
-Go to `Preferences => Appearance => Dimming` and make sure everything but `Dim background windows` is checked. This will make it so that when you split panes the unfocused pane isn't distracting.
-
-### Split Pane in Same Directory
-
-Something that I hated about terminal splitting was that the new terminal starts out in the home directory.
-
-1. Go to `Preferences => Profiles => General => Working Directory`
-2. Select `Advanced Configuration`
-3. Click `Edit`
-4. Change `Working Directory for New Split Panes` to `Reuse previous session's directory`
-
-#### Quiet New Terminal Prompts
-
-When you make a new terminal it will spit out a bunch of text you don't care about. Run the following command to silence all of these! This even works on corporate computers!
-
-```sh
-touch ~/.hushlogin
+font-family=MesloLGS NF Regular
+font-family-bold=MesloLGS NF Bold
+font-family-italic=MesloLGS NF Italic
+font-family-bold-italic=MesloLGS NF Bold Italic
 ```
 
 ## Shell Configuration Manager
@@ -196,20 +172,5 @@ alias zshrc="c ~/.zshrc"
 # Restart the terminal and ZSH
 alias restart="exec zsh"
 ```
-
-## Terminal Keyboard Shortcuts
-
-Being skilled with keyboard shortcuts can make you look like a superhero in a text editor. The default iTerm keyboard shortcuts are nothing like vs-codes so I was always inserting weird character in the terminal instead of quickly navigating text.
-
-To fix this you can set up custom keyboard shortcuts in iTerm. Go to `Preferences => Keys`. For each of the following click the + button and make the `Action` set to `Send Hex Code`.
-
-| Shortcut          | Result                     | Hex Code    |
-| ----------------- | -------------------------- | ----------- |
-| `cmd + right`     | Cursor to end of line      | `0x05`      |
-| `cmd + left`      | Cursor to start of line    | `0x01`      |
-| `cmd + backspace` | Delete line                | `0x15`      |
-| `alt + right`     | Cursor skip one word right | `0x1b 0x66` |
-| `alt + left`      | Cursor skip one word left  | `0x1b 0x62` |
-| `alt + backspace` | Delete one word            | `0x1b 0x08` |
 
 <BackLinks slug="terminal-setup" />
