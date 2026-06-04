@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { Time } from "../../../components/ui/Time";
 import { getBlogPost } from "../utils";
-import { getSequoiaPublicationUri } from "../sequoia";
 
 export async function PostHeader({
   className,
@@ -18,19 +17,16 @@ export async function PostHeader({
     throw new Error(`Post ${slug} not found`);
   }
 
-  // standard.site verification: these <link> tags are hoisted into <head> by
-  // Next.js. The document URI comes from each post's frontmatter (written by
-  // `sequoia publish`); the publication URI comes from sequoia.json.
+  // standard.site document verification: this <link> tag is hoisted into
+  // <head> by Next.js. The document URI comes from each post's frontmatter
+  // (written by `sequoia publish`). The site-wide publication discovery hint
+  // lives in the root layout.
   const documentUri = post.frontMatter.atUri;
-  const publicationUri = getSequoiaPublicationUri();
 
   return (
     <>
       {documentUri && (
         <link rel="site.standard.document" href={documentUri} />
-      )}
-      {publicationUri && (
-        <link rel="site.standard.publication" href={publicationUri} />
       )}
       <div
         className="

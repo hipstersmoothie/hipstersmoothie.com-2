@@ -8,6 +8,7 @@ import { ThemeScript } from "next-app-theme/theme-script";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { Toaster } from "../components/ui/sonner";
 import { CommandPalletteLaunchCommand } from "../components/ui/CommandPalletteLaunchCommand";
+import { getSequoiaPublicationUri } from "./blog/sequoia";
 
 import "./globals.css";
 
@@ -28,6 +29,10 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
+  // standard.site publication discovery hint, exposed site-wide in <head>.
+  // See https://standard.site/docs/verification/#discovery-hint
+  const publicationUri = getSequoiaPublicationUri();
+
   return (
     <TooltipProvider>
       <html lang="en" suppressHydrationWarning>
@@ -39,6 +44,9 @@ export default function RootLayout({
             href="/rss.xml"
             title="RSS Feed for hipstersmoothie.com"
           />
+          {publicationUri && (
+            <link rel="site.standard.publication" href={publicationUri} />
+          )}
         </head>
         <body
           className={makeClass(
