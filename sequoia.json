@@ -5,7 +5,8 @@
   "outputDir": "./out",
   "pathPrefix": "/blog/posts",
   "publicationUri": "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.publication/3mng7bqymfo2w",
-  "publishContent": false,
+  "publishContent": true,
+  "textContentField": "description",
   "frontmatter": {
     "publishDate": "creationDate",
     "slugField": "slug"
