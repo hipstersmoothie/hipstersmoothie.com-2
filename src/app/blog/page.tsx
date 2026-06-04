@@ -7,6 +7,7 @@ import { Post, getBlogPostList } from "./utils";
 import { Footer } from "../../components/Footer";
 import { Backlink } from "../../components/ui/typography";
 import { PostPreview } from "../../components/ui/Link";
+import { SubscribeButton } from "./components/Subscribe";
 
 function PostItem({ post }: { post: Post }) {
   return (
@@ -53,6 +54,7 @@ export default async function PostList() {
     <>
       <NavigationHeader />
       <PageHeader
+        action={<SubscribeButton className="flex-shrink-0" />}
         subtitle={
           <>
             A collection of disorganized interconnected notes on front-end, dev

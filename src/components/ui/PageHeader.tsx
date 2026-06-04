@@ -3,9 +3,11 @@ import makeClass from "clsx";
 export function PageHeader({
   className,
   subtitle,
+  action,
   ...props
 }: React.ComponentPropsWithoutRef<"h1"> & {
   subtitle?: React.ReactNode;
+  action?: React.ReactNode;
 }) {
   return (
     <div
@@ -16,10 +18,13 @@ export function PageHeader({
       "
     >
       <div className="max-w-screen-md mx-auto flex flex-col gap-4 md:gap-6">
-        <h1
-          className={makeClass(className, "text-4xl md:text-6xl font-medium")}
-          {...props}
-        />
+        <div className="flex items-center justify-between gap-4">
+          <h1
+            className={makeClass(className, "text-4xl md:text-6xl font-medium")}
+            {...props}
+          />
+          {action}
+        </div>
 
         {subtitle && (
           <div className="md:text-xl text-mauve-11 dark:text-mauvedark-11">
