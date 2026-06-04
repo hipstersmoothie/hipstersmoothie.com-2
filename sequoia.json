@@ -1,0 +1,13 @@
+{
+  "$schema": "https://tangled.org/stevedylan.dev/sequoia/raw/main/sequoia.schema.json",
+  "siteUrl": "https://hipstersmoothie.com",
+  "contentDir": "./src/app/blog/posts",
+  "outputDir": "./out",
+  "pathPrefix": "/blog/posts",
+  "publicationUri": "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.publication/3mng7bqymfo2w",
+  "publishContent": false,
+  "frontmatter": {
+    "publishDate": "creationDate",
+    "slugField": "slug"
+  }
+}

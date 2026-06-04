@@ -28,7 +28,7 @@ if (!args) {
 }
 
 const slug = dotCase(args.title).replace(/\./g, "-");
-const vars = { slug, date: new Date().toISOString() };
+const vars = { slug, title: args.title, date: new Date().toISOString() };
 const inDir = path.join(__dirname, "template");
 const outDir = path.join(__dirname, "../../src/app/blog/posts");
 

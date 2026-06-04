@@ -171,3 +171,4 @@ public/optimized
 public/**/page.mdx
 **/production-search-index.json
 **/production-search-data.json
+.sequoia-state.json

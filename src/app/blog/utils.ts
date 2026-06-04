@@ -32,8 +32,11 @@ export const mdxProcessor = remark()
 
 interface FrontMatter {
   title?: string;
+  slug?: string;
   creationDate: string;
   tags?: string[];
+  /** AT URI of the published standard.site document, added by `sequoia publish`. */
+  atUri?: string;
 }
 
 interface GetBlogPostListOptions {

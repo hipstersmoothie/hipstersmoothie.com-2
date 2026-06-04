@@ -1,12 +1,14 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { spawn, exec } from "child_process";
+import { spawn } from "child_process";
 import PQueue from "p-queue";
 import sharp from "sharp";
 import Fuse from "fuse.js";
 import glob from "fast-glob";
 
 const queue = new PQueue({ concurrency: 1 });
+
+let baseUrl = "http://localhost:3000";
 
 async function generateThumbs() {
   const experiments = await glob("**/page.tsx", {
@@ -18,7 +20,7 @@ async function generateThumbs() {
   await Promise.all(
     experiments.map((slug) =>
       queue.add(async () => {
-        const url = `http://localhost:3000/experiments/preview?id=${slug}`;
+        const url = `${baseUrl}/experiments/preview?id=${slug}`;
         const response = await fetch(url);
         const blob = await response.blob();
         const buffer = Buffer.from(await blob.arrayBuffer());
@@ -49,7 +51,7 @@ async function generateThumbs() {
 }
 
 async function generateSearchIndex() {
-  const url = `http://localhost:3000/components/CommandPallette`;
+  const url = `${baseUrl}/components/CommandPallette`;
   const response = await fetch(url);
   const json = await response.json();
   const filename = path.join(
@@ -79,18 +81,29 @@ async function main() {
     },
   });
 
+  let started = false;
+
   // listen for "Ready" message from child stdout
   child.stdout.on("data", async (data) => {
-    if (!data.toString().includes("Ready")) {
+    const output = data.toString();
+
+    // Capture the actual port next dev bound to (it falls back to another
+    // port when 3000 is already in use), so we fetch from the right server.
+    const localMatch = output.match(/https?:\/\/localhost:(\d+)/);
+    if (localMatch) {
+      baseUrl = `http://localhost:${localMatch[1]}`;
+    }
+
+    if (started || !output.includes("Ready")) {
       return;
     }
+    started = true;
 
     await generateThumbs();
     await generateSearchIndex();
     await queue.onIdle();
 
     child.kill("SIGINT");
-    exec("lsof -t -i:3000 | xargs kill -9");
     process.exit(0);
   });
 
