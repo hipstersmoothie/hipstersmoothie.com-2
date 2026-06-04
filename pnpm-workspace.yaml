@@ -1,7 +1,0 @@
-ignoredBuiltDependencies:
-  - core-js-pure
-
-onlyBuiltDependencies:
-  - '@swc/core'
-  - esbuild
-  - sharp

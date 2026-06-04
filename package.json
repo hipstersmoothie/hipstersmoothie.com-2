@@ -2,6 +2,7 @@
   "name": "personal-website",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.26.0",
   "scripts": {
     "clean": "rm -rf .next && rm -rf public/optimized",
     "dev": "next dev",
@@ -110,5 +111,15 @@
     "storybook": "^7.6.6",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild",
+      "sharp"
+    ],
+    "ignoredBuiltDependencies": [
+      "core-js-pure"
+    ]
   }
 }
