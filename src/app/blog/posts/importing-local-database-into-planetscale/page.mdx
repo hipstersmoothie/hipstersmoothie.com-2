@@ -7,6 +7,10 @@ tags: [tools]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4alutv2l"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="importing-local-database-into-planetscale" />
 
 If you have a database on your computer that you want to upload to planetscale.com this note will walk you through it.

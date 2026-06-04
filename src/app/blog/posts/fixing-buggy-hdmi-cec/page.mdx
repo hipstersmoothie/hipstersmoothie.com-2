@@ -7,6 +7,10 @@ tags: [home automation]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4bc3s42z"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="fixing-buggy-hdmi-cec" />
 
 HDMI CEC is awesome... when it works. With CEC you can have one device controls multiple connected devices. 

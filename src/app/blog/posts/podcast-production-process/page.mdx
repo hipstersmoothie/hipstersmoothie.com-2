@@ -7,6 +7,10 @@ tags: [podcast]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4bykpf26"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="podcast-production-process" />
 
 The current publishing process for an episode of [[devtools-fm]] using [Descript](https://descript.com).

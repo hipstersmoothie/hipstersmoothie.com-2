@@ -7,6 +7,10 @@ tags: [home automation]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4b6udr2u"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="home-automation" />
 
 Automating things with code is one of my passions and hobbies, so it's only natural that home automation also piques my interest. When making creating your own home automations make sure you have excelled [[HAUX]], or else you're more likely to turn them off.

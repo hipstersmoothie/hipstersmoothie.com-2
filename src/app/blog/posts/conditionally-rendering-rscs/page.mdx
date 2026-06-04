@@ -7,6 +7,10 @@ tags: [react]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4aiihe2z"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="conditionally-rendering-rscs" />
 
 !> I'm just playing around with RSCs and assuming a lot about how they work. My assumptions may be wrong!

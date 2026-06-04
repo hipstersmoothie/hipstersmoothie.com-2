@@ -7,6 +7,10 @@ tags: [podcast]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4bso732s"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="podcast-social-clips" />
 
 In the week leading up to the release of one of my episodes of [[devtools-fm]], I create short video clips to share on social media to promote the upcoming episode.

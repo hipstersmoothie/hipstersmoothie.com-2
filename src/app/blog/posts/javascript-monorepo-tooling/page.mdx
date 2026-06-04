@@ -7,6 +7,10 @@ tags: [tools, javascript, monorepo]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4bltf72a"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="javascript-monorepo-tooling" />
 
 JavaScript monorepo tooling has come a long way. The landscape is vast and filled with varying tools that attempt to solve different parts of the tool chain. Many times while discussing what tools do what I see lots of confusion. This article attempts to summarize a some popular tools and their approach to solving monorepo problems. 

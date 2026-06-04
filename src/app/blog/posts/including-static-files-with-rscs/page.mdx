@@ -7,6 +7,10 @@ tags: [react, nextjs, webpack]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4aeb5r2w"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="including-static-files-with-rscs" />
 
 So next.js is supposed to be for building static websites, so including static files in the build should be easy, right?

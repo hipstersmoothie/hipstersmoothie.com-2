@@ -7,6 +7,10 @@ tags: [tools]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4ciq6v2g"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="terminal-setup" />
 
 When I first started coding in college, one of the scariest pieces of technology to me was the terminal. Back then OSX shipped with bash and the default was just plain hard to look at, so I didn't.

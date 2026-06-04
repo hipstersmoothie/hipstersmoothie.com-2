@@ -9,6 +9,10 @@ atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4a64uj
 import { Post } from 'bsky-react-post'
 import 'bsky-react-post/theme.css'
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="using-bluesky-labelers-to-show-campaign-funding-data" />
 
 So lately I've been making a lot of things for [Bluesky](https://bsky.app).

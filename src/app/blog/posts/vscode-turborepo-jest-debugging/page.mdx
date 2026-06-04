@@ -6,6 +6,10 @@ creationDate: 2024-04-26T16:38:24.164Z
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4ab6372c"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="vscode-turborepo-jest-debugging" />
 
 Turborepo is a great tool for managing monorepos, but it's a lot of configuration.

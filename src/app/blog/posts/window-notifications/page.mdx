@@ -7,6 +7,10 @@ tags: [home-automation]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4ap4vw2r"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="turning-off-lights-when-there-is-no-motion" />
 
 For this automation I [[Create Switches That Trigger Notifications]].

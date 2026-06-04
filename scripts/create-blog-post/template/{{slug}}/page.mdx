@@ -4,6 +4,10 @@ slug: {{slug}}
 creationDate: {{date}}
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="{{slug}}" />
 
 <BackLinks slug="{{slug}}" />

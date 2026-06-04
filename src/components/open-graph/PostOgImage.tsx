@@ -6,6 +6,22 @@ import { Avatar, Row, Stack, Text } from "./";
 import { getRelativeTime } from "../ui/RelativeTime";
 import { getBlogPost, mdxProcessor, renderPhrase } from "../../app/blog/utils";
 
+// `mdxProcessor` is a plain remark processor, so MDX `import`/`export`
+// statements aren't recognized as ESM and get parsed as paragraph text. Skip
+// those blocks so they never leak into the preview content.
+function isEsmBlock(value: RootContent) {
+  if (value.type !== "paragraph") {
+    return false;
+  }
+
+  const text = value.children
+    .map((child) => ("value" in child ? child.value : ""))
+    .join("")
+    .trim();
+
+  return /^(import|export)\b/.test(text);
+}
+
 function BlockRenderer({ value, id }: { value: RootContent; id: string }) {
   if (value.type === "paragraph") {
     return (
@@ -128,10 +144,13 @@ export async function getPostOgImage({
             backgroundClip: "text",
           }}
         >
-          {ast.children.slice(0, 7).map((child, index) => {
-            const key = `root-${index}`;
-            return <BlockRenderer key={key} id={key} value={child} />;
-          })}
+          {ast.children
+            .filter((child) => !isEsmBlock(child))
+            .slice(0, 7)
+            .map((child, index) => {
+              const key = `root-${index}`;
+              return <BlockRenderer key={key} id={key} value={child} />;
+            })}
         </Stack>
       </Stack>
     ),

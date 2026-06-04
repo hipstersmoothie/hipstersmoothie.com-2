@@ -7,6 +7,10 @@ tags: [home-automation]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4bffav2l"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="automate-your-locks-without-user-interaction" />
 
 When I first installed my [Level](http://level.co) lock and set up the default leave/arrive automation in the Home app I was disappointed to find out that it still required user interaction.

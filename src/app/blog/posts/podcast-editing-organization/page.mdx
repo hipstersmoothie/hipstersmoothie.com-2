@@ -7,6 +7,10 @@ tags: [podcast]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4ceoqt2l"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="podcast-editing-organization" />
 
 There are many ways to organize your project's compositions in [Descript](https://www.descript.com/). This is the structure I use to edit and produce content from my podcast [[devtools-fm]].

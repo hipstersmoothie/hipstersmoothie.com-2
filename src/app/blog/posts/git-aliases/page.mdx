@@ -7,6 +7,10 @@ tags: [tools]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4g3hyh2c"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="git-aliases" />
 
 I started as a Git GUI person (I still love and use [Gitup](https://gitup.co/) daily) but as I've grown as a developer I moved more and more into my terminal.

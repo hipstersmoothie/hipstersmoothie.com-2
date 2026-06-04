@@ -7,6 +7,10 @@ tags: [home-automation]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4biiuh2c"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="create-switches-that-trigger-notifications" />
 
 The automation the HomeKit provides can solves many problems. But there is one huge hole in the system that is complicated to solve: notifications. If you want to create an automation that triggers a notification on your and your housemates devices there is no built in way to do that.

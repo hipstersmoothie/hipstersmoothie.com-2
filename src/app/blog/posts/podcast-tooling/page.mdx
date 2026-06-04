@@ -7,6 +7,10 @@ tags: [podcast]
 atUri: "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.document/3mngd4bp2vn2g"
 ---
 
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
 <PostHeader slug="podcast-tooling" />
 
 One thing I didn't anticipate when starting the [[devtools-fm]] podcast was the amount of tools I would have to evaluate. 
