@@ -1,5 +1,37 @@
-import { chromium, type Browser } from "playwright";
+import path from "path";
+import { chromium, type Browser } from "playwright-core";
+import serverlessChromium from "@sparticuz/chromium";
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from "./constants";
+
+// Vercel's build/runtime containers don't ship Chromium's system libraries, so
+// Playwright's bundled browser fails to launch ("libnspr4.so: cannot open
+// shared object file"). On Vercel we launch the serverless-friendly Chromium
+// from @sparticuz/chromium (pinned to match Playwright's Chromium version),
+// which bundles those libs. Locally we use the regular installed browser.
+const isServerless =
+  !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+
+async function launchBrowser() {
+  if (!isServerless) {
+    return chromium.launch();
+  }
+
+  const executablePath = await serverlessChromium.executablePath();
+
+  // Make the bundled shared libraries discoverable to the launched binary.
+  process.env.LD_LIBRARY_PATH = [
+    path.dirname(executablePath),
+    process.env.LD_LIBRARY_PATH,
+  ]
+    .filter(Boolean)
+    .join(":");
+
+  return chromium.launch({
+    args: serverlessChromium.args,
+    executablePath,
+    headless: true,
+  });
+}
 
 // Launching a fresh browser per request is flaky: consecutive launches in the
 // same server process intermittently fail with "Target page, context or
@@ -8,13 +40,13 @@ let browserPromise: Promise<Browser> | null = null;
 
 async function getBrowser() {
   if (!browserPromise) {
-    browserPromise = chromium.launch();
+    browserPromise = launchBrowser();
   }
 
   let browser = await browserPromise;
 
   if (!browser.isConnected()) {
-    browserPromise = chromium.launch();
+    browserPromise = launchBrowser();
     browser = await browserPromise;
   }
 

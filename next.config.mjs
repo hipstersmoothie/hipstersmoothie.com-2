@@ -69,8 +69,8 @@ function handleHTML(htmlRaw, info) {
     return html.replace(
       /<blockquote/,
       `<blockquote data-tweet-url="${url}" data-name="${name}" data-username="${username}" data-content="${quoteattr(
-        content
-      )}" data-date="${date}"`
+        content,
+      )}" data-date="${date}"`,
     );
   }
 
@@ -151,6 +151,12 @@ const withMDX = nextMdx({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
+  experimental: {
+    serverComponentsExternalPackages: [
+      "@sparticuz/chromium",
+      "playwright-core",
+    ],
+  },
 };
 
 export default withMDX(nextConfig);
