@@ -15,7 +15,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "create-blog-post": "node -r esbuild-register scripts/create-blog-post/create.ts",
-    "create-experiment": "node -r esbuild-register scripts/create-experiment/create.ts"
+    "create-experiment": "node -r esbuild-register scripts/create-experiment/create.ts",
+    "publish": "sequoia publish",
+    "publish:dry": "sequoia publish --dry-run"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",
@@ -110,6 +112,7 @@
     "rehype-pretty-code": "^0.12.3",
     "remark": "^15.0.1",
     "remark-reading-time": "^2.0.1",
+    "sequoia-cli": "^0.5.7",
     "storybook": "^7.6.6",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"

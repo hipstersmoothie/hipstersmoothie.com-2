@@ -7,6 +7,10 @@
   "publicationUri": "at://did:plc:m2sjv3wncvsasdapla35hzwj/site.standard.publication/3mng7bqymfo2w",
   "publishContent": true,
   "textContentField": "description",
+  "bluesky": {
+    "enabled": true,
+    "maxAgeDays": 7
+  },
   "frontmatter": {
     "publishDate": "creationDate",
     "slugField": "slug"
