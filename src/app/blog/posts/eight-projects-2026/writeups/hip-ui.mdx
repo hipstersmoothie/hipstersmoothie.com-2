@@ -1,0 +1,5 @@
+This is where my AI experiments started. Models had gotten good enough that generated components were usable, and Hip UI seemed like the right place to test that. [Turborepo](https://turbo.build/) monorepo, docs site, and an MCP server. Hosted on [Tangled](https://tangled.org/hipstersmoothie.com/hip-ui), a [git forge](https://tangled.org) built on [AT Protocol](https://atproto.com). Docs at [hip-ui.tngl.io](https://hip-ui.tngl.io).
+
+Every component started with AI. Load a Cursor skill, generate a first pass, reshape until it matched Hip UI's patterns. I was mostly testing which skills respected StyleX and React Aria and which I'd throw away. Hip UI ships an MCP server so other projects can pull in the design system properly.
+
+API design and a11y review stayed manual even when the boilerplate came from a skill. Design systems punish inconsistency, so the workflow was skill → draft → edit → ship. That carried into kich.io and everything after.

@@ -1,0 +1,16 @@
+This is [Deving Gaffney](https://github.com/DGaffney)'s project. He's been ideating on decentralized compute for years; recent tech (the AT Protocol, cheap inference, better dev tooling) finally made a lot of it buildable. I own the console UI: friends, chat, model pages, device pairing. Lexicon, Rust provider, and AppView are shared.
+
+My contribution was mostly monorepo knowledge and tooling. I set up the repo so it was easy to iterate with AI: workspace boundaries, agent rules, and fast checks that agents (and humans) could run without guessing. I also used cocore as a testbed for a new toolchain: [aube](https://aube.jdx.dev/), [mise](https://mise.jdx.dev/), and [hk](https://hk.jdx.dev/). mise was the standout; it managed all the start scripts across the Rust provider, AppView, and console, so booting a local stack stopped being README archaeology.
+
+AI handled most of the bootstrap work: dev setup docs, local env, UI iteration in Cursor. Once mise could bring everything up, I could work on the console instead of the monorepo plumbing.
+
+On the design side, I'd already used Claude on [kikbak.tv](https://kikbak.tv) for layout. Cocore was where I leaned into [Claude Design](https://www.anthropic.com/news/claude-design-anthropic-labs) and customized [Hip UI](https://hip-ui.tngl.io) for the product: darker palette, monospace accents, more terminal than the polished default on kich.io or atstore.fyi.
+
+Tech:
+
+- [Rust](https://www.rust-lang.org/) provider + [Swift](https://www.swift.org/) provider shell
+- TS monorepo: `@cocore/console`, `@cocore/appview`, `@cocore/sdk`
+- [mise](https://mise.jdx.dev/) + [aube](https://aube.jdx.dev/) + [hk](https://hk.jdx.dev/) for env, packages, and hooks
+- [Effect](https://effect.website/) for all console server functions (required by cursor rules)
+- [Hip UI](https://hip-ui.tngl.io) MCP in `.mcp.json` for [Claude Code](https://www.anthropic.com/claude-code)
+- Schema-first: lexicons win, never hand-edit generated types

@@ -1,0 +1,7 @@
+A spare old iPhone sits by the record player running [Shazam](https://www.shazam.com/) through a [Pushcut](https://www.pushcut.io/) webhook; identifications stream over SSE to a web UI and an Apple TV client. The longer plan is a smart plug on the record player so plays get tracked automatically; right now the phone does the listening.
+
+Before most of the code, I had AI interview me about the project, one question at a time, until we had `APP_VISION.md`. From that we generated `TODO.md`, and `agents.md` told every session to keep both current.
+
+On Apple TV, [TVML](https://developer.apple.com/documentation/tvmlkit) is a lot like vanilla JavaScript, and the app had data-sync bugs: one part of the UI updating would clog another, and the screen would lie about what was playing. Sounded like a React problem. The existing [React TVML](https://github.com/apeatling/react-tvml) bindings are more than a decade old and unmaintained, so I had AI generate a replacement with hooks and effects.
+
+The Apple TV design was entirely mine. Apple's TV design system is straightforward, and you really cannot mess it up. Extending their design language was just as easy, so there was no reason to reach for AI design.

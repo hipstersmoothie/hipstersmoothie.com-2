@@ -20,7 +20,10 @@ export function PostItem({
   tw?: string;
 }) {
   return (
-    <Row tw={`relative px-8 h-20 ${tw}`} style={style}>
+    <Row
+      tw={["relative px-8 h-20", tw].filter(Boolean).join(" ")}
+      style={style}
+    >
       <div
         tw="absolute inset-1 rounded"
         style={{

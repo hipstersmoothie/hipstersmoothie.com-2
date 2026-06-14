@@ -7,6 +7,15 @@ tags: [at-protocol, tanstack, ai, side-projects]
 ---
 
 import { getPostMetadata } from "../postMetadata";
+import { Collapsible } from "./Collapsible";
+import HipUiWriteup from "./writeups/hip-ui.mdx";
+import KichIoWriteup from "./writeups/kich-io.mdx";
+import AtstoreFyiWriteup from "./writeups/atstore-fyi.mdx";
+import KikbakTvWriteup from "./writeups/kikbak-tv.mdx";
+import ConsoleCocoreDevWriteup from "./writeups/console-cocore-dev.mdx";
+import ForkedWriteup from "./writeups/forked.mdx";
+import VinylScrobblerWriteup from "./writeups/vinyl-scrobbler.mdx";
+import StandardReaderAppWriteup from "./writeups/standard-reader-app.mdx";
 
 export const metadata = getPostMetadata(frontmatter);
 
@@ -20,7 +29,7 @@ That context matters for the numbers below. A lot of this wasn't "free time." It
 
 Many of these projects kept asking the same question: what does it look like to build on the [AT Protocol](https://atproto.com) with modern full-stack TypeScript?
 
-This post is basically a tour. For each project I'll talk about what it is, the tech I picked, how AI fit in, and some numbers (commits and lines of code).
+This post leads with the numbers and stack, then a short header per project with a collapsible write-up if you want the full story. Takeaways at the end.
 
 ## The numbers
 
@@ -32,18 +41,18 @@ Between October 2025 and June 14, 2026:
 | Lines of code | ~768,000 |
 | Documentation | ~54,000 |
 
-Take the LOC with a grain of salt. A lot of commits are small ("fix build", "polish player") and several projects share the same stack, so there's a fair amount of copy-paste architecture in that number.
+Take the LOC with a grain of salt. There's a fair amount of copy-paste architecture (hip-ui) in that number.
 
 | Project | Commits | Code LOC | Active | Host |
 | --- | ---: | ---: | --- | --- |
-| [kich.io](https://kich.io) | 640 | 178,609 | Jan-May | GitHub |
-| [atstore.fyi](https://atstore.fyi) | 267 | 84,886 | Apr-May | GitHub |
-| [kikbak.tv](https://kikbak.tv) | 77 | 58,722 | Apr-May | GitHub |
-| [standard-reader.app](https://standard-reader.app) | 177 | 106,055 | Jun | GitHub |
-| [console.cocore.dev](https://console.cocore.dev) | 112 | 87,701 | May-Jun | GitHub |
-| [Hip UI](https://hip-ui.tngl.io) | 218 | 91,722 | Oct 2025-Apr | Tangled |
-| [forked](#forked) | 18 | 122,839 | May | GitHub |
-| [vinyl-scrobbler](#vinyl-scrobbler) | 30 | 37,629 | May | GitHub |
+| [kich.io](https://kich.io) | 640 | 178,609 | Jan-May | [GitHub](https://github.com/hipstersmoothie/kitchen) |
+| [atstore.fyi](https://atstore.fyi) | 267 | 84,886 | Apr-May | [GitHub](https://github.com/ATProtocol-Community/ATStore) |
+| [kikbak.tv](https://kikbak.tv) | 77 | 58,722 | Apr-May | [GitHub](https://github.com/hipstersmoothie/kikbak-2026) |
+| [standard-reader.app](https://standard-reader.app) | 177 | 106,055 | Jun | [GitHub](https://github.com/hipstersmoothie/standard-reader) |
+| [console.cocore.dev](https://console.cocore.dev) | 112 | 87,701 | May-Jun | [GitHub](https://github.com/DGaffney/cocore) |
+| [Hip UI](https://hip-ui.tngl.io) | 218 | 91,722 | Oct 2025-Apr | [Tangled](https://tangled.org/hipstersmoothie.com/hip-ui) |
+| forked | 18 | 122,839 | May |  |
+| vinyl-scrobbler | 30 | 37,629 | May | [GitHub](https://github.com/hipstersmoothie/vinyl-scrobbler) |
 
 ## The stack I kept using
 
@@ -69,11 +78,9 @@ Throughout the projects I iterated on how I used AI. That started with Hip UI, r
 
 [Hip UI](https://hip-ui.tngl.io) is the design system everything else built on. I'd worked on three separate design systems before this and wanted one open, hackable base. [shadcn](https://ui.shadcn.com/)-style copy-and-own, but built on [React Aria](https://react-spectrum.adobe.com/react-aria/) with [StyleX](https://stylexjs.com/), and design tokens.
 
-This is where my AI experiments started. Models had gotten good enough that generated components were usable, and Hip UI seemed like the right place to test that. [Turborepo](https://turbo.build/) monorepo, docs site, and an MCP server. Hosted on [Tangled](https://tangled.org/hipstersmoothie.com/hip-ui), a [git forge](https://tangled.org) built on [AT Protocol](https://atproto.com). Docs at [hip-ui.tngl.io](https://hip-ui.tngl.io).
-
-Every component started with AI. Load a Cursor skill, generate a first pass, reshape until it matched Hip UI's patterns. I was mostly testing which skills respected StyleX and React Aria and which I'd throw away. Hip UI ships an MCP server so other projects can pull in the design system properly.
-
-API design and a11y review stayed manual even when the boilerplate came from a skill. Design systems punish inconsistency, so the workflow was skill → draft → edit → ship. That carried into kich.io and everything after.
+<Collapsible>
+  <HipUiWriteup />
+</Collapsible>
 
 ## kich.io
 
@@ -83,15 +90,9 @@ API design and a11y review stayed manual even when the boilerplate came from a s
 
 It started as personal software. My wife nerd-sniped me into building something that could keep track of our pantry, and my own ideas ballooned it from there into recipes and grocery lists. Then I got double nerd-sniped by people on [Bluesky](https://bsky.app) to make it an ATProto app. That pivot turned kich.io into my first real ATProto app: it has its own lexicons (`io.kich.*`), OAuth, tap sync, the works.
 
-AI wrote almost all of kich.io. The backend I barely touched: server functions, ingest, lexicon handlers, the database layer. All of it came out of Cursor sessions and I rarely edited that code directly. On the UI I stepped in more, but usually only when I couldn't prompt my way to the exact result I wanted. For layout and design, I used [MagicPath](http://magicpath.ai/) to ideate on screens before building them out in Hip UI.
-
-In the product itself, kitchen features like recipe suggestions and parsing also leaned on models. I had AI write the observability instrumentation too. That pattern has held up across projects: bugs and perf problems are much easier to find and fix when the traces are already there.
-
-For how I ran the sessions, I used [Deciduous](https://deciduous.dev/), a decision graph tool for AI-assisted development. As you work, it builds a persistent graph of goals, decisions, actions, and outcomes. When a Cursor session ends or context compacts, you can query what was tried, what got rejected, and why. I'm not sure how well it really did. I'd need to have built those features without it to know. The project came together well though, and it's useful to go back and see what was tried and why.
-
-**Skills** were a separate layer. I pulled reusable agent capabilities from [skills.sh](https://www.skills.sh/), the open agent skills directory. Things like `vercel-react-best-practices`, UI animation, lint-and-validate, and code review. Install once with `npx skills add`, swap them in per task.
-
-Browse what's already on the platform: [kich.io/discover](https://kich.io/discover) has community recipes and collections.
+<Collapsible>
+  <KichIoWriteup />
+</Collapsible>
 
 ## atstore.fyi
 
@@ -101,18 +102,9 @@ Browse what's already on the platform: [kich.io/discover](https://kich.io/discov
 
 The gap I kept running into: we'd spent months debating login pages, and nobody was answering the question that comes right after sign-in. **What can I actually do with an Atmosphere account?** Legacy app lists were dead, expired, or squatted. I wanted something that felt like an app store built on the same primitives as the apps it lists.
 
-How it got built:
-
-- **Archaeology:** scraped old app-listing sites and manually verified every entry. Most were gone.
-- **Lexicon discovery:** walked NSID → domain across published lexicons to ask whether something was actually an app.
-- **Listings as records:** seed on the ATStore account, builders claim and move stewardship to their own PDS. Portable, revocable, no lock-in.
-- **Protocol-native features:** reviews live on the reviewer's PDS, OAuth scope scrubbing (every permission surfaced, with a loud warning on `transition:generic`), interoperability detection ("Works with…" from shared lexicons), Germ affordances on listings, live creator updates pulled from [standard.site](https://standard.site) publications instead of inventing a changelog lexicon.
-
-I reached out to people in the working group and kept finding folks already debating the same directory problem. A few weeks before launch I donated the project to the [AT Protocol Community Fund](https://blog.atmosphere.community/a/3mlvrjheftn23-atstore-the-atmosphere-directory-and-community-involvement). Volunteers picked up lexicon work, categorization, translations, and UX. It stopped being my side project.
-
-At launch: 102 claimed apps, 172 reviews. ATStore was never meant to be the one directory, just one node in a network of directories reading the same open data. Code lives at [ATProtocol-Community/ATStore](https://github.com/ATProtocol-Community/ATStore) now.
-
-AI wrote most of the code. I focused on design, UX, and features; [MagicPath](http://magicpath.ai/) for layouts, Cursor for admin tools and scraping scripts. [skills.sh](https://www.skills.sh/) and the Hip UI MCP for agents. The hard part was data collection and hygiene, not UI. I manually reviewed every listing.
+<Collapsible>
+  <AtstoreFyiWriteup />
+</Collapsible>
 
 ## kikbak.tv
 
@@ -120,13 +112,9 @@ AI wrote most of the code. I focused on design, UX, and features; [MagicPath](ht
 
 [kikbak.tv](https://kikbak.tv) is my longest-running project. It started in college as a collaborative YouTube playlist app and morphed over the years into a [We Are Hunted](https://en.wikipedia.org/wiki/We_Are_Hunted)-inspired music video chart. The core idea stayed: crawl the blogs people actually read and surface what's playing. These days it indexes hundreds of blogs looking for YouTube links, ranks by genre and recency, and pulls in [Bluesky](https://bsky.app) chatter around videos.
 
-It's also an [AT Protocol](https://atproto.com) app. Sign in and your saved links live on your PDS, not in a kikbak-owned table. For each video on the chart we also pull related posts from Bluesky, so you can see what people are saying about a track without leaving the page.
-
-AI was mainly for tooling that helped me pull up and process the data I needed. I lost all my blog data on [MongoDB](https://www.mongodb.com/) from a previous kikbak iteration, then bought a list of music blogs to seed the next one. I generated admin tools and scripts to pare it down to something useful.
-
-AI largely helped me solve another problem: categorizing articles. Knowing whether an article is about a music video and what genre that video belongs to is very useful for a site like kikbak. In the past, the tools failed or were not very good at this work, so I never shipped it. But using today’s off the shelf models, I was able to integrate it accurately and cheaply into the process.
-
-The AI setup on this one matched everything I'd settled on by then. It was working.
+<Collapsible>
+  <KikbakTvWriteup />
+</Collapsible>
 
 ## console.cocore.dev
 
@@ -134,22 +122,9 @@ The AI setup on this one matched everything I'd settled on by then. It was worki
 
 [console.cocore.dev](https://console.cocore.dev) is about receipts for computational work on the AT Protocol. Decentralized compute without a central coordinator. Providers sign records to their PDS, AppViews index them, requesters use a console.
 
-This is [Deving Gaffney](https://github.com/DGaffney)'s project. He's been ideating on decentralized compute for years; recent tech (the AT Protocol, cheap inference, better dev tooling) finally made a lot of it buildable. I own the console UI: friends, chat, model pages, device pairing. Lexicon, Rust provider, and AppView are shared.
-
-My contribution was mostly monorepo knowledge and tooling. I set up the repo so it was easy to iterate with AI: workspace boundaries, agent rules, and fast checks that agents (and humans) could run without guessing. I also used cocore as a testbed for a new toolchain: [aube](https://aube.jdx.dev/), [mise](https://mise.jdx.dev/), and [hk](https://hk.jdx.dev/). mise was the standout; it managed all the start scripts across the Rust provider, AppView, and console, so booting a local stack stopped being README archaeology.
-
-AI handled most of the bootstrap work: dev setup docs, local env, UI iteration in Cursor. Once mise could bring everything up, I could work on the console instead of the monorepo plumbing.
-
-On the design side, this was my first time trying [Claude Design](https://www.anthropic.com/news/claude-design-anthropic-labs). We customized [Hip UI](https://hip-ui.tngl.io) for cocore too: darker palette, monospace accents, more terminal than the polished default on kich.io or atstore.fyi.
-
-Tech:
-
-- [Rust](https://www.rust-lang.org/) provider + [Swift](https://www.swift.org/) provider shell
-- TS monorepo: `@cocore/console`, `@cocore/appview`, `@cocore/sdk`
-- [mise](https://mise.jdx.dev/) + [aube](https://aube.jdx.dev/) + [hk](https://hk.jdx.dev/) for env, packages, and hooks
-- [Effect](https://effect.website/) for all console server functions (required by cursor rules)
-- [Hip UI](https://hip-ui.tngl.io) MCP in `.mcp.json` for [Claude Code](https://www.anthropic.com/claude-code)
-- Schema-first: lexicons win, never hand-edit generated types
+<Collapsible>
+  <ConsoleCocoreDevWriteup />
+</Collapsible>
 
 ## forked
 
@@ -157,11 +132,9 @@ Tech:
 
 [forked](https://github.com/hipstersmoothie/forked) is cross-platform food discovery. The idea is to review dishes on how good the food actually is, not the full restaurant experience. [Yelp](https://www.yelp.com/) reviews wander into service, vibe, parking, and everything else; forked is map-native menu pins where the unit of review is the item on the plate. [React Native](https://reactnative.dev/) + web from one codebase.
 
-This was my first React Native project and a break from the [TanStack](https://tanstack.com/) + [StyleX](https://stylexjs.com/) stack I'd been repeating. I bought [Takeout](https://tamagui.dev/takeout) to see what a good cross-platform repo looks like: [Bun](https://bun.sh/) instead of [pnpm](https://pnpm.io/), [Tamagui](https://tamagui.dev/) instead of StyleX, [One](https://onestack.dev/) / [Expo](https://expo.dev/) for native, [Docker Compose](https://docs.docker.com/compose/) and [Zero](https://zero.rocicorp.dev/) for the backend, the `tko` CLI, agent docs baked in.
-
-Nearly all of the dev work has been agent-driven. Takeout type-checks reliably and the agents keep writing tests. My hand-rolled monorepos never felt that automatic. `CLAUDE.md` has explicit "don't cheat" rules (no commenting out code, no `any`, no skipped tests, never delete `bun.lock`). `CLAUDE.md` and `AGENTS.md` steer agents well because they're always in context.
-
-I'm still working on it, but progress is slow. The new stack takes longer to move in, so my attention kept drifting back to the stuff I was shipping faster.
+<Collapsible>
+  <ForkedWriteup />
+</Collapsible>
 
 ## vinyl-scrobbler
 
@@ -169,11 +142,9 @@ I'm still working on it, but progress is slow. The new stack takes longer to mov
 
 [vinyl-scrobbler](https://github.com/hipstersmoothie/vinyl-scrobbler) is a home-network now-playing display and scrobbler. Personal software that only runs on my LAN. It's also an [AT Protocol](https://atproto.com) project: listens get recorded to [teal.fm](https://teal.fm/) on my PDS. The TV side shows what's playing, how far into the track you are, and the lyrics. On vinyl you don't get any of that without stopping to look it up.
 
-A spare old iPhone sits by the record player running [Shazam](https://www.shazam.com/) through a [Pushcut](https://www.pushcut.io/) webhook; identifications stream over SSE to a web UI and an Apple TV client. The longer plan is a smart plug on the record player so plays get tracked automatically; right now the phone does the listening.
-
-Before most of the code, I had AI interview me about the project, one question at a time, until we had `APP_VISION.md`. From that we generated `TODO.md`, and `agents.md` told every session to keep both current.
-
-On Apple TV, [TVML](https://developer.apple.com/documentation/tvmlkit) is a lot like vanilla JavaScript, and the app had data-sync bugs: one part of the UI updating would clog another, and the screen would lie about what was playing. Sounded like a React problem. The existing [React TVML](https://github.com/apeatling/react-tvml) bindings are more than a decade old and unmaintained, so I had AI generate a replacement with hooks and effects.
+<Collapsible>
+  <VinylScrobblerWriteup />
+</Collapsible>
 
 ## standard-reader.app
 
@@ -181,11 +152,9 @@ On Apple TV, [TVML](https://developer.apple.com/documentation/tvmlkit) is a lot 
 
 [standard-reader.app](https://standard-reader.app) is a reader for [standard.site](https://standard.site) publications on the [AT Protocol](https://atproto.com). RSS reader vibes (Goon / Reeder), but built around discovery: a directory of publications on the network, not just stuff you already follow. Publications are signed records in author repos, not feeds we poll.
 
-`standard.site` data comes in through [Tap](https://atproto.com/blog/introducing-tap) into [Neon](https://neon.tech/) Postgres. For everything *around* an article, I used [microcosm](https://www.microcosm.blue/) instead of building crawlers. [Constellation](https://constellation.microcosm.blue/) takes an article URL and returns what links to it: Bluesky posts, [margin.at](https://margin.at/) notes, Semble cosmik cards, cross-publication citations, cosmik graph edges. That feeds Discussion, "Cited in," related reading, and trending. Comment counts cache locally and refresh from Constellation in the background. [Slingshot](https://slingshot.microcosm.blue/) is the fallback for slow PDS reads (Sifa resume chips on author profiles).
-
-The dev setup was the same as my other projects by this point. Same AI workflow, same stack habits.
-
-RSS is great, and this looks a lot like it. But the open nature of the AT Protocol means you can build a reader without locking into one company's platform. Content isn't walled to a single site; it can move. What that means for businesses building on AT Protocol is still unclear when anyone can index the same records and ship a competing reader.
+<Collapsible>
+  <StandardReaderAppWriteup />
+</Collapsible>
 
 ## AI Workflow Takeaways
 
@@ -193,11 +162,9 @@ A few things worked across projects.
 
 **Skills for UI.** A small set from [skills.sh](https://www.skills.sh/) (React best practices, animation, lint-and-validate, code review) was enough. Load the skill, generate a draft, edit. Started on Hip UI, kept using it through kich.io, atstore.fyi, and standard-reader.app.
 
-**Hip UI + MCP.** The MCP mattered more than the components. Agents could look up real APIs and tokens instead of inventing UI. Hip UI is also an [AT Protocol](https://atproto.com) project on [Tangled](https://tangled.org).
+**Hip UI + MCP.** Building out my own design system was super fun and applying it helped me spot the things I need to improve. The MCP server made it easy to get real APIs and tokens into agents, highly recommended for large systems!
 
 **`APP_VISION.md` interviews.** The vinyl-scrobbler pattern I'll reuse: AI asks one question at a time until `APP_VISION.md` is clear, generate `TODO.md` from it, tell `AGENTS.md` to keep both updated. Good for kickoff and later marketing copy.
-
-**Light docs.** `APP_VISION.md`, `TODO.md`, `AGENTS.md`, `CLAUDE.md` don't need to be long. A running note of what we're doing and how to do it helps agents and humans both.
 
 **AI design.** [Claude Design](https://www.anthropic.com/news/claude-design-anthropic-labs) is good, but watch out for adopting the tool's own visual style. Lean on it too hard and everything starts to look like the same generic AI design. What's actually useful is layouts and arrangement. AI is strong at composition when you already have design system primitives to work from. Point at a running prototype and say "make these two things look as close as possible." That works well.
 
@@ -205,18 +172,7 @@ The job shifts toward UX and product thinking. Make sure the thing works, then m
 
 ## AT Protocol takeaways
 
-I've been building in this space since 2024, but these eight projects were my first full AT Protocol stack apps. I wanted to learn the ropes. I like user-owned data and think there's a lot we can build now that we couldn't before.
-
-All eight apps ended up AT-native or AT-adjacent, plus Hip UI on Tangled. I didn't plan that.
-
-- Cook: kich.io
-- Read: standard-reader.app
-- Discover apps: atstore.fyi
-- Watch: kikbak.tv
-- Listen: vinyl-scrobbler ([teal.fm](https://teal.fm/) scrobbles)
-- Compute: console.cocore.dev
-- Design system: Hip UI
-- Eat: forked (reviews on PDS)
+I've been building in this space since 2024, but these projects were my first full AT Protocol stack apps. I wanted to learn the ropes. I like user-owned data and think there's a lot we can build now that we couldn't before.
 
 ### The model is simple
 

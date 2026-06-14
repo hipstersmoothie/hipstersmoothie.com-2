@@ -1,0 +1,9 @@
+It's also an [AT Protocol](https://atproto.com) app. Sign in and your saved links live on your PDS, not in a kikbak-owned table. For each video on the chart we also pull related posts from Bluesky, so you can see what people are saying about a track without leaving the page.
+
+AI was mainly for tooling that helped me pull up and process the data I needed. I lost all my blog data on [MongoDB](https://www.mongodb.com/) from a previous kikbak iteration, then bought a list of music blogs to seed the next one. I generated admin tools and scripts to pare it down to something useful.
+
+AI largely helped me solve another problem: categorizing articles. Knowing whether an article is about a music video and what genre that video belongs to is very useful for a site like kikbak. In the past, the tools failed or were not very good at this work, so I never shipped it. But using today's off the shelf models, I was able to integrate it accurately and cheaply into the process.
+
+I also used [Claude](https://www.anthropic.com/claude) on the UI side. I landed on a grid layout for the videos that I actually like: dense, browsable, and a bit more interesting than a straight list. Claude is good at generating options, but you still have to cut most of it. It throws in extra copy, chrome, and ideas that do not help the page do its job. I had to decide what was worth keeping and strip the rest.
+
+The AI setup on this one matched everything I'd settled on by then. It was working.

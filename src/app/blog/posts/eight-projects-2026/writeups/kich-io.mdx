@@ -1,0 +1,9 @@
+AI wrote almost all of kich.io. The backend I barely touched: server functions, ingest, lexicon handlers, the database layer. All of it came out of Cursor sessions and I rarely edited that code directly. On the UI I stepped in more, but usually only when I couldn't prompt my way to the exact result I wanted. For layout and design, I used [MagicPath](http://magicpath.ai/) to ideate on screens before building them out in Hip UI.
+
+In the product itself, kitchen features like recipe suggestions and parsing also leaned on models. I had AI write the observability instrumentation too. That pattern has held up across projects: bugs and perf problems are much easier to find and fix when the traces are already there.
+
+For how I ran the sessions, I used [Deciduous](https://deciduous.dev/), a decision graph tool for AI-assisted development. As you work, it builds a persistent graph of goals, decisions, actions, and outcomes. When a Cursor session ends or context compacts, you can query what was tried, what got rejected, and why. I'm not sure how well it really did. I'd need to have built those features without it to know. The project came together well though, and it's useful to go back and see what was tried and why.
+
+**Skills** were a separate layer. I pulled reusable agent capabilities from [skills.sh](https://www.skills.sh/), the open agent skills directory. Things like `vercel-react-best-practices`, UI animation, lint-and-validate, and code review. Install once with `npx skills add`, swap them in per task.
+
+Browse what's already on the platform: [kich.io/discover](https://kich.io/discover) has community recipes and collections.

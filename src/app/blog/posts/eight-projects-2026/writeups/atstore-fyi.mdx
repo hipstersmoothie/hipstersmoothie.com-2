@@ -1,0 +1,12 @@
+How it got built:
+
+- **Archaeology:** scraped old app-listing sites and manually verified every entry. Most were gone.
+- **Lexicon discovery:** walked NSID → domain across published lexicons to ask whether something was actually an app.
+- **Listings as records:** seed on the ATStore account, builders claim and move stewardship to their own PDS. Portable, revocable, no lock-in.
+- **Protocol-native features:** reviews live on the reviewer's PDS, OAuth scope scrubbing (every permission surfaced, with a loud warning on `transition:generic`), interoperability detection ("Works with…" from shared lexicons), Germ affordances on listings, live creator updates pulled from [standard.site](https://standard.site) publications instead of inventing a changelog lexicon.
+
+I reached out to people in the working group and kept finding folks already debating the same directory problem. A few weeks before launch I donated the project to the [AT Protocol Community Fund](https://blog.atmosphere.community/a/3mlvrjheftn23-atstore-the-atmosphere-directory-and-community-involvement). Volunteers picked up lexicon work, categorization, translations, and UX. It stopped being my side project.
+
+At launch: 102 claimed apps, 172 reviews. ATStore was never meant to be the one directory, just one node in a network of directories reading the same open data. Code lives at [ATProtocol-Community/ATStore](https://github.com/ATProtocol-Community/ATStore) now.
+
+AI wrote most of the code. I focused on design, UX, and features; [MagicPath](http://magicpath.ai/) for layouts, Cursor for admin tools and scraping scripts. [skills.sh](https://www.skills.sh/) and the Hip UI MCP for agents. The hard part was data collection and hygiene, not UI. I manually reviewed every listing.
