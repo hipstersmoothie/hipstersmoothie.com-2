@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-06-14",
+  "scope": "Oct 2025 – Jun 14, 2026",
+  "author": "Andrew Lisowski (lisowski54@gmail.com / hipstersmoothie)",
+  "methodology": {
+    "commits": "git rev-list --since=2026-01-01 --author=lisowski54@gmail.com (kikbak: GitHub search total 77)",
+    "loc": "Source lines excluding node_modules, dist, lockfiles, and generated JSON blobs >500KB",
+    "aiCommits": "Commits with Co-authored-by: Cursor or cursoragent@cursor.com in message body"
+  },
+  "totals": {
+    "commits": 1539,
+    "codeLoc": 768163,
+    "docLoc": 53820,
+    "aiCoAuthoredCommits": 13
+  },
+  "projects": [
+    {
+      "name": "kich.io",
+      "slug": "kichio",
+      "host": "github",
+      "visibility": "private",
+      "commits": 640,
+      "codeLoc": 178609,
+      "docLoc": 14037,
+      "activeFrom": "2026-01-03",
+      "activeTo": "2026-05-24",
+      "aiCoAuthoredCommits": 5,
+      "status": "paused"
+    },
+    {
+      "name": "atstore.fyi",
+      "slug": "atstorefyi",
+      "host": "github",
+      "visibility": "private",
+      "commits": 267,
+      "codeLoc": 84886,
+      "docLoc": 6502,
+      "activeFrom": "2026-04-08",
+      "activeTo": "2026-05-23",
+      "aiCoAuthoredCommits": 1,
+      "status": "paused"
+    },
+    {
+      "name": "kikbak.tv",
+      "slug": "kikbaktv",
+      "host": "github",
+      "visibility": "private",
+      "commits": 77,
+      "codeLoc": 58722,
+      "docLoc": 445,
+      "activeFrom": "2026-04-16",
+      "activeTo": "2026-05-12",
+      "aiCoAuthoredCommits": 0,
+      "status": "paused"
+    },
+    {
+      "name": "standard-reader.app",
+      "slug": "standard-readerapp",
+      "host": "github",
+      "visibility": "public",
+      "commits": 177,
+      "codeLoc": 106055,
+      "docLoc": 8785,
+      "activeFrom": "2026-06-05",
+      "activeTo": "2026-06-13",
+      "aiCoAuthoredCommits": 6,
+      "status": "active"
+    },
+    {
+      "name": "console.cocore.dev",
+      "slug": "consolecocoredev",
+      "host": "github",
+      "repo": "DGaffney/cocore",
+      "visibility": "private",
+      "commits": 112,
+      "totalRepoCommits": 428,
+      "codeLoc": 87701,
+      "docLoc": 4998,
+      "activeFrom": "2026-05-07",
+      "activeTo": "2026-06-14",
+      "aiCoAuthoredCommits": 0,
+      "status": "active"
+    },
+    {
+      "name": "hip-ui",
+      "slug": "hip-ui",
+      "host": "tangled",
+      "visibility": "public",
+      "commits": 218,
+      "codeLoc": 91722,
+      "docLoc": 184,
+      "activeFrom": "2025-10-12",
+      "activeTo": "2026-04-02",
+      "aiCoAuthoredCommits": 0,
+      "status": "paused"
+    },
+    {
+      "name": "forked",
+      "slug": "forked",
+      "host": "github",
+      "visibility": "public",
+      "commits": 18,
+      "codeLoc": 122839,
+      "docLoc": 17235,
+      "activeFrom": "2026-05-12",
+      "activeTo": "2026-05-21",
+      "aiCoAuthoredCommits": 0,
+      "status": "paused-unpushed",
+      "notes": "17 commits ahead of origin as of audit"
+    },
+    {
+      "name": "vinyl-scrobbler",
+      "slug": "vinyl-scrobbler",
+      "host": "github",
+      "visibility": "private",
+      "commits": 30,
+      "codeLoc": 37629,
+      "docLoc": 1634,
+      "activeFrom": "2026-05-29",
+      "activeTo": "2026-05-31",
+      "aiCoAuthoredCommits": 1,
+      "status": "paused"
+    }
+  ]
+}

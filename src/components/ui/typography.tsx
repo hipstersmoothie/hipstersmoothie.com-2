@@ -476,6 +476,7 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
         mt-10 md:mt-12 mb-6 pb-3 
         border-b border-mauve-7 dark:border-mauvedark-7
         in-preview:text-xl in-preview:mt-6 
+        [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit
       "
       onClick={(e) => {
         props.onClick?.(e);
@@ -493,6 +494,7 @@ export const H3 = (props: React.ComponentProps<"h3">) => (
         text-lg md:text-2xl 
         [&_.inline-code]:text-base [&_.inline-code]:md:text-xl
         mt-6 md:mt-10 mb-4 font-medium
+        [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit
       "
       onClick={(e) => {
         props.onClick?.(e);
@@ -506,7 +508,7 @@ export const H4 = (props: React.ComponentProps<"h4">) => (
   <WidthContainer>
     <h4
       {...props}
-      className="text-xl mt-6 mb-4 font-medium"
+      className="text-xl mt-6 mb-4 font-medium [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -519,7 +521,7 @@ export const H5 = (props: React.ComponentProps<"h5">) => (
   <WidthContainer>
     <h5
       {...props}
-      className="my-4 font-medium"
+      className="my-4 font-medium [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -532,7 +534,7 @@ export const H6 = (props: React.ComponentProps<"h6">) => (
   <WidthContainer>
     <h6
       {...props}
-      className="text-sm my-4 font-bold"
+      className="text-sm my-4 font-bold [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -565,11 +567,11 @@ export function BasicLink({
   className: classNameProp,
   ...props
 }: React.ComponentPropsWithoutRef<"a">) {
-  let href = props.href;
-
-  if (href?.startsWith("#")) {
-    return <a {...props} />;
-  }
+  const href = props.href;
+  const classNames = Array.isArray(classNameProp)
+    ? classNameProp.join(" ")
+    : classNameProp ?? "";
+  const isHeaderLink = classNames.includes("header-link");
 
   const className = twMerge(
     `
@@ -579,6 +581,14 @@ export function BasicLink({
     `,
     classNameProp
   );
+
+  if (href?.startsWith("#")) {
+    if (isHeaderLink) {
+      return <a {...props} />;
+    }
+
+    return <a {...props} className={className} />;
+  }
 
   if (href?.startsWith("/")) {
     return (
