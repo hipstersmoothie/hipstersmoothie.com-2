@@ -9,17 +9,14 @@ import { TooltipProvider } from "../components/ui/tooltip";
 import { Toaster } from "../components/ui/sonner";
 import { CommandPalletteLaunchCommand } from "../components/ui/CommandPalletteLaunchCommand";
 import { getSequoiaPublicationUri } from "./blog/sequoia";
+import { getSiteUrl } from "../lib/site-url";
 
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Hipstersmoothie.com",
   description: "Andrew Lisowski's personal website",
-  metadataBase: new URL(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://hipstersmoothie.com"
-  ),
+  metadataBase: new URL(getSiteUrl()),
 };
 
 export default function RootLayout({

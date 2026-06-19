@@ -5,8 +5,10 @@ import {
   isBlogPost,
 } from "../blog/utils";
 import { getExperimentList } from "../experiments/utils";
+import { getSiteUrl } from "../../lib/site-url";
 
 async function feed() {
+  const siteUrl = getSiteUrl();
   const blogPosts = await getBlogPostList({ includeSource: true });
   const experiment = await getExperimentList();
   const posts = [...blogPosts, ...experiment]
@@ -22,8 +24,8 @@ async function feed() {
     title: "Andrew Lisowski's Personal Website - Blog and Experiments",
     description:
       "Andrew posts front end development articles and experiments on his personal website.",
-    site_url: `${process.env.NEXT_PUBLIC_URL}`,
-    feed_url: `${process.env.NEXT_PUBLIC_URL}rss.xml`,
+    site_url: siteUrl,
+    feed_url: `${siteUrl}/rss.xml`,
   });
 
   posts.forEach((post) => {
@@ -39,8 +41,8 @@ async function feed() {
       title: post.title,
       description,
       url: isBlogPost(post)
-        ? `${process.env.NEXT_PUBLIC_URL}/blog/posts/${post.slug}`
-        : `${process.env.NEXT_PUBLIC_URL}/experiments/${post.slug}`,
+        ? `${siteUrl}/blog/posts/${post.slug}`
+        : `${siteUrl}/experiments/${post.slug}`,
       date: post.creationDate,
     });
   });
