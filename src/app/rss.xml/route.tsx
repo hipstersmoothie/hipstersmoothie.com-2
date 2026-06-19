@@ -1,12 +1,10 @@
 import Rss from "rss";
 import {
   getBlogPostList,
+  getPostDescription,
   isBlogPost,
-  mdxProcessor,
-  renderPhrase,
 } from "../blog/utils";
 import { getExperimentList } from "../experiments/utils";
-import { Paragraph } from "mdast";
 
 async function feed() {
   const blogPosts = await getBlogPostList({ includeSource: true });
@@ -32,13 +30,7 @@ async function feed() {
     let description: string = "";
 
     if (isBlogPost(post)) {
-      const paragraph = mdxProcessor
-        .parse(post.source)
-        .children.find((c): c is Paragraph => c.type === "paragraph");
-
-      if (paragraph) {
-        description = paragraph.children.map(renderPhrase).join("");
-      }
+      description = getPostDescription(post);
     } else {
       description = post.description as string;
     }

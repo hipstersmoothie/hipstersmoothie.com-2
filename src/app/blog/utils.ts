@@ -9,7 +9,7 @@ import remarkWikiLink from "remark-wiki-link";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
-import { PhrasingContent } from "mdast";
+import { Paragraph, PhrasingContent, RootContent } from "mdast";
 
 interface GitLoaderOutput {
   source: string;
@@ -33,6 +33,7 @@ export const mdxProcessor = remark()
 interface FrontMatter {
   title?: string;
   slug?: string;
+  description?: string;
   creationDate: string;
   tags?: string[];
   /** AT URI of the published standard.site document, added by `sequoia publish`. */
@@ -123,6 +124,42 @@ export async function getBlogPost(
 
   const post: GitLoaderOutput = postContext(filepath).default;
   return parseBlogPost(filepath, post, options);
+}
+
+// Plain remark doesn't understand MDX, so import/export/JSX lines are parsed
+// as paragraph text. Skip those blocks when extracting readable content.
+export function isMdxBlock(value: RootContent) {
+  if (value.type !== "paragraph") {
+    return false;
+  }
+
+  const text = value.children
+    .map((child) => ("value" in child ? child.value : ""))
+    .join("")
+    .trim();
+
+  return /^(import|export)\b/.test(text) || /^<[A-Za-z]/.test(text);
+}
+
+export function getPostDescription(post: Post): string {
+  if (post.frontMatter.description) {
+    return post.frontMatter.description;
+  }
+
+  if (!post.source) {
+    return "";
+  }
+
+  const paragraph = mdxProcessor
+    .parse(post.source)
+    .children.filter((c): c is Paragraph => c.type === "paragraph")
+    .find((c) => !isMdxBlock(c));
+
+  if (paragraph) {
+    return paragraph.children.map(renderPhrase).join("");
+  }
+
+  return "";
 }
 
 export function renderPhrase(value: PhrasingContent): string {
