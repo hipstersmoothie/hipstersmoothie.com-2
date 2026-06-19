@@ -5,13 +5,15 @@
   "methodology": {
     "commits": "git rev-list --since=2026-01-01 --author=lisowski54@gmail.com (kikbak: GitHub search total 77)",
     "loc": "Source lines excluding node_modules, dist, lockfiles, and generated JSON blobs >500KB",
-    "aiCommits": "Commits with Co-authored-by: Cursor or cursoragent@cursor.com in message body"
+    "aiCommits": "Commits with Co-authored-by: Cursor or cursoragent@cursor.com in message body",
+    "cursorTokens": "Cursor usage export (usage-events-2026-06-19.csv), summed Total Tokens through 2026-06-14"
   },
   "totals": {
     "commits": 1539,
     "codeLoc": 768163,
     "docLoc": 53820,
-    "aiCoAuthoredCommits": 13
+    "aiCoAuthoredCommits": 13,
+    "cursorTokens": 8804659328
   },
   "projects": [
     {
