@@ -25,7 +25,7 @@ export const mdxProcessor = remark()
   .use(remarkGfm)
   .use(remarkEmoji)
   .use(remarkWikiLink, {
-    aliasDivider: "||",
+    aliasDivider: "|",
     pageResolver: (name: string) => [name.replace(/ /g, "-").toLowerCase()],
     hrefTemplate: (permalink: string) => `/blog/posts/${permalink}`,
   });

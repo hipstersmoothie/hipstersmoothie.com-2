@@ -99,7 +99,7 @@ const withMDX = nextMdx({
       [
         remarkWikiLink,
         {
-          aliasDivider: "||",
+          aliasDivider: "|",
           pageResolver: (name) => [name.replace(/ /g, "-").toLowerCase()],
           hrefTemplate: (permalink) => `/blog/posts/${permalink}`,
         },
