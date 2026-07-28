@@ -1,4 +1,4 @@
-import { getPostOgImage } from "../../../../components/open-graph/PostOgImage";
+import { getPostOgImage } from "../../components/open-graph/PostOgImage";
 
 export const contentType = "image/png";
 export const size = {
