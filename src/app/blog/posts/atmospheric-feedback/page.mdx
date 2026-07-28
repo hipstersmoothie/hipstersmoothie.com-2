@@ -1,0 +1,83 @@
+---
+slug: atmospheric-feedback
+title: Atmospheric Feedback
+description: "Two ways to collect feedback in your Atmosphere apps — bug reports and feature requests via userinput.app, and reviews via atstore.fyi — using progressive scoping to request permissions on demand without overwhelming users."
+creationDate: 2026-06-27T19:00:00-07:00
+tags: [atproto]
+---
+
+import { getPostMetadata } from "../postMetadata";
+
+export const metadata = getPostMetadata(frontmatter);
+
+<PostHeader slug="atmospheric-feedback" />
+
+When you build an app in the Atmosphere, it's not trapped in its own walled garden like traditional apps.
+Apps can easily interoperate and create new experiences by combining existing apps' data.
+Your app can do what it does well, and pull in capabilities from the network.
+
+One area where the network already provides some nice capabilities is app feedback.
+Let's look at two ways to tap into it — without making your users jump through hoops.
+
+## Bug Reporting / Feature Requests
+
+Any time you build an app, you'll want to collect information from users about bugs and features they would like to see you build.
+Having the board public builds trust between you and your users — they like to know you listen.
+
+Currently, you can create a space on [userinput.app](https://userinput.app/) and start collecting whatever feedback you want from your users.
+
+I typically add at least these three tags:
+
+- `bug`: for reporting bugs
+- `feature`: for suggesting new features
+- `question`: for general feedback
+
+You could stop there — but because the network is open, you can let users submit feedback without ever leaving your app.
+
+![The feedback board in Standard Reader](/blog/feedback.png)
+
+### Progressive Scoping
+
+To actually write `app.userinput.*` records, though, you need to request permission from the user.
+You _could_ request all perms your app might ever need when a user first logs in, but that's not the best user experience.
+A large list of scopes can be scary, especially if the user doesn't understand why they're being asked for each one.
+
+To get around this, you can use progressive scoping.
+
+1. Request basic permissions on login
+2. When a user wants to access a feature that requires more permissions, request them on-demand
+3. Note that you've requested the additional scope so that on future logins you re-request it
+
+Now that you have the basic permissions, you can start writing `app.userinput.*` records and the user doesn't have to leave the app!
+
+The lower the friction we have for feedback, the more we'll get.
+And in the Atmosphere, that integration can look like _whatever_ you want, fitting seamlessly into your app's branding.
+
+## Reviews
+
+The Atmosphere is a sprawling, interoperable ecosystem — which can be hard to navigate, especially for the not-so-tech-savvy.
+
+That's why I built [atstore.fyi](https://atstore.fyi), the "App Store" for Atmosphere apps.
+It's a simple-to-understand interface that lets you discover apps that work with your Atmosphere account, and it instantly shows the power of the network.
+
+But atstore.fyi also opens up another vector for feedback: reviews.
+Reviews are a great way to get more high-level feedback from users, and it always feels great to read some kind words from a user who's using your app.
+
+When a user uses Standard Reader for a few days, they'll see a toast that asks them to leave a review.
+If they click it, they'll be shown a Dialog with a form to leave a review.
+If they dismiss it, we don't show it again.
+
+## Results
+
+In the first few days, we've already seen 10 reviews come in!
+Honestly, an amazing success — there was very little movement before the notification was shown.
+I truly do appreciate all the kind words too.
+It's an amazing feeling to build something that people actually use.
+
+## Closing Thoughts
+
+This is just the beginning of what you can do when you have access to the network's data and capabilities.
+I believe we should be making apps that are interesting without even mentioning "atproto".
+But leaning into what makes this protocol unique is what turns a good app into a great one.
+
+<BackLinks slug="atmospheric-feedback" />
