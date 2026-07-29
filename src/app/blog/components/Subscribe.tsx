@@ -1,7 +1,7 @@
 import makeClass from "clsx";
 import { twMerge } from "tailwind-merge";
 
-const SUBSCRIBE_URL = "https://standard-reader.app/subscribe/did:plc:vdt2kpw2hgyqsmgxzcvutwxy/3mp62qplhos2u";
+const SUBSCRIBE_URL = "https://standard-reader.app/subscribe/did:plc:m2sjv3wncvsasdapla35hzwj/3mng7bqymfo2w";
 
 export function SubscribeButton({ className }: { className?: string }) {
   return (
