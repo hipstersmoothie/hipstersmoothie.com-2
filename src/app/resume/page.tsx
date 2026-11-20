@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { getYear } from "date-fns/getYear";
-import { format } from "date-fns/format";
 
 import { NavigationHeader } from "../../components/NavigationHeader";
 import { Footer } from "../../components/Footer";
@@ -116,31 +115,6 @@ export default function ResumePage() {
           </ul>
         </Section>
 
-        <Section title="Elsewhere">
-          <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-[17px]">
-            {basics.profiles.map((profile) => (
-              <li key={profile.network}>
-                <a href={profile.url} target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-ink">
-                  {profile.label} ›
-                </a>
-              </li>
-            ))}
-            <li>
-              <a href="https://devtools.fm" target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-ink">
-                devtools.fm ›
-              </a>
-            </li>
-            <li>
-              <span className="text-ink-2">{basics.location.city}</span>
-            </li>
-          </ul>
-          <p className="mt-6 text-[14px] text-ink-3">
-            Last updated {format(new Date(), "MMMM yyyy")} ·{" "}
-            <a href="/resume.json" className="underline underline-offset-4 decoration-ink-3 hover:text-ink">
-              JSON
-            </a>
-          </p>
-        </Section>
       </main>
       <Footer />
     </>
