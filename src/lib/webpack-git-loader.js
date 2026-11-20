@@ -8,8 +8,11 @@ module.exports = function gitLoader(source) {
   const filepath = urlToRequest(this.resourcePath).replace("./", "");
   const dir = path.dirname(filepath);
   const { birthtime } = fs.statSync(filepath);
+  // Quote the path: the checkout may live somewhere with spaces (a worktree under
+  // ~/Library/Application Support, say).
+  const quoted = JSON.stringify(filepath);
   const { stdout: lastUpdated } = execSync(
-    `git log -1 --format=%aI ${filepath}`
+    `git log -1 --format=%aI -- ${quoted}`
   );
 
   let description = "";
@@ -21,7 +24,7 @@ module.exports = function gitLoader(source) {
 
   const creationPath = filepath.replace("page.tsx", "creation.txt");
   let { stdout: creationDate } = execSync(
-    `git log --diff-filter=A --follow --format=%aI -- ${filepath} | tail -1`
+    `git log --diff-filter=A --follow --format=%aI -- ${quoted} | tail -1`
   );
 
   if (fs.existsSync(creationPath)) {

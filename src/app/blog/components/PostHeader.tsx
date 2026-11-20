@@ -36,12 +36,11 @@ export async function PostHeader({
       >
         <div
           className="
-         bg-mauve-4  dark:bg-mauvedark-3 
-            py-5 md:py-12 md:px-24
-            in-preview:py-4 in-preview:px-0
+            pt-10 pb-8 md:pt-16 md:pb-10 border-b border-hair
+            in-preview:py-4 in-preview:px-0 in-preview:bg-ground
           "
         >
-          <div className="max-w-prose px-4 mx-auto flex flex-col gap-4 md:gap-6 in-preview:gap-2">
+          <div className="max-w-[740px] px-6 mx-auto flex flex-col gap-4 md:gap-6 in-preview:gap-2">
             {post.frontMatter.tags && (
               <ul className="flex gap-2">
                 {post.frontMatter.tags.map((tag) => (
@@ -49,10 +48,9 @@ export async function PostHeader({
                     <Link
                       href={`/command?q=${encodeURIComponent(`#${tag}`)}`}
                       className="
-                        text-sm in-preview:text-xs
-                        rounded-lg px-2 py-1
-                        bg-crimsona-4 dark:bg-crimsondarka-4
-                        text-crimsona-12 dark:text-crimsondarka-12
+                        text-xs in-preview:text-[11px]
+                        rounded-full px-2 py-0.5
+                        bg-ground-alt text-ink-2 hover:text-ink
                       "
                     >
                       {tag}
@@ -64,34 +62,34 @@ export async function PostHeader({
             <h1
               className={makeClass(
                 className,
-                "text-3xl md:text-5xl in-preview:text-xl font-medium",
-                "text-mauve-12 dark:text-mauvedark-12"
+                "headline text-[clamp(36px,5vw,60px)] in-preview:text-xl",
+                "text-ink"
               )}
             >
               {post.title}
             </h1>
-            <div className="text-sm flex flex-row gap-4 flex-1 in-preview:hidden">
+            <div className="text-[15px] flex flex-row gap-4 flex-1 in-preview:hidden">
               <div className="hidden sm:block">
-                <span className="italic text-mauve-12 dark:text-mauvedark-12">
+                <span className="text-ink-2">
                   Created:{" "}
                 </span>
                 <Time
                   date={new Date(post.creationDate).toLocaleString()}
-                  className="text-mauve-11 dark:text-mauvedark-11 font-medium"
+                  className="text-ink font-medium"
                 />
               </div>
               <div>
-                <span className="italic text-mauve-12 dark:text-mauvedark-12">
+                <span className="text-ink-2">
                   Updated:{" "}
                 </span>
                 <Time
                   date={new Date(post.lastUpdated).toLocaleString()}
-                  className="text-mauve-11 dark:text-mauvedark-11 font-medium"
+                  className="text-ink font-medium"
                 />
               </div>
               <div className="flex-1" />
               <div>
-                <span className="text-mauve-11 dark:text-mauvedark-11">
+                <span className="text-ink-2">
                   {post.readingTime.text}
                 </span>
               </div>

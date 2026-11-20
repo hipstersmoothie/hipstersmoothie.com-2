@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- at·store's wordmark, reduced to the part that is its own: "at" and the blue interpunct. -->
+  <rect width="512" height="512" fill="#191816"/>
+  <text x="228" y="338" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, 'Helvetica Neue', sans-serif" font-size="236" font-weight="800" letter-spacing="-14" fill="#f2efe8">at</text>
+  <circle cx="412" cy="310" r="30" fill="#1c4ef5"/>
+</svg>

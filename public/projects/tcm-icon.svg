@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- tcm: a hash, because every definition is addressed by one. Drawn as geometry so it is the
+       same in every browser: two slanted uprights, two horizontals, all with rounded ends. -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b86f7"/>
+      <stop offset="1" stop-color="#1a5fe0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#g)"/>
+  <g fill="#fff">
+    <rect x="118" y="196" width="296" height="40" rx="20"/>
+    <rect x="98"  y="296" width="296" height="40" rx="20"/>
+    <g transform="skewX(-12)">
+      <rect x="236" y="118" width="40" height="296" rx="20"/>
+      <rect x="340" y="118" width="40" height="296" rx="20"/>
+    </g>
+  </g>
+</svg>

@@ -1,288 +1,127 @@
-import {
-  Github,
-  Twitter,
-  Mail,
-  ArrowRight,
-  ExternalLink,
-  Rss,
-  Mic,
-  MapPin,
-} from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { getYear } from "date-fns/getYear";
+import { format } from "date-fns/format";
 
 import { NavigationHeader } from "../components/NavigationHeader";
-import { Button } from "../components/ui/button";
-import { Tooltip } from "../components/ui/tooltip";
-import { Code, H3, Paragraph } from "../components/ui/typography";
 import { Footer } from "../components/Footer";
+import { FeaturedBento } from "./projects/components/ProjectTiles";
+import { getBlogPostList } from "./blog/utils";
 import resume from "./resume.json";
-import { getYear } from "date-fns/getYear";
-import BlueSkyLogo from "./components/CommandPallette/BlueSkyLogo";
 
-function HeroButton({
-  href,
-  children,
-  tooltip,
-}: {
-  href: string;
-  children: React.ReactNode;
-  tooltip: string;
-}) {
-  return (
-    <Tooltip title={tooltip}>
-      <Button asChild variant="outline" size="icon">
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {children}
-        </a>
-      </Button>
-    </Tooltip>
-  );
-}
+const wrap = "max-w-[1180px] mx-auto px-6";
 
-function InfoBlock({
-  title,
-  subtitle,
-  range,
-  children,
-  href,
-}: {
-  title: string;
-  subtitle?: string;
-  range: string;
-  children?: React.ReactNode;
-  href?: string;
-}) {
+function SectionHead({ title, more, href }: { title: string; more: string; href: string }) {
   return (
-    <div className="flex flex-col gap-2 px-4 max-w-prose mx-auto">
-      <div className="flex items-center">
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1"
-        >
-          <h4 className="text-mauve-12 dark:text-mauvedark-12 text-lg font-medium">
-            {title}
-          </h4>
-        </a>
-        <div className="text-crimson-12 dark:text-crimsondark-11 font-medium">
-          {range}
-        </div>
-      </div>
-      <h5 className="font-mono text-mauve-11 dark:text-mauvedark-11 font-medium">
-        {subtitle}
-      </h5>
-      {children && <p>{children}</p>}
+    <div className="mb-10 flex items-baseline justify-between gap-6">
+      <h2 className="headline text-[clamp(28px,3.4vw,40px)] text-ink">{title}</h2>
+      <Link href={href} className="text-[15px] text-ink-2 hover:text-ink whitespace-nowrap">
+        {more} ›
+      </Link>
     </div>
   );
 }
 
-function Project({
-  href,
-  title,
-  children,
-}: {
-  href: string;
-  title: string;
-  children?: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      className="
-        flex group 
-      "
-    >
-      <div
-        className="
-          py-2 w-full
-          flex flex-col gap-2
-          relative
-        "
-      >
-        <div
-          className="
-            rounded overflow-hidden
-            absolute inset-0 z-[-1] shadow-xl
-            opacity-0 transition-opacity group-hover:opacity-100
-            group-active:animate-press
-        "
-        />
-        <div
-          className="
-            rounded overflow-hidden
-            border border-mauve-7 group-hover:border-mauve-8 
-            dark:border-mauvedark-7 dark:group-hover:border-mauvedark-8 
-            bg-mauve-2 hover:bg-mauve-3 
-            dark:bg-mauvedark-2 dark:hover:bg-mauvedark-3
-            absolute inset-0 z-[-1]
-            scale-100 transition-transform group-hover:scale-[1.025]
-            group-active:animate-press
-        "
-        />
+const heroLinks = [
+  ["GitHub", "https://github.com/hipstersmoothie"],
+  ["Bluesky", "https://bsky.app/profile/hipstersmoothie.com"],
+  ["devtools.fm", "https://devtools.fm"],
+  ["Email", `mailto:${resume.basics.email}`],
+  ["RSS", "/rss.xml"],
+];
 
-        <div className="px-4">
-          <h2 className="text-lg font-medium text-mauve-12 dark:text-mauvedark-12">
-            {title}
-          </h2>
-        </div>
-        {children && <p className="px-4 font-light">{children}</p>}
-      </div>
-    </a>
-  );
-}
+export default async function Home() {
+  const posts = (await getBlogPostList()).slice(0, 4);
 
-export default function Home() {
   return (
     <>
       <NavigationHeader />
-      <main className="pb-8 md:pb-20">
-        <div className="w-full py-8 bg-mauve-4 dark:bg-mauvedark-3 md:mb-16">
-          <div className="flex items-center justify-center gap-8 md:gap-10 max-w-prose mx-auto px-4">
-            <div className="@container flex flex-col gap-2 md:gap-4 flex-[2.5]">
-              <h1 className="text-[11.8cqw] text-mauve-12 dark:text-mauvedark-12 font-semibold">
-                {resume.basics.name}
-              </h1>
-
-              <div className="flex items-center gap-2">
-                <HeroButton href="https://devtools.fm" tooltip="Podcast">
-                  <Mic />
-                </HeroButton>
-
-                {resume.basics.profiles.map((profile) => (
-                  <HeroButton
-                    key={profile.network}
-                    href={profile.url}
-                    tooltip={profile.label}
-                  >
-                    {(profile.network === "github" && <Github />) ||
-                      (profile.network === "twitter" && <Twitter />) ||
-                      (profile.network === "bluesky" && (
-                        <BlueSkyLogo color="currentColor" />
-                      )) || <ExternalLink />}
-                  </HeroButton>
+      <main>
+        {/* Hero: name as the headline, tagline under it, portrait filling the right half. */}
+        <header className="pt-12 pb-14 md:pt-[72px] md:pb-16">
+          <div className={`${wrap} grid grid-cols-1 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-8 md:gap-12 items-center`}>
+            <Image
+              src="/profile.jpeg"
+              width={400}
+              height={400}
+              priority
+              alt="Andrew smiling"
+              className="w-full max-w-[200px] md:max-w-[420px] aspect-square object-cover rounded-tile shadow-tile md:order-2 md:justify-self-end"
+            />
+            <div>
+              <h1 className="headline text-[clamp(44px,6.6vw,84px)] text-ink">{resume.basics.name}</h1>
+              <p className="lede mt-[22px] max-w-[560px] !text-[18px]">
+                Front-end engineer on the design system at Snowflake; before that Descript and Intuit. Building good
+                UI is easy, building great UI is hard, and that&apos;s the part I like. I co-host{" "}
+                <a href="https://devtools.fm" className="underline underline-offset-4 decoration-ink-3 hover:decoration-ink">
+                  devtools.fm
+                </a>{" "}
+                and spend nights and nap times building on the AT Protocol.
+              </p>
+              <ul className="mt-7 flex flex-wrap gap-x-[26px] gap-y-2.5 text-[15px]">
+                {heroLinks.map(([label, href]) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      target={href.startsWith("http") ? "_blank" : undefined}
+                      rel="noopener noreferrer"
+                      className="text-ink-2 hover:text-ink"
+                    >
+                      {label} ›
+                    </a>
+                  </li>
                 ))}
-                <HeroButton
-                  href={`mailto:${resume.basics.email}`}
-                  tooltip="Email"
-                >
-                  <Mail />
-                </HeroButton>
-                <HeroButton href="/rss.xml" tooltip="RSS Feed">
-                  <Rss />
-                </HeroButton>
-                <div className="flex-1" />
-                <div
-                  className="
-                    text-sm text-mauve-11 dark:text-mauvedark-11
-                    hidden md:flex items-center gap-2
-                  "
-                >
-                  {resume.basics.location.city}
-                  <MapPin size={20} />
-                </div>
-              </div>
-            </div>
-            <div className="px-2 flex-1">
-              <Image
-                width={400}
-                height={400}
-                src="/profile.jpeg"
-                className="
-                  rounded-full aspect-square flex-1 
-                  border-2 border-mauve-6 dark:border-mauvedark-6
-                "
-                alt="Andrew smiling"
-              />
+              </ul>
             </div>
           </div>
-        </div>
+        </header>
 
-        <H3>About</H3>
-        <Paragraph>{resume.basics.summary}</Paragraph>
+        <section id="projects" className="py-16">
+          <div className={wrap}>
+            <SectionHead title="Projects" more="All projects" href="/projects" />
+            <FeaturedBento />
+          </div>
+        </section>
 
-        <H3>Work</H3>
+        <section className="py-16 bg-ground-alt">
+          <div className={wrap}>
+            <SectionHead title="Work" more="Resume" href="/resume" />
+            <ol className="rows">
+              {resume.work.map((work) => (
+                <li key={work.name}>
+                  <a href={work.website} target="_blank" rel="noopener noreferrer" className="row">
+                    <span className="row-title">{work.name}</span>
+                    <span className="row-meta">
+                      {getYear(work.startDate)} – {work.endDate ? getYear(work.endDate) : "now"}
+                    </span>
+                    <span className="row-sub">
+                      {work.position} · {work.highlight}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
 
-        <div className="flex flex-col gap-6 max-w-prose mx-auto">
-          {resume.work.map((work) => (
-            <InfoBlock
-              key={work.name}
-              title={work.name}
-              subtitle={work.position}
-              range={`${getYear(work.startDate)} - ${
-                work.endDate ? getYear(work.endDate) : "Present"
-              }`}
-              href={work.website}
-            >
-              {work.summary}
-            </InfoBlock>
-          ))}
-        </div>
-
-        <H3>Education</H3>
-        {resume.education.map((education) => (
-          <InfoBlock
-            key={education.institution}
-            title={education.institution}
-            subtitle={`${education.studyType} - ${education.area}`}
-            range={`${getYear(education.startDate)} - ${getYear(
-              education.endDate
-            )}`}
-            href={education.url}
-          />
-        ))}
-
-        <H3>Skills</H3>
-        <ul className="flex flex-wrap gap-2 px-4 max-w-prose mx-auto">
-          {resume.skills[0].keywords.map((skill) => (
-            <li key={skill}>
-              <Code>{skill}</Code>
-            </li>
-          ))}
-        </ul>
-
-        <H3>Projects</H3>
-
-        <div className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2 max-w-prose mx-auto">
-          <Project href="https://graze.social" title="Graze">
-            The biggest feed generator for Bluesky with a Scratch-like
-            programming language.
-          </Project>
-          <Project href="https://devtools.fm" title="DevtoolsFM">
-            A podcast about developer tools and the people who make them.
-          </Project>
-          <Project href="https://kikbak.tv" title="kikbak.tv">
-            Scans 1000s of music blogs daily to create a top 100 list
-          </Project>
-          <Project
-            href="https://github-activity-viewer.vercel.app/"
-            title="GitHub Activity Viewer"
-          >
-            Organizes your GitHub activity feed to find trending repos among
-            your network.
-          </Project>
-          <Project href="https://www.pitchforkify.com/" title="Pitchforkify">
-            Combines Pitchfork&apos;s reviews with Spotify&apos;s API for easy
-            listening.
-          </Project>
-          <Project href="https://github.com/intuit/auto" title="intuit/auto">
-            Generate releases based on semantic version labels on pull requests.
-          </Project>
-          <Project
-            href="https://github.com/hipstersmoothie/react-docgen-typescript-plugin"
-            title="react-docgen-typescript-plugin"
-          >
-            A webpack plugin to inject react typescript docgen information
-          </Project>
-          <Project
-            href="https://github.com/hipstersmoothie?tab=repositories"
-            title="And many more..."
-          >
-            <span className="flex gap-4">
-              <span>300+ repositories on GitHub</span> <ArrowRight />
-            </span>
-          </Project>
-        </div>
+        <section className="py-24">
+          <div className={wrap}>
+            <SectionHead title="Writing" more="All posts" href="/blog" />
+            <ol className="rows">
+              {posts.map((post) => (
+                <li key={post.slug}>
+                  <Link href={`/blog/posts/${post.slug}`} className="row">
+                    <span className="row-title">{post.title}</span>
+                    <span className="row-meta">{format(post.creationDate, "MMM yyyy")}</span>
+                    {post.frontMatter.description && (
+                      <span className="row-sub">{post.frontMatter.description}</span>
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

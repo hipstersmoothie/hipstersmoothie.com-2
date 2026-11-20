@@ -1,8 +1,7 @@
 import { ImageResponse } from "next/og";
-import * as radixColors from "@radix-ui/colors";
 
 import { getRelativeTime } from "../ui/RelativeTime";
-import { Avatar, Row, Stack, Text } from "./";
+import { Avatar, Row, Stack, Text, Wordmark, og, ogFonts } from "./";
 
 interface PostItemData {
   title: string;
@@ -10,39 +9,34 @@ interface PostItemData {
   lastUpdated?: Date;
 }
 
+/** One row of the list: title, then when. The same shape as the site's rows. */
 export function PostItem({
   item,
   style,
-  tw,
 }: {
   item: PostItemData;
   style?: React.CSSProperties;
-  tw?: string;
 }) {
   return (
     <Row
-      tw={["relative px-8 h-20", tw].filter(Boolean).join(" ")}
-      style={style}
+      style={{
+        padding: "22px 0",
+        borderBottom: `1px solid ${og.hair}`,
+        ...style,
+      }}
     >
-      <div
-        tw="absolute inset-1 rounded"
-        style={{
-          background: `linear-gradient(10deg, ${radixColors.mauveDark.mauve5}, ${radixColors.mauveDark.mauve4})`,
-        }}
-      />
-
-      <Row tw="flex-1 pr-10">
-        <Text fontSize={40} lineHeight={1.25} ellipsis>
+      <Row style={{ flex: 1, paddingRight: 40, minWidth: 0 }}>
+        <Text fontSize={34} weight={600} ellipsis>
           {item.title}
         </Text>
       </Row>
-
-      <Text color="mauve11">{getRelativeTime(item.creationDate)}</Text>
+      <Text fontSize={24} color="ink3">
+        {getRelativeTime(item.creationDate)}
+      </Text>
     </Row>
   );
 }
 
-// Image generation
 export default async function getListOgImage({
   items,
   size,
@@ -54,45 +48,40 @@ export default async function getListOgImage({
 }) {
   return new ImageResponse(
     (
-      // ImageResponse JSX element
       <Stack
-        gap={40}
-        tw="w-full h-full p-10"
         style={{
-          background: `linear-gradient(0deg, ${radixColors.mauveDark.mauve1}, ${radixColors.mauveDark.mauve2})`,
+          width: "100%",
+          height: "100%",
+          padding: 64,
+          background: og.ground,
+          fontFamily: og.font,
         }}
       >
-        <Row gap={48}>
-          <Avatar />
-          <Stack gap={20}>
-            <Text fontSize={110}>{title}</Text>
-            <Text fontSize={44} color="mauve11">
-              {`Updated: ${getRelativeTime(
+        <Row gap={40}>
+          <Avatar size={120} />
+          <Stack gap={10}>
+            <Text fontSize={88} weight={700}>
+              {title}
+            </Text>
+            <Text fontSize={28} color="ink2">
+              {`Updated ${getRelativeTime(
                 items[0].lastUpdated || items[0].creationDate
               )}`}
             </Text>
           </Stack>
         </Row>
 
-        <Stack>
-          {items.map((item, index) => (
-            <PostItem
-              key={item.title}
-              item={item}
-              style={{
-                opacity: 1 - index * 0.25,
-                margin: `0 ${index * 8}px`,
-              }}
-            />
+        <Stack style={{ marginTop: 40, borderTop: `1px solid ${og.hair}` }}>
+          {items.slice(0, 3).map((item) => (
+            <PostItem key={item.title} item={item} />
           ))}
         </Stack>
+
+        <Row style={{ marginTop: "auto" }}>
+          <Wordmark />
+        </Row>
       </Stack>
     ),
-    // ImageResponse options
-    {
-      // For convenience, we can re-use the exported opengraph-image
-      // size config to also set the ImageResponse's width and height.
-      ...size,
-    }
+    { ...size, fonts: ogFonts }
   );
 }

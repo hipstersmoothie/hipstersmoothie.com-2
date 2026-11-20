@@ -3,7 +3,6 @@ import { Heading, Link, Paragraph, Strong } from "mdast";
 import emojiRegex from "emoji-regex";
 
 import { getBlogPostList, mdxProcessor, renderPhrase } from "../../blog/utils";
-import { getExperimentList } from "../../experiments/utils";
 
 import prodSearchIndex from "./production-search-index.json";
 import prodData from "./production-search-data.json";
@@ -39,9 +38,7 @@ export async function getSearchData() {
       };
     }
   );
-  const experiments = await getExperimentList();
-
-  return [...blogPosts, ...experiments];
+  return blogPosts;
 }
 
 async function initializeIndex() {

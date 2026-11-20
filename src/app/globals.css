@@ -3,6 +3,35 @@
 @tailwind utilities;
 
 @layer base {
+  /* The grey system. Every surface, text and hairline on the site comes from these; the
+     only other colors are a featured project's own, set per tile/page as --p-* variables. */
+  :root {
+    --ground: #ffffff;
+    --ground-alt: #f5f5f7;
+    --tile: #ffffff;
+    --ink: #1d1d1f;
+    --ink-2: #6e6e73;
+    --ink-3: #aeaeb2;
+    --hair: rgba(0, 0, 0, 0.1);
+    --nav: rgba(251, 251, 253, 0.8);
+    --shadow: 0 30px 70px rgba(0, 0, 0, 0.16);
+    --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  .dark {
+    --ground: #000000;
+    --ground-alt: #101011;
+    --tile: #1c1c1e;
+    --ink: #f5f5f7;
+    --ink-2: #a1a1a6;
+    --ink-3: #636366;
+    --hair: rgba(255, 255, 255, 0.14);
+    --nav: rgba(22, 22, 23, 0.8);
+    --shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+    --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -79,9 +108,54 @@
 }
 
 body {
-  @apply font-sans;
+  @apply font-sans text-ink bg-ground;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
+}
+
+@layer components {
+  /* Display type: SF Pro Display's weight and tracking, balanced. */
+  .headline {
+    @apply font-bold;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Inter, sans-serif;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .lede {
+    @apply text-ink-2;
+    font-size: clamp(19px, 2vw, 21px);
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .eyebrow {
+    @apply text-[13px] font-semibold uppercase text-ink-2;
+    letter-spacing: 0.02em;
+  }
+  /* The grey list used for posts, work, the long tail of projects. */
+  .rows { @apply border-t border-hair; }
+  .row {
+    @apply grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-x-6 gap-y-2 py-[18px] border-b border-hair items-baseline;
+  }
+  .row-title { @apply text-[19px] font-semibold tracking-[-0.02em] text-ink; }
+  .row:hover .row-title { @apply underline underline-offset-4 decoration-ink-3; }
+  .row-sub { @apply text-ink-2 sm:col-start-1; }
+  .row-meta { @apply text-ink-3 text-sm tabular-nums whitespace-nowrap sm:text-right; }
+  /* A project's colors: light by default, its dark set under the site's dark appearance. */
+  .palette { --p-bg: var(--pl-bg); --p-ink: var(--pl-ink); --p-ink2: var(--pl-ink2); --p-accent: var(--pl-accent); --p-on-accent: var(--pl-on-accent); }
+  .dark .palette { --p-bg: var(--pd-bg); --p-ink: var(--pd-ink); --p-ink2: var(--pd-ink2); --p-accent: var(--pd-accent); --p-on-accent: var(--pd-on-accent); }
+  /* Pills */
+  .pill {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[transform,opacity] duration-150;
+    min-height: 44px; padding: 0 22px; font-size: 16px;
+    background: var(--ink); color: var(--ground);
+  }
+  .pill:hover { opacity: .9; }
+  .pill:active { transform: scale(.98); }
+  .pill-quiet { background: var(--ground-alt); color: var(--ink); }
+  .pill-accent { background: var(--p-accent, var(--ink)); color: var(--p-on-accent, #fff); }
+  .pill-sm { min-height: 32px; padding: 0 14px; font-size: 13px; }
 }
 
 code[data-theme*=" "],
@@ -97,13 +171,13 @@ code[data-theme*=" "] span {
 }
 
 [data-highlighted-chars] span {
-  @apply text-crimsona-12 dark:text-crimsondarka-12 !important;
+  @apply text-ink !important;
 }
 
 [data-highlighted-chars]:before,
 [data-highlighted-line]:before {
   content: "";
-  @apply rounded absolute -inset-1 bg-crimsona-4 dark:bg-crimsondarka-4 !important;
+  @apply rounded absolute -inset-1 bg-ground-alt !important;
 }
 
 [data-highlighted-chars][data-chars-id="blue"] span {
@@ -127,4 +201,26 @@ code[data-theme*=" "] span {
 
 mark {
   @apply bg-ambera-9 dark:bg-amberdarka-10;
+}
+
+/* Device renders. Every size is a share of the device's own width (cqw) so bezels and corners
+   scale together at any size; the same proportions sesh.codes uses. */
+@layer components {
+  /* A Mac window screenshot: it carries its own margin and rounded corners, so no frame. */
+  .window { filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.18)); }
+  .dark .window { filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6)); }
+  .iphone { container-type: inline-size; position: relative; }
+  .iphone-case { border-radius: 18.5cqw; corner-shape: squircle; background: #1d1d1f; padding: 3.85cqw; box-shadow: var(--shadow); }
+  .iphone img { border-radius: 14.6cqw; corner-shape: squircle; }
+  .iphone-island { position: absolute; top: 6.6cqw; left: 50%; transform: translateX(-50%); width: 25cqw; height: 7.2cqw; border-radius: 999px; background: #000; }
+  .watch { container-type: inline-size; position: relative; }
+  .watch-case { position: relative; z-index: 1; border-radius: 24cqw; corner-shape: squircle; background: #2c2c2e; padding: 3.5cqw; box-shadow: var(--shadow); }
+  .watch-glass { border-radius: 20.5cqw; corner-shape: squircle; background: #000; padding: 5.5cqw; }
+  .watch img { border-radius: 15cqw; corner-shape: squircle; }
+  .watch-crown { position: absolute; top: 24%; right: -3.5cqw; height: 15%; width: 5cqw; border-radius: 0 1.5cqw 1.5cqw 0; background: #3a3a3c; }
+  .watch-btn { position: absolute; top: 46%; right: -2cqw; height: 19%; width: 3cqw; border-radius: 0 1cqw 1cqw 0; background: #3a3a3c; }
+  .dark .iphone-case, .dark .watch-case { outline: 1px solid rgba(255, 255, 255, 0.15); }
+  /* A TV: a thin black bezel around the picture. */
+  .tv { background: #000; padding: 1.1%; border-radius: clamp(10px, 1.6vw, 20px); corner-shape: squircle; box-shadow: var(--shadow); outline: 1px solid var(--hair); }
+  .tv img { border-radius: clamp(5px, 0.8vw, 10px); corner-shape: squircle; width: 100%; height: auto; }
 }

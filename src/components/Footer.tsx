@@ -1,5 +1,4 @@
 import resume from "../app/resume.json";
-import { BasicLink } from "./ui/typography";
 
 function FooterLink({
   href,
@@ -8,44 +7,38 @@ function FooterLink({
   href: string;
   children: React.ReactNode;
 }) {
+  const external = href.startsWith("http");
   return (
-    <BasicLink
+    <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="
-      text-mauve-11 dark:text-mauvedark-11 
-      visited:text-mauve-11 visited:dark:text-mauvedark-11
-      "
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="text-ink hover:underline underline-offset-4 decoration-ink-3"
     >
       {children}
-    </BasicLink>
+    </a>
   );
 }
 
 export function Footer() {
   return (
-    <footer className="flex flex-col gap-4 items-center justify-center w-full  py-8 bg-mauve-3 dark:bg-mauvedark-2">
-      <ul className="flex">
-        {resume.basics.profiles.map((profile) => (
-          <li
-            key={profile.network}
-            className="
-              flex items-center
-              after:content after:block after:h-1 after:w-1 after:mx-4
-              last:after:hidden
-            after:bg-mauve-8 dark:after:bg-mauvedark-8
-            "
-          >
-            <FooterLink href={profile.url}>{profile.label}</FooterLink>
+    <footer className="border-t border-hair py-10 pb-14 text-[13px] text-ink-2">
+      <div className="max-w-[1180px] mx-auto px-6 flex flex-wrap justify-between gap-3 gap-x-6">
+        <ul className="flex flex-wrap gap-5">
+          {resume.basics.profiles.map((profile) => (
+            <li key={profile.network}>
+              <FooterLink href={profile.url}>{profile.label}</FooterLink>
+            </li>
+          ))}
+          <li>
+            <FooterLink href="/rss.xml">RSS</FooterLink>
           </li>
-        ))}
-
-        <FooterLink href="/rss.xml">RSS</FooterLink>
-      </ul>
-      <span className="text-mauve-11 dark:text-mauvedark-11">
-        © {new Date().getFullYear()} Andrew Lisowski
-      </span>
+          <li>
+            <FooterLink href={`mailto:${resume.basics.email}`}>Email</FooterLink>
+          </li>
+        </ul>
+        <span>© {new Date().getFullYear()} Andrew Lisowski</span>
+      </div>
     </footer>
   );
 }

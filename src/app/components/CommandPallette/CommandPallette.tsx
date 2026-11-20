@@ -11,9 +11,10 @@ import { Loader2 } from "lucide-react";
 import { CommandPalletteLink } from "./CommandPalletteItems";
 import resume from "../../resume.json";
 import { getBlogPostList } from "../../blog/utils";
+import { projects } from "../../projects/projects";
 import { search } from "./search";
 
-const separator = <div className="-mx-1 h-px bg-mauve-7 dark:bg-mauvedark-7" />;
+const separator = <div className="-mx-1 h-px bg-hair" />;
 
 function base64encode(str: string) {
   let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) =>
@@ -137,13 +138,19 @@ async function SearchResults({
     });
   }
 
+  const hasResults = Array.isArray(results)
+    ? results.flat().some((r) => r !== null)
+    : Boolean(results);
+
+  if (!hasResults) {
+    return null;
+  }
+
   return (
     <>
       {separator}
       <div className="px-2.5 py-2">
-        <div className="text-mauve-12 dark:text-mauvedark-12 px-2">
-          Search Results
-        </div>
+        <div className="text-ink px-2">Search Results</div>
       </div>
       {results}
     </>
@@ -153,9 +160,7 @@ async function SearchResults({
 const loading = (
   <div className="flex items-center justify-center gap-2 px-3 h-12">
     <Loader2 className="animate-spin h-4 w-4" />
-    <div className="text-mauve-11 dark:text-mauvedark-11 text-sm font-light">
-      Searching blogs posts...
-    </div>
+    <div className="text-ink-2 text-sm">Searching posts…</div>
   </div>
 );
 
@@ -174,7 +179,7 @@ async function BlogSection({
 
   return (
     <>
-      <CommandGroup heading="Blog Posts">
+      <CommandGroup heading="Writing">
         {blogPosts.map((post) => (
           <CommandPalletteLink
             key={post.slug}
@@ -206,14 +211,29 @@ export async function CommandPallette({
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandGroup heading="Sections">
-          <CommandPalletteLink href="/">Resume</CommandPalletteLink>
-          <CommandPalletteLink href="/blog">Blog</CommandPalletteLink>
-          <CommandPalletteLink href="/experiments">
-            Experiments
-          </CommandPalletteLink>
+          <CommandPalletteLink href="/">Home</CommandPalletteLink>
+          <CommandPalletteLink href="/projects">Projects</CommandPalletteLink>
+          <CommandPalletteLink href="/blog">Writing</CommandPalletteLink>
+          <CommandPalletteLink href="/resume">Resume</CommandPalletteLink>
         </CommandGroup>
         <CommandSeparator />
-        <CommandGroup heading="Socials">
+        <CommandGroup heading="Projects">
+          {projects.map((project) => (
+            <CommandPalletteLink
+              key={project.slug}
+              external={project.href.startsWith("http")}
+              href={project.href}
+              value={`${project.name} ${project.kind} ${project.tagline}`}
+            >
+              <span className="flex items-baseline gap-2 min-w-0">
+                <span className="shrink-0">{project.name}</span>
+                <span className="text-xs text-ink-2 truncate">{project.tagline}</span>
+              </span>
+            </CommandPalletteLink>
+          ))}
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Elsewhere">
           {resume.basics.profiles.map((profile) => (
             <CommandPalletteLink
               external
@@ -223,13 +243,15 @@ export async function CommandPallette({
               {profile.label}
             </CommandPalletteLink>
           ))}
-
-          <CommandPalletteLink external href="https://devtools.fm">
-            devtools.fm
+          <CommandPalletteLink external href={`mailto:${resume.basics.email}`}>
+            Email
+          </CommandPalletteLink>
+          <CommandPalletteLink external href="/rss.xml">
+            RSS
           </CommandPalletteLink>
         </CommandGroup>
         <CommandSeparator />
-        <Suspense fallback={<CommandGroup heading="Blog Posts" />}>
+        <Suspense fallback={<CommandGroup heading="Writing" />}>
           <BlogSection query={query} />
         </Suspense>
       </CommandList>

@@ -1,5 +1,6 @@
 import nextMdx from "@next/mdx";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import remarkFlexibleMarkers from "remark-flexible-markers";
 import remarkUnwrapImages from "remark-unwrap-images";
@@ -20,7 +21,8 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeImgSize from "rehype-img-size";
 
-const dir = path.dirname(import.meta.url).replace("file://", "");
+// fileURLToPath, not a string replace: the checkout may live under a path with spaces.
+const dir = path.dirname(fileURLToPath(import.meta.url));
 
 function quoteattr(s, preserveCR) {
   preserveCR = preserveCR ? "&#13;" : "\n";

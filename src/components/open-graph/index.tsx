@@ -1,5 +1,34 @@
-import * as radixColors from "@radix-ui/colors";
-import resume from "../../app/resume.json";
+import { readFileSync } from "fs";
+import path from "path";
+
+/*
+ * Pieces for the social images, in the site's grey system: paper ground, ink, a hairline.
+ * Satori renders these, so styles are inline and colors are literal (no CSS variables).
+ */
+export const og = {
+  ground: "#ffffff",
+  groundAlt: "#f5f5f7",
+  ink: "#1d1d1f",
+  ink2: "#6e6e73",
+  ink3: "#aeaeb2",
+  hair: "rgba(0, 0, 0, 0.1)",
+  font: "Inter",
+};
+
+// Satori has no system fonts, so the images ship their own: Inter at the weights Text uses.
+// Loaded once per process and handed to every ImageResponse as `fonts`.
+const fontDir = path.join(process.cwd(), "src/components/open-graph/fonts");
+export const ogFonts = ([400, 600, 700] as const).map((weight) => ({
+  name: "Inter",
+  data: readFileSync(path.join(fontDir, `Inter-${weight}.ttf`)),
+  weight,
+  style: "normal" as const,
+}));
+
+// The portrait, inlined: the image routes render at build time, where only the filesystem is sure to exist.
+const portrait = `data:image/jpeg;base64,${readFileSync(
+  path.join(process.cwd(), "public/profile.jpeg")
+).toString("base64")}`;
 
 export function Row({
   align: alignItems = "center",
@@ -50,24 +79,25 @@ export function Text({
   ellipsis,
   style,
   fontSize = 32,
-  lineHeight = 1,
-  color = "mauve12",
+  lineHeight = 1.1,
+  color = "ink",
+  weight = 400,
   ...rest
 }: {
-  fontSize?: React.CSSProperties["fontSize"];
+  fontSize?: number;
   lineHeight?: React.CSSProperties["lineHeight"];
   ellipsis?: boolean;
-  color?: "mauve11" | "mauve12" | "crimson11" | "crimson12";
+  color?: "ink" | "ink2" | "ink3";
+  weight?: 400 | 600 | 700;
 } & React.HTMLAttributes<HTMLSpanElement>) {
   return (
     <div
       style={{
         fontSize,
         lineHeight,
-        color:
-          color === "mauve11" || color === "mauve12"
-            ? radixColors.mauveDark[color]
-            : radixColors.crimsonDark[color],
+        fontWeight: weight,
+        letterSpacing: fontSize >= 48 ? "-0.035em" : "-0.01em",
+        color: og[color],
         ...(ellipsis
           ? {
               overflow: "hidden",
@@ -82,9 +112,10 @@ export function Text({
   );
 }
 
+/** The portrait as a rounded tile, like the home page. */
 export function Avatar({
   size = 280,
-  borderRadius = 32,
+  borderRadius = Math.round(size * 0.12),
 }: {
   size?: number;
   borderRadius?: number;
@@ -92,20 +123,29 @@ export function Avatar({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={resume.basics.image}
+      src={portrait}
       alt="Andrew smiling"
       style={{
-        borderRadius: borderRadius,
-        background: "white",
+        borderRadius,
         height: size,
         width: size,
-        border: `8px solid  ${radixColors.mauveDark.mauve8}`,
-        boxShadow: `
-          -15px 0 30px -10px ${radixColors.crimsonDark.crimson7},
-          0 0 30px -10px ${radixColors.crimsonDark.crimson8},
-          15px 0 30px -10px ${radixColors.crimsonDark.crimson6},
-          0 0 0 1px ${radixColors.crimsonDark.crimson4}`,
+        objectFit: "cover",
+        boxShadow: `0 0 0 1px ${og.hair}, 0 10px 30px rgba(0,0,0,0.1)`,
       }}
     />
+  );
+}
+
+/** The one-line footer every social image shares. */
+export function Wordmark({ size = 24 }: { size?: number }) {
+  return (
+    <Row gap={12}>
+      <Text fontSize={size} weight={600}>
+        Andrew Lisowski
+      </Text>
+      <Text fontSize={size} color="ink3">
+        hipstersmoothie.com
+      </Text>
+    </Row>
   );
 }

@@ -77,7 +77,7 @@ export function Comments({ className }: { className?: string }) {
   return (
     <div
       className={twMerge(
-        "max-w-prose mx-auto px-4 my-10 in-preview:hidden",
+        "max-w-[740px] mx-auto px-6 my-10 in-preview:hidden",
         // Theme the (shadow DOM) component to match the site. These custom
         // properties pierce the shadow boundary via inheritance.
         "[--sequoia-bg-color:transparent]",
@@ -85,7 +85,7 @@ export function Comments({ className }: { className?: string }) {
         "[--sequoia-fg-color:theme(colors.mauve.12)] dark:[--sequoia-fg-color:theme(colors.mauvedark.12)]",
         "[--sequoia-border-color:theme(colors.mauve.6)] dark:[--sequoia-border-color:theme(colors.mauvedark.6)]",
         "[--sequoia-secondary-color:theme(colors.mauve.11)] dark:[--sequoia-secondary-color:theme(colors.mauvedark.11)]",
-        "[--sequoia-accent-color:theme(colors.crimson.9)] dark:[--sequoia-accent-color:theme(colors.crimsondark.9)]",
+        "[--sequoia-accent-color:var(--ink)]",
         className
       )}
     >

@@ -11,14 +11,7 @@ export function SubscribeButton({ className }: { className?: string }) {
       rel="noopener noreferrer"
       className={makeClass(
         className,
-        `
-          inline-flex items-center justify-center
-          rounded-lg px-4 py-2 font-medium no-underline
-          bg-crimson-9 dark:bg-crimsondark-9
-          text-crimson-1 dark:text-crimsondark-12
-          hover:bg-crimson-10 dark:hover:bg-crimsondark-10
-          transition-colors
-        `
+        "pill pill-quiet no-underline" 
       )}
     >
       Subscribe
@@ -30,22 +23,21 @@ export function Subscribe({ className }: { className?: string }) {
   return (
     <div
       className={twMerge(
-        "max-w-prose mx-auto px-4 my-10 in-preview:hidden",
+        "max-w-[740px] mx-auto px-6 my-12 in-preview:hidden",
         className
       )}
     >
       <div
         className="
           flex flex-col gap-3 items-start
-          rounded-lg p-6
-          bg-mauve-3 dark:bg-mauvedark-3
-          border border-mauve-6 dark:border-mauvedark-6
+          rounded-tile p-7
+          bg-ground-alt
         "
       >
-        <h2 className="text-xl font-medium text-mauve-12 dark:text-mauvedark-12">
+        <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-ink">
           Enjoying the blog?
         </h2>
-        <p className="text-mauve-11 dark:text-mauvedark-11">
+        <p className="text-ink-2">
           Subscribe to get new posts delivered straight to wherever you read standard.site publications.
         </p>
         <SubscribeButton />

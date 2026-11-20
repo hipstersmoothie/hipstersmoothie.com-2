@@ -3,7 +3,7 @@ import getListOgImage from "../../components/open-graph/ListOgImage";
 
 // Image metadata
 export const contentType = "image/png";
-export const alt = "A list of recent blog posts on Andrew's blog";
+export const alt = "Recent writing by Andrew Lisowski";
 export const size = {
   width: 1200,
   height: 630,
@@ -12,7 +12,7 @@ export const size = {
 // Image generation
 export default async function Image() {
   return getListOgImage({
-    title: "Andrew's Blog",
+    title: "Writing",
     items: await getBlogPostList(),
     size,
   });

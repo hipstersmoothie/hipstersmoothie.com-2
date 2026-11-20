@@ -43,7 +43,7 @@ const DialogContent = React.forwardRef<
           grid gap-4
           w-full max-w-lg p-6
           translate-x-[-50%] translate-y-[-50%] duration-200
-          border border-mauve-7 dark:border-mauvedark-7
+          border border-hair
            bg-background shadow-lg 
           data-[state=open]:animate-in 
           data-[state=closed]:animate-out
