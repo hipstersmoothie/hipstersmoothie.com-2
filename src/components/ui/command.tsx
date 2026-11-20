@@ -20,8 +20,8 @@ const Command = React.forwardRef<
       `
         flex h-full w-full flex-col 
         overflow-hidden rounded-md 
-        bg-mauve-1 dark:bg-mauvedark-1
-        text-mauve-12 dark:text-mauvedark-12
+        bg-ground
+        text-ink
       `,
       className
     )}
@@ -112,7 +112,7 @@ const CommandInput = React.forwardRef<
     <div
       className="
         flex items-center px-3
-        border-b border-mauve-7 dark:border-mauvedark-7
+        border-b border-hair
       "
       cmdk-input-wrapper=""
     >
@@ -123,7 +123,7 @@ const CommandInput = React.forwardRef<
           `
             flex h-11 w-full rounded-md 
             bg-transparent py-3 text-sm outline-none 
-            placeholder:text-mauve-11 dark:placeholder-text-mauvedark-11
+            placeholder:text-ink-2
             disabled:cursor-not-allowed disabled:opacity-50
           `,
           className
@@ -173,12 +173,12 @@ const CommandGroup = React.forwardRef<
     className={cn(
       ` 
         overflow-hidden p-1 
-        text-mauve-12 dark:text-mauvedark-12
+        text-ink
         [&_[cmdk-group-heading]]:px-2.5
         [&_[cmdk-group-heading]]:py-1.5
         [&_[cmdk-group-heading]]:text-xs
         [&_[cmdk-group-heading]]:font-medium
-        [&_[cmdk-group-heading]]:text-mauve-11 dark:[&_[cmdk-group-heading]]:text-mauvedark-11
+        [&_[cmdk-group-heading]]:text-ink-2
       `,
       className
     )}
@@ -194,7 +194,7 @@ const CommandSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 h-px bg-mauve-7 dark:bg-mauvedark-7", className)}
+    className={cn("-mx-1 h-px bg-hair", className)}
     {...props}
   />
 ));
@@ -211,7 +211,7 @@ const CommandItem = React.forwardRef<
         relative cursor-default select-none
         flex items-center rounded-sm px-2.5 py-2
         text-sm outline-none
-        aria-selected:bg-mauve-4 dark:aria-selected:bg-mauvedark-4
+        aria-selected:bg-ground-alt
         aria-selected:text-accent-foreground
         data-[disabled]:pointer-events-none
         data-[disabled]:opacity-50

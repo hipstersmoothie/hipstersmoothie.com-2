@@ -1,10 +1,8 @@
 import { MetadataRoute } from "next";
 import { getBlogPostList } from "./blog/utils";
-import { getExperimentList } from "./experiments/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogPosts = await getBlogPostList();
-  const experiment = await getExperimentList();
 
   return [
     {
@@ -14,17 +12,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: "https://hipstersmoothie.com/experiments",
+      url: "https://hipstersmoothie.com/projects",
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.5,
+      priority: 0.8,
     },
-    ...experiment.map((e) => ({
-      url: `https://hipstersmoothie.com/experiments/${e.slug}`,
-      lastModified: new Date(e.creationDate),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    })),
     {
       url: "https://hipstersmoothie.com/blog",
       lastModified: new Date(),

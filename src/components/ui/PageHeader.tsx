@@ -1,5 +1,6 @@
 import makeClass from "clsx";
 
+/** The top of an index page: a big headline, an optional lede, an optional action. Grey. */
 export function PageHeader({
   className,
   subtitle,
@@ -10,28 +11,20 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div
-      className="
-        p-5 md:py-12 md:px-24
-      bg-mauve-4  dark:bg-mauvedark-3 
-      text-mauve-12 dark:text-mauvedark-12
-      "
-    >
-      <div className="max-w-screen-md mx-auto flex flex-col gap-4 md:gap-6">
-        <div className="flex items-center justify-between gap-4">
+    <header className="pt-14 pb-10 md:pt-[72px]">
+      <div className="max-w-[1180px] mx-auto px-6 flex flex-wrap items-end justify-between gap-6">
+        <div className="max-w-[640px]">
           <h1
-            className={makeClass(className, "text-4xl md:text-6xl font-medium")}
+            className={makeClass(
+              className,
+              "headline text-[clamp(40px,6vw,72px)] text-ink"
+            )}
             {...props}
           />
-          {action}
+          {subtitle && <div className="lede mt-[18px]">{subtitle}</div>}
         </div>
-
-        {subtitle && (
-          <div className="md:text-xl text-mauve-11 dark:text-mauvedark-11">
-            {subtitle}
-          </div>
-        )}
+        {action}
       </div>
-    </div>
+    </header>
   );
 }

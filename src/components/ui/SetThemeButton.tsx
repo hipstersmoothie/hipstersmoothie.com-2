@@ -1,7 +1,6 @@
 "use client";
 
 import { Sun, Moon } from "lucide-react";
-import { Button } from "./button";
 import { useTheme } from "next-app-theme/use-theme";
 
 export default function SetThemeButton() {
@@ -9,13 +8,16 @@ export default function SetThemeButton() {
   const isDark = theme === "dark";
 
   return (
-    <Button
-      size="icon"
-      variant="ghost"
-      className="h-9 w-9 p-2.5"
+    <button
+      type="button"
+      aria-label={isDark ? "Switch to light appearance" : "Switch to dark appearance"}
       onClick={toggleTheme}
+      className="
+        inline-flex items-center justify-center w-8 h-8 rounded-full
+        text-ink border border-hair hover:bg-ground-alt transition-colors
+      "
     >
-      {isDark ? <Sun /> : <Moon />}
-    </Button>
+      {isDark ? <Sun size={15} /> : <Moon size={15} />}
+    </button>
   );
 }

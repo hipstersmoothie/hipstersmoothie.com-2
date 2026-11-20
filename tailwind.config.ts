@@ -52,6 +52,15 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // The site's grey system (see design/README.md). Color belongs to projects only.
+        ground: "var(--ground)",
+        "ground-alt": "var(--ground-alt)",
+        tile: "var(--tile)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        "ink-3": "var(--ink-3)",
+        hair: "var(--hair)",
+        nav: "var(--nav)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -87,11 +96,6 @@ const config: Config = {
         },
         ...formatRadixColors(),
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -113,17 +117,39 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)"],
-        mono: ["var(--font-geist-mono)"],
+        sans: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"SF Pro Text"',
+          '"Helvetica Neue"',
+          "Inter",
+          "sans-serif",
+        ],
+        mono: ["ui-monospace", '"SF Mono"', "Menlo", "monospace"],
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        tile: "var(--shadow-sm)",
+        device: "var(--shadow)",
       },
     },
   },
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/container-queries"),
-    plugin(({ addVariant }) => {
+    plugin(({ addVariant, addUtilities }) => {
       // Add a `third` variant, ie. `third:pb-0`
       addVariant("in-preview", ".in-preview &");
+      // Real squircles: continuous-curvature corners like Apple's, not circular arcs.
+      // `corner-shape` keeps box-shadow and overflow clipping; browsers without it round.
+      addUtilities({
+        ".squircle": { "corner-shape": "squircle" },
+        ".rounded-tile": { "border-radius": "22px", "corner-shape": "squircle" },
+      });
     }),
   ],
 };

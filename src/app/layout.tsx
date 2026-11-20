@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import makeClass from "clsx";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 
 import { ThemeScript } from "next-app-theme/theme-script";
 
@@ -47,10 +45,8 @@ export default function RootLayout({
         </head>
         <body
           className={makeClass(
-            GeistMono.variable,
-            GeistSans.variable,
             "min-h-screen flex flex-col",
-            "bg-mauve-1 dark:bg-mauvedark-1"
+            "bg-ground text-ink overflow-x-hidden"
           )}
         >
           {children}

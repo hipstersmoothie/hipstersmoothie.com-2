@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrew Lisowski — mockup: Home</title>
+<link rel="stylesheet" href="system.css">
+<style>
+  /* Hero: name as the headline, tagline under it, portrait filling the right half.
+     Left-aligned like the rest of the page; the photo is a tile like everything else. */
+  .hero { padding: 72px 0 64px; }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .hero h1 { font-size: clamp(44px, 6.6vw, 84px); }
+  .hero .tag { margin-top: 14px; font-size: clamp(22px, 2.6vw, 32px); color: var(--ink-2); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; text-wrap: balance; }
+  .hero .lede { margin-top: 22px; max-width: 560px; font-size: 18px; }
+  .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 15px; }
+  .links a { color: var(--ink-2); }
+  .links a:hover { color: var(--ink); }
+  .portrait { justify-self: end; width: 100%; max-width: 420px; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  @media (max-width: 860px) {
+    .hero { padding: 48px 0 56px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 32px; }
+    .portrait { justify-self: start; max-width: 200px; order: -1; }
+  }
+
+  /* Featured: the bento. Each tile is its project's own world via --p-* variables. */
+  .bento { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .feat {
+    position: relative; display: grid; grid-template-rows: auto 1fr; min-height: 420px;
+    border-radius: var(--radius); overflow: hidden;
+    background: var(--p-bg); color: var(--p-ink);
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;
+  }
+  .feat:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .feat.wide { grid-column: span 2; min-height: 520px; grid-template-rows: none; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); align-items: center; }
+  .feat-text { padding: 36px 36px 0; }
+  .feat.wide .feat-text { padding: 48px; }
+  .feat-icon { width: 44px; height: 44px; border-radius: 10px; margin-bottom: 20px; }
+  .feat-icon.tv-icon { width: 64px; height: 38px; border-radius: 8px; }
+  .feat.wide .feat-icon { width: 84px; height: 84px; border-radius: 19px; margin-bottom: 24px; }
+  .feat.wide .feat-icon.tv-icon { width: 110px; height: 66px; border-radius: 14px; box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+  .feat h3 { font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; }
+  .feat.wide h3 { font-size: clamp(32px, 3.6vw, 48px); }
+  .feat p { margin-top: 10px; color: var(--p-ink2); font-size: 17px; max-width: 34ch; }
+  .feat .meta { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--p-ink2); }
+  .feat .meta b { color: var(--p-accent); font-weight: 600; }
+  .feat-art { position: relative; min-height: 220px; }
+  .feat-art > * { position: absolute; }
+  @media (max-width: 860px) {
+    .bento { grid-template-columns: 1fr; }
+    .feat.wide { grid-column: span 1; grid-template-columns: 1fr; grid-template-rows: auto 1fr; min-height: 0; }
+    .feat.wide .feat-text { padding: 36px 36px 0; grid-row: 1; }
+    .feat.wide .feat-art { grid-row: 2; align-self: auto; }
+    .feat-art { min-height: 260px; }
+  }
+
+  /* Per-project art */
+  .feat.wide .feat-art { align-self: stretch; }
+  .art-sesh .window { left: -3%; top: 9%; width: 158%; max-width: none; }
+  .art-sesh .iphone { right: 28px; bottom: -5%; width: 26%; min-width: 130px; }
+  .art-sesh .watch { left: -9%; bottom: 36px; width: 19%; min-width: 100px; }
+  @media (max-width: 860px) { .art-sesh .window { display: none; } .art-sesh .iphone { right: auto; left: 36px; bottom: -34%; width: 46%; } .art-sesh .watch { left: auto; right: 36px; bottom: 24px; width: 30%; } }
+  .art-surf .tv { left: 6%; top: 10%; width: 118%; max-width: none; }
+  @media (max-width: 860px) { .art-surf .tv { left: 8%; top: auto; bottom: -18%; width: 110%; } }
+  .art-kich img { right: -6%; bottom: -16%; width: 62%; max-width: 320px; filter: drop-shadow(0 24px 40px rgba(60,20,0,.25)); transform: rotate(-8deg); }
+  .art-reader .paper { background: #fff; border-radius: 12px; box-shadow: 0 12px 40px rgba(60,30,10,.12); padding: 18px; }
+  .art-reader .paper i { display: block; height: 8px; border-radius: 4px; background: #e9e2d6; margin: 8px 0; }
+  .art-reader .paper i.h { height: 14px; width: 70%; background: #c2502b; margin-bottom: 14px; }
+  .art-reader .p1 { left: 36px; right: 40%; bottom: -8%; height: 70%; }
+  .art-reader .p2 { left: 42%; right: 36px; bottom: -20%; height: 70%; transform: rotate(3deg); }
+  .art-store .shelf { left: 36px; right: 36px; bottom: -6%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .art-store .shelf i { aspect-ratio: 1; border-radius: 22%; display: block; }
+  .art-cocore img { right: 36px; bottom: -10%; width: 44%; max-width: 220px; border-radius: 22%; }
+  .art-cocore pre { left: 36px; bottom: 28px; margin: 0; font: 12px/1.6 ui-monospace, "SF Mono", Menlo, monospace; color: #a87d55; opacity: .9; }
+
+  /* Rows */
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--ground-alt); color: var(--ink-2); margin-left: 10px; vertical-align: middle; }
+  section.alt .chip { background: var(--tile); }
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="home.html"><img src="../public/profile.jpeg" alt="">Andrew Lisowski</a>
+  <div class="nav-links">
+    <a href="projects.html">Projects</a>
+    <a href="blog.html">Writing</a>
+    <a class="hide-sm" href="#">Experiments</a>
+    <a class="hide-sm" href="#"><span class="kbd">⌘K</span></a>
+    <button class="theme-toggle" title="Toggle appearance (mockup)">●</button>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <h1 class="headline">Andrew Lisowski</h1>
+    <p class="tag">Front-end engineer. I sweat the details.</p>
+    <p class="lede">Senior engineer on the design system at Snowflake; before that Descript and Intuit. I co-host <a href="https://devtools.fm">devtools.fm</a>, and at night I build small, finished things — lately for Apple TV and the AT Protocol.</p>
+    <div class="links">
+      <a href="https://github.com/hipstersmoothie">GitHub ›</a>
+      <a href="https://bsky.app/profile/hipstersmoothie.com">Bluesky ›</a>
+      <a href="https://devtools.fm">devtools.fm ›</a>
+      <a href="mailto:lisowski54@gmail.com">Email ›</a>
+      <a href="#">RSS ›</a>
+    </div>
+  </div>
+  <img class="portrait" src="../public/profile.jpeg" alt="Andrew smiling">
+</div></header>
+
+<section class="tight" id="projects"><div class="wrap">
+  <div class="section-head"><h2 class="headline">Projects</h2><a href="projects.html">All projects ›</a></div>
+  <div class="bento">
+
+    <a class="feat wide" href="project-sesh.html" style="--p-bg:var(--ground-alt); --p-ink:var(--ink); --p-ink2:var(--ink-2); --p-accent:#0071e3">
+      <div class="feat-text">
+        <img class="feat-icon" src="assets/sesh.png" alt="">
+        <h3>Sesh</h3>
+        <p>Remote control for every coding agent. Start them, answer them and ship what they made from your Mac, iPhone, iPad or watch.</p>
+        <div class="meta"><b>Mac · iOS · watchOS</b><span>·</span><span>2025–</span><span>·</span><span>Free</span></div>
+      </div>
+      <div class="feat-art art-sesh">
+        <img class="window" src="assets/sesh-mac.png" alt="">
+        <div class="iphone"><div class="case"><img src="assets/sesh-iphone.png" alt=""></div><i class="island"></i></div>
+        <div class="watch"><div class="case"><div class="glass"><img src="assets/sesh-watch.png" alt=""></div></div><i class="crown"></i><i class="btn"></i></div>
+      </div>
+    </a>
+
+    <a class="feat wide" href="project-channel-surf.html" style="--p-bg:#111318; --p-ink:#f5f5f7; --p-ink2:#a1a1a6; --p-accent:#FF6B4A">
+      <div class="feat-text">
+        <img class="feat-icon tv-icon" src="assets/channel-surf.svg" alt="">
+        <h3>Channel Surf</h3>
+        <p>Your Plex library, as live TV. Channels you flip through, with a real guide and shuffled schedules.</p>
+        <div class="meta"><b>Apple TV</b><span>·</span><span>2026</span><span>·</span><span>$4.99 once</span></div>
+      </div>
+      <div class="feat-art art-surf">
+        <div class="tv"><img src="assets/channel-surf-guide.jpg" alt=""></div>
+      </div>
+    </a>
+
+    <a class="feat" href="#" style="--p-bg:#f6eee7; --p-ink:#28211d; --p-ink2:#7a6a5f; --p-accent:#e0694b">
+      <div class="feat-text">
+        <img class="feat-icon" src="assets/kich.png" alt="">
+        <h3>kich.io</h3>
+        <p>A kitchen assistant for one household: pantry, recipes, grocery lists. Built on the AT Protocol.</p>
+        <div class="meta"><b>Web</b><span>·</span><span>2026</span></div>
+      </div>
+      <div class="feat-art art-kich"><img src="assets/kich.png" alt=""></div>
+    </a>
+
+    <a class="feat" href="#" style="--p-bg:#fcfbf6; --p-ink:#2a2420; --p-ink2:#7c7268; --p-accent:#c2502b">
+      <div class="feat-text">
+        <img class="feat-icon" src="assets/standard-reader.svg" alt="">
+        <h3>Standard Reader</h3>
+        <p>A warm, editorial reader for standard.site publications. RSS vibes, built around discovery.</p>
+        <div class="meta"><b>Web</b><span>·</span><span>2026</span></div>
+      </div>
+      <div class="feat-art art-reader">
+        <div class="paper p1"><i class="h"></i><i></i><i></i><i style="width:80%"></i><i></i><i style="width:60%"></i></div>
+        <div class="paper p2"><i class="h" style="width:50%"></i><i></i><i style="width:90%"></i><i></i><i style="width:70%"></i></div>
+      </div>
+    </a>
+
+    <a class="feat" href="#" style="--p-bg:#4058a7; --p-ink:#ffffff; --p-ink2:#c9d3f0; --p-accent:#92d8f7">
+      <div class="feat-text">
+        <img class="feat-icon" src="assets/atstore.svg" alt="" style="background:#fff;padding:6px">
+        <h3>atstore.fyi</h3>
+        <p>An open app directory for the Atmosphere. The listings are protocol records, not rows we own.</p>
+        <div class="meta"><b>Web</b><span>·</span><span>2026</span></div>
+      </div>
+      <div class="feat-art art-store">
+        <div class="shelf">
+          <i style="background:#92d8f7"></i><i style="background:#86af58"></i><i style="background:#6dacde"></i><i style="background:#219546"></i><i style="background:#ffffff"></i>
+          <i style="background:#219546"></i><i style="background:#ffffff"></i><i style="background:#92d8f7"></i><i style="background:#86af58"></i><i style="background:#6dacde"></i>
+        </div>
+      </div>
+    </a>
+
+    <a class="feat" href="#" style="--p-bg:#0f0f0f; --p-ink:#f5f5f7; --p-ink2:#9a9a9a; --p-accent:#a87d55">
+      <div class="feat-text">
+        <img class="feat-icon" src="assets/cocore.png" alt="">
+        <h3>cocore</h3>
+        <p>Compute, but shared. A federated co-op where every job leaves a signed receipt you own.</p>
+        <div class="meta"><b>Web · AT Protocol</b><span>·</span><span>2026</span></div>
+      </div>
+      <div class="feat-art art-cocore">
+        <pre>receipt  at://did:plc:…/dev.cocore.receipt/3lq
+job      llama-3.1-8b · 2,048 tok
+signed   ✓  provider  ✓  verified</pre>
+        <img src="assets/cocore.png" alt="">
+      </div>
+    </a>
+
+  </div>
+</div></section>
+
+
+<section class="alt tight"><div class="wrap">
+  <div class="section-head"><h2 class="headline">Work</h2><a href="#">Résumé ›</a></div>
+  <ol class="rows">
+    <li><a class="row" href="https://snowflake.com"><span class="row-title">Snowflake</span><span class="row-meta">2025 – now</span><span class="row-sub">Senior Software Engineer · Design system. Pulled a 3–4 quarter roadmap into one; NPS 20% → 80%.</span></a></li>
+    <li><a class="row" href="https://descript.com"><span class="row-title">Descript</span><span class="row-meta">2021 – 2025</span><span class="row-sub">Senior Software Engineer · New design system, monorepo, Electron → web, Playwright E2E.</span></a></li>
+    <li><a class="row" href="https://intuit.com"><span class="row-title">Intuit · TurboTax</span><span class="row-meta">2013 – 2021</span><span class="row-sub">Intern → Senior · Design systems, front-end tooling, open source lead for San Diego.</span></a></li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <div class="section-head"><h2 class="headline">Writing</h2><a href="blog.html">All posts ›</a></div>
+  <ol class="rows">
+    <li><a class="row" href="#"><span class="row-title">Two Kids and Eight Projects Later</span><span class="row-meta">Jun 2026</span><span class="row-sub">What shipped during the NICU stretch and parental leave, and the stack that showed up.</span></a></li>
+    <li><a class="row" href="#"><span class="row-title">Atmospheric Automated Development</span><span class="row-meta">2026</span></a></li>
+    <li><a class="row" href="#"><span class="row-title">Using Bluesky Labelers to Show Campaign Funding Data</span><span class="row-meta">2025</span></a></li>
+    <li><a class="row" href="#"><span class="row-title">Essential Mac Apps</span><span class="row-meta">2024</span></a></li>
+  </ol>
+</div></section>
+
+<footer><div class="wrap foot">
+  <div class="foot-links"><a href="#">GitHub</a><a href="#">Bluesky</a><a href="#">RSS</a><a href="#">Email</a></div>
+  <p>© 2026 Andrew Lisowski</p>
+</div></footer>
+<script src="theme.js"></script>
+</body>
+</html>

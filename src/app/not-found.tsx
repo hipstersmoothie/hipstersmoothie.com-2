@@ -12,21 +12,20 @@ export default function NotFound() {
   return (
     <div
       className="
-        bg-mauve-1 dark:bg-mauvedark-1
+        bg-ground text-ink
         h-screen w-screen
         flex flex-col items-center justify-center gap-4
       "
     >
       <div
         className="
-          text-xs rounded-lg p-3 inline-block translate-y-[-1px]
-          bg-crimsona-5 dark:bg-crimsondarka-4
-          text-crimsona-12 dark:text-crimsondarka-12
+          rounded-2xl squircle p-3 inline-block
+          bg-ground-alt text-ink-2
         "
       >
         <FileQuestion size={40} />
       </div>
-      <h2 className="text-3xl font-medium">Not Found</h2>
+      <h2 className="headline text-4xl">Not Found</h2>
       <div className="flex flex-col items-center gap-6 text-xl">
         <p>
           <Code className="text-xl">{pathname}</Code> doesn&apos;t exist!

@@ -31,7 +31,7 @@ function WidthContainer({
     <Component
       className={makeClass(
         className,
-        "max-w-prose mx-auto px-4 text-mauve-12 dark:text-mauvedark-12"
+        "max-w-[740px] mx-auto px-6 text-ink"
       )}
     >
       {children}
@@ -44,7 +44,7 @@ export const Paragraph = ({
   ...props
 }: React.ComponentProps<"p">) => (
   <WidthContainer>
-    <p className={makeClass(className, "my-4")} {...props} />
+    <p className={makeClass(className, "my-5 text-[19px] leading-[1.6]")} {...props} />
   </WidthContainer>
 );
 
@@ -64,13 +64,13 @@ export const MdxImage = ({
         ) : (
           // eslint-disable-next-line jsx-a11y/alt-text
           <Image
-            className={makeClass(className, "max-h-[500px] object-contain")}
+            className={makeClass(className, "max-h-[640px] object-contain rounded-xl squircle")}
             {...(props as ImageProps)}
           />
         )}
       </div>
       {props.alt && (
-        <figcaption className="text-sm font-medium mt-2 text-center italic text-mauve-11 dark:text-mauvedark-11">
+        <figcaption className="text-[15px] mt-3 text-center text-ink-2">
           {props.alt}
         </figcaption>
       )}
@@ -242,7 +242,7 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
       </WidthContainer>
     );
   } else {
-    borderClass = "bg-crimson-9 dark:bg-crimsondark-9";
+    borderClass = "bg-ink-3";
     contents = (
       <div
         className="
@@ -273,19 +273,19 @@ export const Blockquote: React.FC<BlockquoteProps> = ({
 export const HorizontalRule: React.FC = (props) => (
   <hr
     {...props}
-    className="mx-auto h-2 w-8 rounded border-none bg-mauve-7 dark:bg-mauvedark-7 my-10"
+    className="mx-auto h-1 w-10 rounded-full border-none bg-ink-3 my-14"
   />
 );
 
 export const OrderedList: React.FC = (props) => (
   <WidthContainer>
-    <ol {...props} className="list-decimal ml-6 my-6" />
+    <ol {...props} className="list-decimal ml-6 my-6 text-[19px] leading-[1.6] [&>li]:my-1.5" />
   </WidthContainer>
 );
 
 export const UnorderedList = (props: ComponentProps<"ul">) => (
   <WidthContainer>
-    <ul {...props} className="list-disc ml-4 my-6" />
+    <ul {...props} className="list-disc ml-5 my-6 text-[19px] leading-[1.6] [&>li]:my-1.5" />
   </WidthContainer>
 );
 
@@ -294,9 +294,8 @@ const InlineCode = (props: React.ComponentProps<"code">) => (
     {...props}
     className="
         inline-code
-        text-xs rounded p-1 py-0.5 inline-block translate-y-[-1px]
-        bg-crimsona-5 dark:bg-crimsondarka-4
-        text-crimsona-12 dark:text-crimsondarka-12
+        text-[0.85em] rounded-md squircle px-1.5 py-0.5 inline-block translate-y-[-1px]
+        bg-ground-alt text-ink
       "
   />
 );
@@ -312,7 +311,7 @@ export const FigCaption = ({
       <WidthContainer
         className="
           mt-7
-          [&_+_.code-block_>_pre]:rounded-t-none
+          [&_+_.code-block_>_pre]:rounded-t-none [&_+_.code-block_>_pre]:[corner-shape:round]
           [&_+_.code-block_>_pre]:border-t-0
           [&_+_.code-block_>_pre]:mt-0
         "
@@ -320,11 +319,11 @@ export const FigCaption = ({
         <figcaption
           {...props}
           className="
-            bg-mauve-3 dark:bg-mauvedark-3 px-6 py-2 rounded-t-md
-            border border-mauve-7 dark:border-mauvedark-7
+            bg-ground-alt px-6 py-2.5 rounded-t-xl squircle
+            border border-hair
           "
         >
-          <div className="mono text-sm text-mauve-11 dark:text-mauvedark-12">
+          <div className="font-mono text-[13px] text-ink-2">
             {children}
           </div>
         </figcaption>
@@ -335,7 +334,7 @@ export const FigCaption = ({
   return (
     <figcaption
       {...props}
-      className="text-sm text-center italic text-mauve-11 dark:text-mauvedark-11"
+      className="text-[15px] text-center text-ink-2"
     >
       {children}
     </figcaption>
@@ -425,9 +424,10 @@ export const Pre = ({ children, ...props }: React.ComponentProps<"pre">) => {
         className={makeClass(
           "my-7",
           "overflow-hidden",
+          "rounded-xl squircle text-[15px]",
           isShell
-            ? "shadow-xl bg-mauvedark-1 rounded-xl text-mauvedark-12 border border-mauvedark-7"
-            : "border rounded border-mauve-7 dark:border-mauvedark-7 bg-code"
+            ? "shadow-device bg-[#1c1c1e] text-[#f5f5f7] border border-white/10"
+            : "border border-hair bg-code"
         )}
       >
         {isShell && (
@@ -450,12 +450,12 @@ export const H1 = (props: React.ComponentProps<"h1">) => (
     <h1
       {...props}
       className="
-        mt-6 md:mt-8 
-        pb-4 md:pb-6 
-        mb-6 md:mb-10 
-        border-b border-mauve-7 dark:border-mauvedark-7
-        flex justify-between 
-        text-4xl md:text-6xl
+        headline mt-6 md:mt-8
+        pb-4 md:pb-6
+        mb-6 md:mb-10
+        border-b border-hair
+        flex justify-between
+        text-[clamp(36px,5vw,60px)]
       "
     />
   </WidthContainer>
@@ -471,11 +471,10 @@ export const H2 = (props: React.ComponentProps<"h2">) => (
     <h2
       {...props}
       className="
-        text-xl md:text-3xl font-medium md:font-medium
-        [&_.inline-code]:text-lg [&_.inline-code]:md:text-2xl
-        mt-10 md:mt-12 mb-6 pb-3 
-        border-b border-mauve-7 dark:border-mauvedark-7
-        in-preview:text-xl in-preview:mt-6 
+        headline text-[clamp(26px,3.2vw,36px)]
+        [&_.inline-code]:text-[0.8em]
+        mt-14 md:mt-16 mb-6
+        in-preview:text-xl in-preview:mt-6
         [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit
       "
       onClick={(e) => {
@@ -491,9 +490,9 @@ export const H3 = (props: React.ComponentProps<"h3">) => (
     <h3
       {...props}
       className="
-        text-lg md:text-2xl 
-        [&_.inline-code]:text-base [&_.inline-code]:md:text-xl
-        mt-6 md:mt-10 mb-4 font-medium
+        text-[clamp(21px,2.4vw,26px)] font-semibold tracking-[-0.02em] leading-tight
+        [&_.inline-code]:text-[0.8em]
+        mt-10 md:mt-12 mb-4
         [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit
       "
       onClick={(e) => {
@@ -508,7 +507,7 @@ export const H4 = (props: React.ComponentProps<"h4">) => (
   <WidthContainer>
     <h4
       {...props}
-      className="text-xl mt-6 mb-4 font-medium [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit"
+      className="text-[19px] mt-8 mb-3 font-semibold tracking-[-0.01em] [&_.header-link]:no-underline [&_.header-link]:text-inherit [&_.header-link]:visited:text-inherit"
       onClick={(e) => {
         props.onClick?.(e);
         onHeadingClick(e);
@@ -545,7 +544,10 @@ export const H6 = (props: React.ComponentProps<"h6">) => (
 
 export const Table: React.FC = (props) => (
   <WidthContainer>
-    <table {...props} className="w-full my-6" />
+    {/* Wide tables scroll sideways on phones instead of widening the page. */}
+    <div className="my-8 -mx-6 px-6 overflow-x-auto">
+      <table {...props} className="w-full min-w-[480px] text-[17px]" />
+    </div>
   </WidthContainer>
 );
 
@@ -557,8 +559,8 @@ export const TD: React.FC = (props) => (
   <td
     {...props}
     className="
-      py-2 px-3 
-      border-b border-t border-mauve-6 dark:border-mauvedark-6
+      py-2.5 px-3
+      border-b border-t border-hair
     "
   />
 );
@@ -575,9 +577,8 @@ export function BasicLink({
 
   const className = twMerge(
     `
-      underline
-      text-blue-11 visited:text-violet-11 
-      dark:text-bluedark-11 dark:visited:text-violetdark-11
+      underline underline-offset-4 decoration-ink-3 hover:decoration-ink
+      text-ink
     `,
     classNameProp
   );
@@ -619,7 +620,8 @@ export function Backlink({ preview, ...props }: BacklinkProps) {
     return null;
   }
 
-  const linkClass = "underline text-pink-11 dark:text-pinkdark-10";
+  const linkClass =
+    "underline underline-offset-4 [text-decoration-style:double] decoration-ink-3 hover:decoration-ink text-ink";
 
   return (
     <HoverCard.Root>

@@ -3,7 +3,6 @@ import * as radixColors from "@radix-ui/colors";
 
 import { Avatar, Row, Stack, Text } from "../components/open-graph";
 import { getBlogPostList } from "./blog/utils";
-import { getExperimentList } from "./experiments/utils";
 import { PostItem } from "../components/open-graph/ListOgImage";
 
 // Image metadata
@@ -16,7 +15,6 @@ export const size = {
 // Image generation
 export default async function Image() {
   const [latestBlogPost] = await getBlogPostList();
-  const [latestExperiment] = await getExperimentList();
 
   return new ImageResponse(
     (
@@ -38,19 +36,11 @@ export default async function Image() {
           </Stack>
         </Row>
 
-        <Stack gap={24}>
-          <Stack gap={8}>
-            <Text fontSize={32} tw="px-8" color="mauve11">
-              Latest Blog Post
-            </Text>
-            <PostItem item={latestBlogPost} />
-          </Stack>
-          <Stack gap={8}>
-            <Text fontSize={32} tw="px-8" color="mauve11">
-              Latest Experiment
-            </Text>
-            <PostItem item={latestExperiment} />
-          </Stack>
+        <Stack gap={8}>
+          <Text fontSize={32} tw="px-8" color="mauve11">
+            Latest Post
+          </Text>
+          <PostItem item={latestBlogPost} />
         </Stack>
       </Stack>
     ),

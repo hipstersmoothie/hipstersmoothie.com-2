@@ -1,0 +1,16 @@
+import { chromium } from "playwright";
+const base = "http://localhost:3111";
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 2 });
+const page = await ctx.newPage();
+await page.goto(base + "/", { waitUntil: "networkidle", timeout: 180000 });
+await page.waitForTimeout(500);
+const supported = await page.evaluate(() => CSS.supports("corner-shape", "squircle"));
+console.log("corner-shape supported:", supported);
+await page.locator("header img").first().screenshot({ path: "/tmp/site-shots/closeup-portrait.png" });
+await page.locator("#projects a").nth(0).screenshot({ path: "/tmp/site-shots/closeup-tile-sesh.png" });
+await page.locator("#projects a").nth(2).screenshot({ path: "/tmp/site-shots/closeup-tile-kich.png" });
+await page.goto(base + "/projects", { waitUntil: "networkidle", timeout: 180000 });
+await page.waitForTimeout(500);
+await page.screenshot({ path: "/tmp/site-shots/closeup-cards.png", clip: { x: 0, y: 220, width: 1280, height: 520 } });
+await browser.close();

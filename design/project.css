@@ -1,0 +1,59 @@
+/* Shared by featured-project pages. The page is grey; the project supplies --p-* on .project and
+   only the hero, the one accent button and the next/prev cards wear them. Everything sits on the
+   left edge of .wrap, like the home page. One rhythm: 96px sections, 40px under a section head. */
+
+/* Hero */
+.phero { background: var(--p-bg); color: var(--p-ink); padding: 72px 0 0; overflow: hidden; }
+.phero-top { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+.phero-icon { display: block; margin-bottom: 28px; }
+.phero h1 { font-size: clamp(44px, 6.6vw, 84px); }
+.phero .lede { color: var(--p-ink2); margin-top: 20px; max-width: 34em; }
+.phero-cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 14px 26px; align-items: center; }
+.phero-cta a:not(.pill) { font-size: 16px; color: var(--p-ink); }
+.phero .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; font-size: 15px; color: var(--p-ink2); align-self: end; padding-bottom: 6px; }
+.phero .facts li { padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--p-ink) 14%, transparent); }
+.phero .facts b { display: block; color: var(--p-ink); font-weight: 600; margin-bottom: 2px; }
+.phero-shot { margin-top: 64px; }
+.phero-shot .tv { box-shadow: 0 40px 90px rgba(0, 0, 0, .45); }
+.phero-devices { position: relative; margin-top: 64px; padding: 0 0 56px; }
+.phero-devices .window { width: 88%; margin-left: -1%; }
+.phero-devices .iphone { position: absolute; right: 2%; bottom: 10px; width: 20%; min-width: 130px; }
+.phero-devices .watch { position: absolute; left: -2%; bottom: 8px; width: 12%; min-width: 96px; }
+@media (max-width: 860px) {
+  .phero { padding-top: 48px; }
+  .phero-top { grid-template-columns: 1fr; gap: 32px; }
+  .phero .facts { grid-template-columns: 1fr 1fr; }
+  .phero-devices .watch { display: none; }
+}
+
+/* Sections */
+.psec { padding: 96px 0; }
+.psec.alt { background: var(--ground-alt); }
+.psec-head { max-width: 760px; margin-bottom: 40px; }
+.psec-head .eyebrow { margin-bottom: 12px; }
+.psec-head h2 { font-size: clamp(30px, 3.8vw, 44px); }
+.psec-head .lede { margin-top: 16px; }
+.psec .tile { padding: 28px; }
+.psec .tile h3 { font-size: 20px; }
+.caption { margin-top: 18px; max-width: 760px; }
+
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+.split .psec-head { margin-bottom: 0; }
+.stack li { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--hair); font-size: 15px; }
+.stack li:first-child { border-top: 1px solid var(--hair); }
+.stack b { font-weight: 600; } .stack span { color: var(--ink-2); }
+@media (max-width: 560px) { .stack li { grid-template-columns: 1fr; gap: 2px; } }
+
+.story { max-width: 680px; }
+.story p { margin-top: 18px; color: var(--ink-2); font-size: 18px; line-height: 1.55; }
+.story .psec-head { margin-bottom: 0; }
+.story .psec-head + p { margin-top: 20px; color: var(--ink); }
+
+/* Next / previous */
+.pnext-card { display: flex; flex-direction: column; gap: 8px; padding: 28px; border-radius: var(--radius); background: var(--p-bg); color: var(--p-ink); min-height: 200px; transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.pnext-card:hover { transform: translateY(-2px); }
+.pnext-card img { width: 40px; height: 40px; border-radius: 9px; margin-top: 12px; }
+.pnext-card b { font-size: 24px; letter-spacing: -0.025em; margin-top: 4px; }
+.pnext-card span:last-child { color: var(--p-ink2); }
+.pnext-card .fine { color: var(--p-ink2); }
