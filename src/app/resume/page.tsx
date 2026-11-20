@@ -8,7 +8,7 @@ import { PageHeader } from "../../components/ui/PageHeader";
 import resume from "../resume.json";
 
 export const metadata: Metadata = {
-  title: "Résumé · Andrew Lisowski",
+  title: "Resume · Andrew Lisowski",
   description: resume.basics.summary,
 };
 
@@ -77,7 +77,7 @@ export default function ResumePage() {
           </a>
         }
       >
-        Résumé
+        Resume
       </PageHeader>
       <main className="pb-16">
         <Section title="Work">

@@ -214,7 +214,7 @@ export async function CommandPallette({
           <CommandPalletteLink href="/">Home</CommandPalletteLink>
           <CommandPalletteLink href="/projects">Projects</CommandPalletteLink>
           <CommandPalletteLink href="/blog">Writing</CommandPalletteLink>
-          <CommandPalletteLink href="/resume">Résumé</CommandPalletteLink>
+          <CommandPalletteLink href="/resume">Resume</CommandPalletteLink>
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="Projects">

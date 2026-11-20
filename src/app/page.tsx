@@ -85,7 +85,7 @@ export default async function Home() {
 
         <section className="py-16 bg-ground-alt">
           <div className={wrap}>
-            <SectionHead title="Work" more="Résumé" href="/resume" />
+            <SectionHead title="Work" more="Resume" href="/resume" />
             <ol className="rows">
               {resume.work.map((work) => (
                 <li key={work.name}>
