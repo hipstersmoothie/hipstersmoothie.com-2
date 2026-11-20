@@ -56,7 +56,7 @@ export default async function Home() {
                 <a href="https://devtools.fm" className="underline underline-offset-4 decoration-ink-3 hover:decoration-ink">
                   devtools.fm
                 </a>{" "}
-                and spend nights and nap times building for the AT Protocol and Apple TV.
+                and spend nights and nap times building on the AT Protocol.
               </p>
               <ul className="mt-7 flex flex-wrap gap-x-[26px] gap-y-2.5 text-[15px]">
                 {heroLinks.map(([label, href]) => (

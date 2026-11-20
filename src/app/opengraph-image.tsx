@@ -29,7 +29,7 @@ export default async function Image() {
             {resume.basics.name}
           </Text>
           <Text fontSize={30} lineHeight={1.4} color="ink2" style={{ maxWidth: 640 }}>
-            Front-end engineer. Design systems by day; apps for Apple TV and the AT Protocol at night.
+            Front-end engineer. Design systems by day; building on the AT Protocol at night.
           </Text>
           <Row gap={10} style={{ marginTop: 20, flexWrap: "wrap" }}>
             {homeProjects.map((p) => (
