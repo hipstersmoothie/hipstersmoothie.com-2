@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 
 import { Avatar, Row, Stack, Text, Wordmark, og, ogFonts } from "./";
+import { format } from "date-fns/format";
+
 import { getBlogPost, getPostDescription } from "../../app/blog/utils";
 
 /** A post's card: tags, the title at the site's headline scale, its description, the byline. */
@@ -20,7 +22,7 @@ export async function getPostOgImage({
   const description = getPostDescription(post);
   const tags = post.frontMatter.tags ?? [];
   // Long titles step down so they stay on two or three lines.
-  const titleSize = post.title.length > 48 ? 64 : post.title.length > 30 ? 76 : 88;
+  const titleSize = post.title.length > 48 ? 68 : post.title.length > 30 ? 80 : 96;
 
   return new ImageResponse(
     (
@@ -33,17 +35,23 @@ export async function getPostOgImage({
           fontFamily: og.font,
         }}
       >
+        <Row gap={16} align="center">
+          <Text fontSize={22} weight={600} color="ink2" style={{ letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            {`Writing · ${format(post.creationDate, "MMMM yyyy")}`}
+          </Text>
+        </Row>
         {tags.length > 0 && (
-          <Row gap={10}>
+          <Row gap={10} style={{ marginTop: 18 }}>
             {tags.slice(0, 4).map((tag) => (
               <div
                 key={tag}
                 style={{
-                  fontSize: 22,
+                  fontSize: 20,
+                  fontWeight: 500,
                   color: og.ink2,
                   background: og.groundAlt,
                   borderRadius: 999,
-                  padding: "6px 16px",
+                  padding: "5px 14px",
                 }}
               >
                 {tag}
