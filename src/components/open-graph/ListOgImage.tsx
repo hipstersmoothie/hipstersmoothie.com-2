@@ -57,21 +57,19 @@ export default async function getListOgImage({
           fontFamily: og.font,
         }}
       >
-        <Row gap={40}>
-          <Avatar size={120} />
-          <Stack gap={10}>
-            <Text fontSize={88} weight={700}>
+        <Row justify="space-between" align="flex-start">
+          <Stack gap={14}>
+            <Text fontSize={22} weight={600} color="ink2" style={{ letterSpacing: "0.04em", textTransform: "uppercase" }}>
+              {`${items.length} posts · latest ${getRelativeTime(items[0].lastUpdated || items[0].creationDate)}`}
+            </Text>
+            <Text fontSize={96} weight={700} lineHeight={1}>
               {title}
             </Text>
-            <Text fontSize={28} color="ink2">
-              {`Updated ${getRelativeTime(
-                items[0].lastUpdated || items[0].creationDate
-              )}`}
-            </Text>
           </Stack>
+          <Avatar size={120} />
         </Row>
 
-        <Stack style={{ marginTop: 40, borderTop: `1px solid ${og.hair}` }}>
+        <Stack style={{ marginTop: 36, borderTop: `1px solid ${og.hair}` }}>
           {items.slice(0, 3).map((item) => (
             <PostItem key={item.title} item={item} />
           ))}

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-import { Avatar, Row, Stack, Text, og, ogFonts } from "../components/open-graph";
+import { Avatar, ProjectTile, Row, Stack, Text, og, ogFonts } from "../components/open-graph";
 import { homeProjects } from "./projects/projects";
 import resume from "./resume.json";
 
@@ -10,47 +10,46 @@ export const size = {
   height: 630,
 };
 
-/** The site card: name, the lede, and the names of the featured projects. */
+/** The site card: name and lede beside the portrait, then the featured projects as tiles. */
 export default async function Image() {
   return new ImageResponse(
     (
-      <Row
-        gap={64}
+      <Stack
         style={{
           width: "100%",
           height: "100%",
-          padding: 64,
+          padding: "56px 0 56px 64px",
           background: og.ground,
           fontFamily: og.font,
+          overflow: "hidden",
         }}
       >
-        <Stack gap={20} style={{ flex: 1, minWidth: 0 }}>
-          <Text fontSize={96} weight={700} lineHeight={1}>
-            {resume.basics.name}
-          </Text>
-          <Text fontSize={30} lineHeight={1.4} color="ink2" style={{ maxWidth: 640 }}>
-            Front-end engineer. Design systems by day; building on the AT Protocol at night.
-          </Text>
-          <Row gap={10} style={{ marginTop: 20, flexWrap: "wrap" }}>
-            {homeProjects.map((p) => (
-              <div
-                key={p.slug}
-                style={{
-                  fontSize: 22,
-                  fontWeight: 500,
-                  color: og.ink,
-                  background: og.groundAlt,
-                  borderRadius: 999,
-                  padding: "8px 18px",
-                }}
-              >
-                {p.name}
-              </div>
-            ))}
-          </Row>
-        </Stack>
-        <Avatar size={320} />
-      </Row>
+        <Row gap={48} align="center" style={{ paddingRight: 64 }}>
+          <Stack gap={18} style={{ flex: 1, minWidth: 0 }}>
+            <Text fontSize={84} weight={700} lineHeight={1}>
+              {resume.basics.name}
+            </Text>
+            <Text fontSize={28} lineHeight={1.35} color="ink2" style={{ maxWidth: 720 }}>
+              Front-end engineer. Design systems by day; building on the AT Protocol at night.
+            </Text>
+          </Stack>
+          <Avatar size={176} />
+        </Row>
+
+        {/* The tiles run off the card's right edge, as the art does on the site. */}
+        <Row gap={16} align="flex-start" style={{ marginTop: "auto" }}>
+          {homeProjects.map((p) => (
+            <ProjectTile
+              key={p.slug}
+              name={p.name}
+              platforms={p.platforms}
+              icon={p.icon}
+              iconAspect={p.iconAspect}
+              palette={p.palette!}
+            />
+          ))}
+        </Row>
+      </Stack>
     ),
     { ...size, fonts: ogFonts }
   );

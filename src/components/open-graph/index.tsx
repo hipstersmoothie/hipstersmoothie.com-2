@@ -136,6 +136,79 @@ export function Avatar({
   );
 }
 
+/** A project's icon as a data URL, so Satori can draw it without a network. */
+export function projectIcon(icon: string | undefined) {
+  if (!icon) return undefined;
+  const file = path.join(process.cwd(), "public", icon);
+  const data = readFileSync(file);
+  const mime = icon.endsWith(".svg") ? "image/svg+xml" : "image/png";
+  return `data:${mime};base64,${data.toString("base64")}`;
+}
+
+/**
+ * A featured project as a small tile in its own light palette: the only color on a card, as on
+ * the site. Icon on top, name and platform below.
+ */
+export function ProjectTile({
+  name,
+  platforms,
+  icon,
+  iconAspect,
+  palette,
+  width = 236,
+  height = 236,
+}: {
+  name: string;
+  platforms?: string;
+  icon?: string;
+  iconAspect?: "square" | "tv";
+  palette: { bg: string; ink: string; ink2: string; accent: string };
+  width?: number;
+  height?: number;
+}) {
+  const src = projectIcon(icon);
+  // The two tokens that reference the site's own greys resolve to literals here.
+  const bg = palette.bg.startsWith("var(") ? og.groundAlt : palette.bg;
+  const ink = palette.ink.startsWith("var(") ? og.ink : palette.ink;
+  const ink2 = palette.ink2.startsWith("var(") ? og.ink2 : palette.ink2;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        width,
+        height,
+        padding: 24,
+        borderRadius: 26,
+        background: bg,
+        color: ink,
+        boxShadow: `0 0 0 1px ${og.hair}`,
+        flexShrink: 0,
+      }}
+    >
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt=""
+          width={iconAspect === "tv" ? 86 : 54}
+          height={iconAspect === "tv" ? 52 : 54}
+          style={{ borderRadius: iconAspect === "tv" ? 11 : 12, boxShadow: `0 0 0 1px ${og.hair}` }}
+        />
+      ) : (
+        <div style={{ width: 54, height: 54, borderRadius: 12, background: palette.accent }} />
+      )}
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.025em", lineHeight: 1.05 }}>{name}</div>
+        {platforms && (
+          <div style={{ fontSize: 15, fontWeight: 600, color: palette.accent, letterSpacing: 0 }}>{platforms}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /** The one-line footer every social image shares. */
 export function Wordmark({ size = 24 }: { size?: number }) {
   return (
