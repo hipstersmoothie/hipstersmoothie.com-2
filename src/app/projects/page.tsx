@@ -14,7 +14,7 @@ export default function ProjectsPage() {
   return (
     <>
       <NavigationHeader />
-      <PageHeader subtitle="Apps, tools and libraries from the last couple of years. Everything links to the project itself.">
+      <PageHeader subtitle="Apps, tools and libraries. Each one links to its own site.">
         Projects
       </PageHeader>
       <main>

@@ -32,7 +32,7 @@ function ProjectLink({
 const tileBase = `
   palette relative overflow-hidden rounded-tile
   bg-[var(--p-bg)] text-[var(--p-ink)]
-  transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(.2,.8,.2,1)]
+  transition-[transform,box-shadow] duration-300 [transition-timing-function:cubic-bezier(.2,.8,.2,1)]
   hover:-translate-y-0.5 hover:shadow-tile
 `;
 

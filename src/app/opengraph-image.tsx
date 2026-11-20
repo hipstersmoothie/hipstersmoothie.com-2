@@ -1,54 +1,57 @@
 import { ImageResponse } from "next/og";
-import * as radixColors from "@radix-ui/colors";
 
-import { Avatar, Row, Stack, Text } from "../components/open-graph";
-import { getBlogPostList } from "./blog/utils";
-import { PostItem } from "../components/open-graph/ListOgImage";
+import { Avatar, Row, Stack, Text, og, ogFonts } from "../components/open-graph";
+import { homeProjects } from "./projects/projects";
+import resume from "./resume.json";
 
-// Image metadata
 export const contentType = "image/png";
 export const size = {
   width: 1200,
   height: 630,
 };
 
-// Image generation
+/** The site card: name, the lede, and the names of the featured projects. */
 export default async function Image() {
-  const [latestBlogPost] = await getBlogPostList();
-
   return new ImageResponse(
     (
-      // ImageResponse JSX element
-      <Stack
-        gap={40}
-        tw="w-full h-full p-10"
+      <Row
+        gap={64}
         style={{
-          background: `linear-gradient(0deg, ${radixColors.mauveDark.mauve1}, ${radixColors.mauveDark.mauve2})`,
+          width: "100%",
+          height: "100%",
+          padding: 64,
+          background: og.ground,
+          fontFamily: og.font,
         }}
       >
-        <Row gap={48} tw="px-8">
-          <Avatar size={240} />
-          <Stack gap={20}>
-            <Text fontSize={100}>Andrew Lisowski</Text>
-            <Text fontSize={40} color="mauve11">
-              @hipstersmoothie
-            </Text>
-          </Stack>
-        </Row>
-
-        <Stack gap={8}>
-          <Text fontSize={32} tw="px-8" color="mauve11">
-            Latest Post
+        <Stack gap={20} style={{ flex: 1, minWidth: 0 }}>
+          <Text fontSize={96} weight={700} lineHeight={1}>
+            {resume.basics.name}
           </Text>
-          <PostItem item={latestBlogPost} />
+          <Text fontSize={30} lineHeight={1.4} color="ink2" style={{ maxWidth: 640 }}>
+            Front-end engineer. Design systems by day; apps for Apple TV and the AT Protocol at night.
+          </Text>
+          <Row gap={10} style={{ marginTop: 20, flexWrap: "wrap" }}>
+            {homeProjects.map((p) => (
+              <div
+                key={p.slug}
+                style={{
+                  fontSize: 22,
+                  fontWeight: 500,
+                  color: og.ink,
+                  background: og.groundAlt,
+                  borderRadius: 999,
+                  padding: "8px 18px",
+                }}
+              >
+                {p.name}
+              </div>
+            ))}
+          </Row>
         </Stack>
-      </Stack>
+        <Avatar size={320} />
+      </Row>
     ),
-    // ImageResponse options
-    {
-      // For convenience, we can re-use the exported opengraph-image
-      // size config to also set the ImageResponse's width and height.
-      ...size,
-    }
+    { ...size, fonts: ogFonts }
   );
 }

@@ -51,11 +51,12 @@ export default async function Home() {
             <div>
               <h1 className="headline text-[clamp(44px,6.6vw,84px)] text-ink">{resume.basics.name}</h1>
               <p className="lede mt-[22px] max-w-[560px] !text-[18px]">
-                Senior engineer on the design system at Snowflake; before that Descript and Intuit. I co-host{" "}
+                Front-end engineer on the design system at Snowflake; before that Descript and Intuit. Building good
+                UI is easy, building great UI is hard, and that&apos;s the part I like. I co-host{" "}
                 <a href="https://devtools.fm" className="underline underline-offset-4 decoration-ink-3 hover:decoration-ink">
                   devtools.fm
-                </a>
-                , and at night I build small, finished things — lately for Apple TV and the AT Protocol.
+                </a>{" "}
+                and spend nights and nap times building for the AT Protocol and Apple TV.
               </p>
               <ul className="mt-7 flex flex-wrap gap-x-[26px] gap-y-2.5 text-[15px]">
                 {heroLinks.map(([label, href]) => (
@@ -84,7 +85,7 @@ export default async function Home() {
 
         <section className="py-16 bg-ground-alt">
           <div className={wrap}>
-            <SectionHead title="Work" more="Résumé" href="/resume.json" />
+            <SectionHead title="Work" more="Résumé" href="/resume" />
             <ol className="rows">
               {resume.work.map((work) => (
                 <li key={work.name}>

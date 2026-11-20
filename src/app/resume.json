@@ -15,7 +15,7 @@
         "url": "https://github.com/hipstersmoothie",
         "username": "hipstersmoothie",
         "network": "github",
-        "label": "Github"
+        "label": "GitHub"
       },
       {
         "username": "hipstersmoothie.com",
@@ -56,7 +56,7 @@
   ],
   "work": [
     {
-      "summary": "Accelerated design system delivery by 12+ weeks, compressing 3-4 quarter roadmap into single quarter. Pioneered AI-enabled documentation infrastructure. Automatee release pipelines to reduce cycle time from hours to minutes. Overhauled icon system. Which all transformed design system NPS from 20% to 80%, all while mentoring engineers across multiple teams in performance optimization, accessibility, and system design.",
+      "summary": "Accelerated design system delivery by 12+ weeks, compressing 3-4 quarter roadmap into single quarter. Pioneered AI-enabled documentation infrastructure. Automated release pipelines to reduce cycle time from hours to minutes. Overhauled icon system. Which all transformed design system NPS from 20% to 80%, all while mentoring engineers across multiple teams in performance optimization, accessibility, and system design.",
       "website": "https://snowflake.com/",
       "name": "Snowflake",
       "location": "Remote",
